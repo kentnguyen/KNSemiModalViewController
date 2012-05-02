@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface KNSecondViewController : UIViewController
+- (IBAction)buttonDidTouch:(id)sender;
 
 @end

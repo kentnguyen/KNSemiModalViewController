@@ -79,10 +79,10 @@
 					<object class="IBUITextView" id="255779567">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">290</int>
-						<string key="NSFrame">{{20, 112}, {280, 88}}</string>
+						<string key="NSFrame">{{20, 112}, {280, 51}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="762468542"/>
+						<reference key="NSNextKeyView" ref="211866979"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<bool key="IBUIMultipleTouchEnabled">YES</bool>
@@ -95,8 +95,7 @@
 						<float key="IBUIMaximumZoomScale">0.0</float>
 						<bool key="IBUIBouncesZoom">NO</bool>
 						<bool key="IBUIEditable">NO</bool>
-						<string type="base64-UTF8" key="IBUIText">TG9hZGVkIGJ5IHRoZSBmaXJzdCB2aWV3CmNvbnRyb2xsZXIg4oCUIGFuIGluc3RhbmNlIG9mIEZpcnN0
-Vmlld0NvbnRyb2xsZXIg4oCUIHNwZWNpZmllZCBpbiB0aGUgYXBwIGRlbGVnYXRlLg</string>
+						<string key="IBUIText">this ViewController is contained within UINavigationController</string>
 						<int key="IBUITextAlignment">1</int>
 						<object class="IBUITextInputTraits" key="IBUITextInputTraits">
 							<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -111,12 +110,13 @@ Vmlld0NvbnRyb2xsZXIg4oCUIHNwZWNpZmllZCBpbiB0aGUgYXBwIGRlbGVnYXRlLg</string>
 							<int key="NSfFlags">16</int>
 						</object>
 					</object>
-					<object class="IBUIButton" id="762468542">
+					<object class="IBUIButton" id="211866979">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{86, 227}, {149, 37}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -124,7 +124,7 @@ Vmlld0NvbnRyb2xsZXIg4oCUIHNwZWNpZmllZCBpbiB0aGUgYXBwIGRlbGVnYXRlLg</string>
 						<int key="IBUIContentVerticalAlignment">0</int>
 						<int key="IBUIButtonType">1</int>
 						<string key="IBUINormalTitle">Open Semi-modal</string>
-						<object class="NSColor" key="IBUIHighlightedTitleColor" id="330640597">
+						<object class="NSColor" key="IBUIHighlightedTitleColor" id="1044165515">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MQA</bytes>
 						</object>
@@ -151,7 +151,7 @@ Vmlld0NvbnRyb2xsZXIg4oCUIHNwZWNpZmllZCBpbiB0aGUgYXBwIGRlbGVnYXRlLg</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="483052203"/>
-				<reference key="IBUIBackgroundColor" ref="330640597"/>
+				<reference key="IBUIBackgroundColor" ref="1044165515"/>
 				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
 				<object class="IBUISimulatedTabBarMetrics" key="IBUISimulatedBottomBarMetrics"/>
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -170,7 +170,7 @@ Vmlld0NvbnRyb2xsZXIg4oCUIHNwZWNpZmllZCBpbiB0aGUgYXBwIGRlbGVnYXRlLg</string>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">buttonDidTouch:</string>
-						<reference key="source" ref="762468542"/>
+						<reference key="source" ref="211866979"/>
 						<reference key="destination" ref="372490531"/>
 						<int key="IBEventType">7</int>
 					</object>
@@ -191,7 +191,7 @@ Vmlld0NvbnRyb2xsZXIg4oCUIHNwZWNpZmllZCBpbiB0aGUgYXBwIGRlbGVnYXRlLg</string>
 						<array class="NSMutableArray" key="children">
 							<reference ref="483052203"/>
 							<reference ref="255779567"/>
-							<reference ref="762468542"/>
+							<reference ref="211866979"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -218,7 +218,7 @@ Vmlld0NvbnRyb2xsZXIg4oCUIHNwZWNpZmllZCBpbiB0aGUgYXBwIGRlbGVnYXRlLg</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">8</int>
-						<reference key="object" ref="762468542"/>
+						<reference key="object" ref="211866979"/>
 						<reference key="parent" ref="191373211"/>
 					</object>
 				</array>

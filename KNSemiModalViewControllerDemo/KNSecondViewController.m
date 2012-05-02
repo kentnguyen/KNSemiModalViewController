@@ -7,6 +7,7 @@
 //
 
 #import "KNSecondViewController.h"
+#import "UIViewController+KNSemiModal.h"
 
 @interface KNSecondViewController ()
 
@@ -14,8 +15,7 @@
 
 @implementation KNSecondViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
     self.title = NSLocalizedString(@"Second", @"Second");
@@ -24,25 +24,10 @@
     return self;
 }
 							
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-  if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-      return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
-  } else {
-      return YES;
-  }
+- (IBAction)buttonDidTouch:(id)sender {
+  UIImageView * imagev = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"temp.jpg"]];
+  [imagev sizeToFit];
+  [self presentSemiView:imagev];
 }
 
 @end
