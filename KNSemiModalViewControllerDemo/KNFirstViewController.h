@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface KNFirstViewController : UIViewController
+- (IBAction)buttonDidTouch:(id)sender;
 
 @end
