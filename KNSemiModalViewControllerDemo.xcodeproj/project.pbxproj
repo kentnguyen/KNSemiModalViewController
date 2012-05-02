@@ -24,6 +24,7 @@
 		8B41C9A61551564800413B5A /* UIViewController+KNSemiModal.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B41C9A51551564800413B5A /* UIViewController+KNSemiModal.m */; };
 		8B41C9A81551566400413B5A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B41C9A71551566400413B5A /* QuartzCore.framework */; };
 		8B41C9AB1551575300413B5A /* temp.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8B41C9AA1551575300413B5A /* temp.jpg */; };
+		8B41C9B215515A2E00413B5A /* KNThirdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B41C9B115515A2E00413B5A /* KNThirdViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +52,8 @@
 		8B41C9A51551564800413B5A /* UIViewController+KNSemiModal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+KNSemiModal.m"; sourceTree = "<group>"; };
 		8B41C9A71551566400413B5A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		8B41C9AA1551575300413B5A /* temp.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = temp.jpg; sourceTree = "<group>"; };
+		8B41C9B015515A2E00413B5A /* KNThirdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KNThirdViewController.h; sourceTree = "<group>"; };
+		8B41C9B115515A2E00413B5A /* KNThirdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNThirdViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +111,8 @@
 				8B41C98C1551561200413B5A /* KNSecondViewController.m */,
 				8B41C9921551561200413B5A /* KNFirstViewController.xib */,
 				8B41C9981551561200413B5A /* KNSecondViewController.xib */,
+				8B41C9B015515A2E00413B5A /* KNThirdViewController.h */,
+				8B41C9B115515A2E00413B5A /* KNThirdViewController.m */,
 				8B41C9791551561200413B5A /* Supporting Files */,
 			);
 			path = KNSemiModalViewControllerDemo;
@@ -220,6 +225,7 @@
 				8B41C9861551561200413B5A /* KNFirstViewController.m in Sources */,
 				8B41C98D1551561200413B5A /* KNSecondViewController.m in Sources */,
 				8B41C9A61551564800413B5A /* UIViewController+KNSemiModal.m in Sources */,
+				8B41C9B215515A2E00413B5A /* KNThirdViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

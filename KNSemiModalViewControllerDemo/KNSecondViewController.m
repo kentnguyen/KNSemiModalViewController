@@ -7,6 +7,8 @@
 //
 
 #import "KNSecondViewController.h"
+#import "KNThirdViewController.h"
+
 #import "UIViewController+KNSemiModal.h"
 
 @interface KNSecondViewController ()
@@ -18,16 +20,15 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-    self.title = NSLocalizedString(@"Second", @"Second");
-    self.tabBarItem.image = [UIImage imageNamed:@"second"];
+      self.title = @"Second";
+      self.tabBarItem.image = [UIImage imageNamed:@"second"];
     }
     return self;
 }
 							
 - (IBAction)buttonDidTouch:(id)sender {
-  UIImageView * imagev = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"temp.jpg"]];
-  [imagev sizeToFit];
-  [self presentSemiView:imagev];
+  KNThirdViewController * vc = [[KNThirdViewController alloc] init];
+  [self presentSemiViewController:vc];
 }
 
 @end
