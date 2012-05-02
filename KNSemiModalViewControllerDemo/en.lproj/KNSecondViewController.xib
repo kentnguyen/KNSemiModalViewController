@@ -40,7 +40,7 @@
 					<object class="IBUILabel" id="483052203">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">290</int>
-						<string key="NSFrame">{{54, 98}, {212, 43}}</string>
+						<string key="NSFrame">{{54, 58}, {212, 43}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="255779567"/>
@@ -55,7 +55,7 @@
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<string key="IBUIText">Second View</string>
+						<string key="IBUIText">Advanced Demo</string>
 						<object class="NSColor" key="IBUITextColor">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MCAwIDAAA</bytes>
@@ -79,7 +79,7 @@
 					<object class="IBUITextView" id="255779567">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">290</int>
-						<string key="NSFrame">{{20, 181}, {280, 88}}</string>
+						<string key="NSFrame">{{20, 141}, {280, 104}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="59051388"/>
@@ -95,7 +95,9 @@
 						<float key="IBUIMaximumZoomScale">0.0</float>
 						<bool key="IBUIBouncesZoom">NO</bool>
 						<bool key="IBUIEditable">NO</bool>
-						<string key="IBUIText">this view controller doesn't have UINavigationController parent</string>
+						<string type="base64-UTF8" key="IBUIText">dGhpcyBWaWV3Q29udHJvbGxlciBkb2Vzbid0IGhhdmUgVUlOYXZpZ2F0aW9uQ29udHJvbGxlciBwYXJl
+bnQKClRoZSBidXR0b24gd2lsbCBwcmVzZW50IGEgY3VzdG9tIFZpZXdDb250cm9sbGVyIGNsYXNzIGFz
+IHNlbWkgbW9kYWw</string>
 						<int key="IBUITextAlignment">1</int>
 						<object class="IBUITextInputTraits" key="IBUITextInputTraits">
 							<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -113,16 +115,17 @@
 					<object class="IBUIButton" id="59051388">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{83, 277}, {155, 37}}</string>
+						<string key="NSFrame">{{83, 294}, {155, 37}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBUIContentHorizontalAlignment">0</int>
 						<int key="IBUIContentVerticalAlignment">0</int>
 						<int key="IBUIButtonType">1</int>
-						<string key="IBUINormalTitle">Open Semi-modal</string>
+						<string key="IBUINormalTitle">Open Custom View</string>
 						<object class="NSColor" key="IBUIHighlightedTitleColor" id="28945446">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MQA</bytes>

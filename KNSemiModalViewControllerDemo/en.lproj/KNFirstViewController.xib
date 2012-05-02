@@ -55,7 +55,7 @@
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<string key="IBUIText">First View</string>
+						<string key="IBUIText">Simple Demo</string>
 						<object class="NSColor" key="IBUITextColor">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MCAwIDAAA</bytes>
@@ -79,7 +79,7 @@
 					<object class="IBUITextView" id="255779567">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">290</int>
-						<string key="NSFrame">{{20, 112}, {280, 51}}</string>
+						<string key="NSFrame">{{20, 112}, {280, 119}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="211866979"/>
@@ -95,7 +95,9 @@
 						<float key="IBUIMaximumZoomScale">0.0</float>
 						<bool key="IBUIBouncesZoom">NO</bool>
 						<bool key="IBUIEditable">NO</bool>
-						<string key="IBUIText">this ViewController is contained within UINavigationController</string>
+						<string type="base64-UTF8" key="IBUIText">dGhpcyBWaWV3Q29udHJvbGxlciBpcyBjb250YWluZWQgd2l0aGluIFVJTmF2aWdhdGlvbkNvbnRyb2xs
+ZXIKCllvdSBjYW4gcHJlc2VudCBhIHNpbXBsZSBVSW1hZ2VWaWV3IGFuZCBkb24ndCBoYXZlIHRvIHdv
+cnJ5IGFib3V0IGhvdyB0byBkaXNtaXNzIGl0A</string>
 						<int key="IBUITextAlignment">1</int>
 						<object class="IBUITextInputTraits" key="IBUITextInputTraits">
 							<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -113,7 +115,7 @@
 					<object class="IBUIButton" id="211866979">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{86, 227}, {149, 37}}</string>
+						<string key="NSFrame">{{86, 267}, {149, 37}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView"/>
@@ -123,7 +125,7 @@
 						<int key="IBUIContentHorizontalAlignment">0</int>
 						<int key="IBUIContentVerticalAlignment">0</int>
 						<int key="IBUIButtonType">1</int>
-						<string key="IBUINormalTitle">Open Semi-modal</string>
+						<string key="IBUINormalTitle">Show me more</string>
 						<object class="NSColor" key="IBUIHighlightedTitleColor" id="1044165515">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MQA</bytes>
