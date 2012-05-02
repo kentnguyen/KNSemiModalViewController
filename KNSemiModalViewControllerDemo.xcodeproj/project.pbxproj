@@ -1,0 +1,342 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8B41C9731551561200413B5A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B41C9721551561200413B5A /* UIKit.framework */; };
+		8B41C9751551561200413B5A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B41C9741551561200413B5A /* Foundation.framework */; };
+		8B41C9771551561200413B5A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B41C9761551561200413B5A /* CoreGraphics.framework */; };
+		8B41C97D1551561200413B5A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8B41C97B1551561200413B5A /* InfoPlist.strings */; };
+		8B41C97F1551561200413B5A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B41C97E1551561200413B5A /* main.m */; };
+		8B41C9831551561200413B5A /* KNAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B41C9821551561200413B5A /* KNAppDelegate.m */; };
+		8B41C9861551561200413B5A /* KNFirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B41C9851551561200413B5A /* KNFirstViewController.m */; };
+		8B41C9881551561200413B5A /* first.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B41C9871551561200413B5A /* first.png */; };
+		8B41C98A1551561200413B5A /* first@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B41C9891551561200413B5A /* first@2x.png */; };
+		8B41C98D1551561200413B5A /* KNSecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B41C98C1551561200413B5A /* KNSecondViewController.m */; };
+		8B41C98F1551561200413B5A /* second.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B41C98E1551561200413B5A /* second.png */; };
+		8B41C9911551561200413B5A /* second@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B41C9901551561200413B5A /* second@2x.png */; };
+		8B41C9941551561200413B5A /* KNFirstViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B41C9921551561200413B5A /* KNFirstViewController_iPhone.xib */; };
+		8B41C9971551561200413B5A /* KNFirstViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B41C9951551561200413B5A /* KNFirstViewController_iPad.xib */; };
+		8B41C99A1551561200413B5A /* KNSecondViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B41C9981551561200413B5A /* KNSecondViewController_iPhone.xib */; };
+		8B41C99D1551561200413B5A /* KNSecondViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B41C99B1551561200413B5A /* KNSecondViewController_iPad.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		8B41C96E1551561200413B5A /* KNSemiModalViewControllerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KNSemiModalViewControllerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8B41C9721551561200413B5A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		8B41C9741551561200413B5A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		8B41C9761551561200413B5A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		8B41C97A1551561200413B5A /* KNSemiModalViewControllerDemo-Info.plist */ = {isa = PBXFileReference; path = "KNSemiModalViewControllerDemo-Info.plist"; sourceTree = "<group>"; };
+		8B41C97C1551561200413B5A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		8B41C97E1551561200413B5A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		8B41C9801551561200413B5A /* KNSemiModalViewControllerDemo-Prefix.pch */ = {isa = PBXFileReference; path = "KNSemiModalViewControllerDemo-Prefix.pch"; sourceTree = "<group>"; };
+		8B41C9811551561200413B5A /* KNAppDelegate.h */ = {isa = PBXFileReference; path = KNAppDelegate.h; sourceTree = "<group>"; };
+		8B41C9821551561200413B5A /* KNAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KNAppDelegate.m; sourceTree = "<group>"; };
+		8B41C9841551561200413B5A /* KNFirstViewController.h */ = {isa = PBXFileReference; path = KNFirstViewController.h; sourceTree = "<group>"; };
+		8B41C9851551561200413B5A /* KNFirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KNFirstViewController.m; sourceTree = "<group>"; };
+		8B41C9871551561200413B5A /* first.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = first.png; sourceTree = "<group>"; };
+		8B41C9891551561200413B5A /* first@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "first@2x.png"; sourceTree = "<group>"; };
+		8B41C98B1551561200413B5A /* KNSecondViewController.h */ = {isa = PBXFileReference; path = KNSecondViewController.h; sourceTree = "<group>"; };
+		8B41C98C1551561200413B5A /* KNSecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KNSecondViewController.m; sourceTree = "<group>"; };
+		8B41C98E1551561200413B5A /* second.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = second.png; sourceTree = "<group>"; };
+		8B41C9901551561200413B5A /* second@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "second@2x.png"; sourceTree = "<group>"; };
+		8B41C9931551561200413B5A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/KNFirstViewController_iPhone.xib; sourceTree = "<group>"; };
+		8B41C9961551561200413B5A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/KNFirstViewController_iPad.xib; sourceTree = "<group>"; };
+		8B41C9991551561200413B5A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/KNSecondViewController_iPhone.xib; sourceTree = "<group>"; };
+		8B41C99C1551561200413B5A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/KNSecondViewController_iPad.xib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8B41C96B1551561200413B5A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8B41C9731551561200413B5A /* UIKit.framework in Frameworks */,
+				8B41C9751551561200413B5A /* Foundation.framework in Frameworks */,
+				8B41C9771551561200413B5A /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		8B41C9631551561200413B5A = {
+			isa = PBXGroup;
+			children = (
+				8B41C9781551561200413B5A /* KNSemiModalViewControllerDemo */,
+				8B41C9711551561200413B5A /* Frameworks */,
+				8B41C96F1551561200413B5A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		8B41C96F1551561200413B5A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8B41C96E1551561200413B5A /* KNSemiModalViewControllerDemo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8B41C9711551561200413B5A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8B41C9721551561200413B5A /* UIKit.framework */,
+				8B41C9741551561200413B5A /* Foundation.framework */,
+				8B41C9761551561200413B5A /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8B41C9781551561200413B5A /* KNSemiModalViewControllerDemo */ = {
+			isa = PBXGroup;
+			children = (
+				8B41C9811551561200413B5A /* KNAppDelegate.h */,
+				8B41C9821551561200413B5A /* KNAppDelegate.m */,
+				8B41C9841551561200413B5A /* KNFirstViewController.h */,
+				8B41C9851551561200413B5A /* KNFirstViewController.m */,
+				8B41C9871551561200413B5A /* first.png */,
+				8B41C9891551561200413B5A /* first@2x.png */,
+				8B41C98B1551561200413B5A /* KNSecondViewController.h */,
+				8B41C98C1551561200413B5A /* KNSecondViewController.m */,
+				8B41C98E1551561200413B5A /* second.png */,
+				8B41C9901551561200413B5A /* second@2x.png */,
+				8B41C9921551561200413B5A /* KNFirstViewController_iPhone.xib */,
+				8B41C9951551561200413B5A /* KNFirstViewController_iPad.xib */,
+				8B41C9981551561200413B5A /* KNSecondViewController_iPhone.xib */,
+				8B41C99B1551561200413B5A /* KNSecondViewController_iPad.xib */,
+				8B41C9791551561200413B5A /* Supporting Files */,
+			);
+			path = KNSemiModalViewControllerDemo;
+			sourceTree = "<group>";
+		};
+		8B41C9791551561200413B5A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				8B41C97A1551561200413B5A /* KNSemiModalViewControllerDemo-Info.plist */,
+				8B41C97B1551561200413B5A /* InfoPlist.strings */,
+				8B41C97E1551561200413B5A /* main.m */,
+				8B41C9801551561200413B5A /* KNSemiModalViewControllerDemo-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8B41C96D1551561200413B5A /* KNSemiModalViewControllerDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8B41C9A01551561200413B5A /* Build configuration list for PBXNativeTarget "KNSemiModalViewControllerDemo" */;
+			buildPhases = (
+				8B41C96A1551561200413B5A /* Sources */,
+				8B41C96B1551561200413B5A /* Frameworks */,
+				8B41C96C1551561200413B5A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = KNSemiModalViewControllerDemo;
+			productName = KNSemiModalViewControllerDemo;
+			productReference = 8B41C96E1551561200413B5A /* KNSemiModalViewControllerDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		8B41C9651551561200413B5A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = KN;
+				LastUpgradeCheck = 0430;
+			};
+			buildConfigurationList = 8B41C9681551561200413B5A /* Build configuration list for PBXProject "KNSemiModalViewControllerDemo" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 8B41C9631551561200413B5A;
+			productRefGroup = 8B41C96F1551561200413B5A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8B41C96D1551561200413B5A /* KNSemiModalViewControllerDemo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8B41C96C1551561200413B5A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8B41C97D1551561200413B5A /* InfoPlist.strings in Resources */,
+				8B41C9881551561200413B5A /* first.png in Resources */,
+				8B41C98A1551561200413B5A /* first@2x.png in Resources */,
+				8B41C98F1551561200413B5A /* second.png in Resources */,
+				8B41C9911551561200413B5A /* second@2x.png in Resources */,
+				8B41C9941551561200413B5A /* KNFirstViewController_iPhone.xib in Resources */,
+				8B41C9971551561200413B5A /* KNFirstViewController_iPad.xib in Resources */,
+				8B41C99A1551561200413B5A /* KNSecondViewController_iPhone.xib in Resources */,
+				8B41C99D1551561200413B5A /* KNSecondViewController_iPad.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8B41C96A1551561200413B5A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8B41C97F1551561200413B5A /* main.m in Sources */,
+				8B41C9831551561200413B5A /* KNAppDelegate.m in Sources */,
+				8B41C9861551561200413B5A /* KNFirstViewController.m in Sources */,
+				8B41C98D1551561200413B5A /* KNSecondViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		8B41C97B1551561200413B5A /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8B41C97C1551561200413B5A /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		8B41C9921551561200413B5A /* KNFirstViewController_iPhone.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8B41C9931551561200413B5A /* en */,
+			);
+			name = KNFirstViewController_iPhone.xib;
+			sourceTree = "<group>";
+		};
+		8B41C9951551561200413B5A /* KNFirstViewController_iPad.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8B41C9961551561200413B5A /* en */,
+			);
+			name = KNFirstViewController_iPad.xib;
+			sourceTree = "<group>";
+		};
+		8B41C9981551561200413B5A /* KNSecondViewController_iPhone.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8B41C9991551561200413B5A /* en */,
+			);
+			name = KNSecondViewController_iPhone.xib;
+			sourceTree = "<group>";
+		};
+		8B41C99B1551561200413B5A /* KNSecondViewController_iPad.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8B41C99C1551561200413B5A /* en */,
+			);
+			name = KNSecondViewController_iPad.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		8B41C99E1551561200413B5A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		8B41C99F1551561200413B5A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		8B41C9A11551561200413B5A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "KNSemiModalViewControllerDemo/KNSemiModalViewControllerDemo-Prefix.pch";
+				INFOPLIST_FILE = "KNSemiModalViewControllerDemo/KNSemiModalViewControllerDemo-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		8B41C9A21551561200413B5A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "KNSemiModalViewControllerDemo/KNSemiModalViewControllerDemo-Prefix.pch";
+				INFOPLIST_FILE = "KNSemiModalViewControllerDemo/KNSemiModalViewControllerDemo-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		8B41C9681551561200413B5A /* Build configuration list for PBXProject "KNSemiModalViewControllerDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8B41C99E1551561200413B5A /* Debug */,
+				8B41C99F1551561200413B5A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8B41C9A01551561200413B5A /* Build configuration list for PBXNativeTarget "KNSemiModalViewControllerDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8B41C9A11551561200413B5A /* Debug */,
+				8B41C9A21551561200413B5A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 8B41C9651551561200413B5A /* Project object */;
+}
