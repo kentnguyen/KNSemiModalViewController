@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 Kent Nguyen. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#define kSemiModalAnimationDuration   0.5
 
 @interface UIViewController (KNSemiModal)
 
