@@ -4,7 +4,12 @@ UIViewController+KNSemiModal is an effort to make a replica of semi-modal view f
 
 This library (ARC) is designed as a Category to UIViewController so you don't have to subclass and you can simply drop in any project and it will just work!
 
+*Original screenshot*
+
 <img src="https://github.com/kentnguyen/KNSemiModalViewController/blob/master/Docs/original.png?raw=true" />
+
+*Replica (view demo video to see the beautiful animation)*
+
 <img src="https://github.com/kentnguyen/KNSemiModalViewController/blob/master/Docs/ss1.png?raw=true" />
 <img src="https://github.com/kentnguyen/KNSemiModalViewController/blob/master/Docs/ss2.png?raw=true" />
 
@@ -16,8 +21,8 @@ Download a demo clip [here](https://github.com/kentnguyen/KNSemiModalViewControl
 * Works with bare UIViewController
 * Works with UIViewController contained inside UINavigationController
 * Works with UIViewController contained inside UINavigationController, contained inside UITabbarController
-* Easy to understand and very small code base
-* Easy to use as subclass
+* Easy to understand and very small code base, only 2 files
+* Trivial to implement as subclass
 
 ### TODO
 * iPad support
