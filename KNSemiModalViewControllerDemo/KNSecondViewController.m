@@ -27,8 +27,12 @@
 }
 							
 - (IBAction)buttonDidTouch:(id)sender {
+  
+  // You can also present a UIViewController with complex views in it
+  // and optionally containing an explicit dismiss button for semi modal
   KNThirdViewController * vc = [[KNThirdViewController alloc] init];
   [self presentSemiViewController:vc];
+
 }
 
 @end
