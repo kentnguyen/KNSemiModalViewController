@@ -25,6 +25,8 @@
 		8B41C9A81551566400413B5A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B41C9A71551566400413B5A /* QuartzCore.framework */; };
 		8B41C9AB1551575300413B5A /* temp.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8B41C9AA1551575300413B5A /* temp.jpg */; };
 		8B41C9B215515A2E00413B5A /* KNThirdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B41C9B115515A2E00413B5A /* KNThirdViewController.m */; };
+		8B8767E81552155300BA2A8E /* KNAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B8767E61552155300BA2A8E /* KNAboutViewController.m */; };
+		8B8767E91552155300BA2A8E /* KNAboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B8767E71552155300BA2A8E /* KNAboutViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +56,9 @@
 		8B41C9AA1551575300413B5A /* temp.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = temp.jpg; sourceTree = "<group>"; };
 		8B41C9B015515A2E00413B5A /* KNThirdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KNThirdViewController.h; sourceTree = "<group>"; };
 		8B41C9B115515A2E00413B5A /* KNThirdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNThirdViewController.m; sourceTree = "<group>"; };
+		8B8767E51552155300BA2A8E /* KNAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KNAboutViewController.h; sourceTree = "<group>"; };
+		8B8767E61552155300BA2A8E /* KNAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNAboutViewController.m; sourceTree = "<group>"; };
+		8B8767E71552155300BA2A8E /* KNAboutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KNAboutViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +118,9 @@
 				8B41C9981551561200413B5A /* KNSecondViewController.xib */,
 				8B41C9B015515A2E00413B5A /* KNThirdViewController.h */,
 				8B41C9B115515A2E00413B5A /* KNThirdViewController.m */,
+				8B8767E51552155300BA2A8E /* KNAboutViewController.h */,
+				8B8767E61552155300BA2A8E /* KNAboutViewController.m */,
+				8B8767E71552155300BA2A8E /* KNAboutViewController.xib */,
 				8B41C9791551561200413B5A /* Supporting Files */,
 			);
 			path = KNSemiModalViewControllerDemo;
@@ -210,6 +218,7 @@
 				8B41C9941551561200413B5A /* KNFirstViewController.xib in Resources */,
 				8B41C99A1551561200413B5A /* KNSecondViewController.xib in Resources */,
 				8B41C9AB1551575300413B5A /* temp.jpg in Resources */,
+				8B8767E91552155300BA2A8E /* KNAboutViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -226,6 +235,7 @@
 				8B41C98D1551561200413B5A /* KNSecondViewController.m in Sources */,
 				8B41C9A61551564800413B5A /* UIViewController+KNSemiModal.m in Sources */,
 				8B41C9B215515A2E00413B5A /* KNThirdViewController.m in Sources */,
+				8B8767E81552155300BA2A8E /* KNAboutViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -351,6 +361,7 @@
 				8B41C9A21551561200413B5A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

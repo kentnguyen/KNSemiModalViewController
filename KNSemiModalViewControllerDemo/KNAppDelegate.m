@@ -9,8 +9,8 @@
 #import "KNAppDelegate.h"
 
 #import "KNFirstViewController.h"
-
 #import "KNSecondViewController.h"
+#import "KNAboutViewController.h"
 
 @implementation KNAppDelegate
 
@@ -20,13 +20,18 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
+  // First tab
   UIViewController * vc1 = [[KNFirstViewController alloc] initWithNibName:@"KNFirstViewController" bundle:nil];
-  UIViewController * vc2 = [[KNSecondViewController alloc] initWithNibName:@"KNSecondViewController" bundle:nil];
-  
+
+  // Second tab
   UINavigationController * uinav = [[UINavigationController alloc] initWithRootViewController:vc1];
+  UIViewController * vc2 = [[KNSecondViewController alloc] initWithNibName:@"KNSecondViewController" bundle:nil];
+
+  // Third tab
+  KNAboutViewController * vc3 = [[KNAboutViewController alloc] initWithNibName:@"KNAboutViewController" bundle:nil];
   
   self.tabBarController = [[UITabBarController alloc] init];
-  self.tabBarController.viewControllers = [NSArray arrayWithObjects:uinav, vc2, nil];
+  self.tabBarController.viewControllers = [NSArray arrayWithObjects:uinav, vc2, vc3, nil];
   self.window.rootViewController = self.tabBarController;
   [self.window makeKeyAndVisible];
   return YES;
