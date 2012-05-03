@@ -1,18 +1,31 @@
 ## UIViewController+KNSemiModal Category
 
-UIViewController+KNSemiModal is an ...
+UIViewController+KNSemiModal is an effort to make a replica of semi-modal view found in the beautiful [Park Guides](http://itunes.apple.com/us/app/national-parks-by-national/id518426085?mt=8) app. You can see this original semi-modal view below.
 
-<img src="https://github.com/kentnguyen/KNPathTableViewController/blob/master/screenshot1.png?raw=true" />``
-<img src="https://github.com/kentnguyen/KNPathTableViewController/blob/master/screenshot2.png?raw=true" />
+This library (ARC) is designed as a Category to UIViewController so you don't have to subclass and you can simply drop in any project and it will just work!
+
+<img src="https://github.com/kentnguyen/KNSemiModalViewController/blob/master/Docs/original.png?raw=true" />``
+<img src="https://github.com/kentnguyen/KNSemiModalViewController/blob/master/Docs/ss1.png?raw=true" />``
+<img src="https://github.com/kentnguyen/KNSemiModalViewController/blob/master/Docs/ss2.png?raw=true" />
 
 ### Demo
 
-Download a demo clip [here](https://github.com/kentnguyen/KNPathTableViewController/blob/master/demo_clip.mov?raw=true) (1MB, .mov)
+Download a demo clip [here](https://github.com/kentnguyen/KNSemiModalViewController/blob/master/Docs/KNSemiModalDemo.mov?raw=true) (1.3MB, .mov)
 
 ### Features
+* Works with bare UIViewController
+* Works with UIViewController contained inside UINavigationController
+* Works with UIViewController contained inside UINavigationController, contained inside UITabbarController
+* Easy to understand and very small code base
+* Easy to use as subclass
 
+### TODO
+* iPad support
+* Landscape support
 
 ### Installation / How to use
+* Import `UIViewController+KNSemiModal.h` in your ViewController
+* Call `[self presentSemiModalView:myView]`
 
 Read my [blog post](http://kentnguyen.com/ios/) for detailed usage.
 
