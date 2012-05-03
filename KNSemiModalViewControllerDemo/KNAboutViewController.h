@@ -10,4 +10,7 @@
 
 @interface KNAboutViewController : UIViewController
 
+-(IBAction)blogButtonDidTouch:(id)sender;
+-(IBAction)twitterButtonDidTouch:(id)sender;
+
 @end

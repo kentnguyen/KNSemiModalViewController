@@ -23,4 +23,13 @@
   return self;
 }
 
+-(IBAction)blogButtonDidTouch:(id)sender {
+  [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://kentnguyen.com/"]];
+}
+
+-(IBAction)twitterButtonDidTouch:(id)sender {
+  [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://twitter.com/ntluan"]];
+}
+
+
 @end
