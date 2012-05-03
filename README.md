@@ -10,8 +10,7 @@ This library (ARC) is designed as a Category to UIViewController so you don't ha
 
 *Replica (view demo video to see the beautiful animation)*
 
-<img src="https://github.com/kentnguyen/KNSemiModalViewController/blob/master/Docs/ss1.png?raw=true" />
-<img src="https://github.com/kentnguyen/KNSemiModalViewController/blob/master/Docs/ss2.png?raw=true" />
+<img src="https://github.com/kentnguyen/KNSemiModalViewController/blob/master/Docs/ss1.png?raw=true" /> . <img src="https://github.com/kentnguyen/KNSemiModalViewController/blob/master/Docs/ss2.png?raw=true" />
 
 ### Demo
 
@@ -25,7 +24,7 @@ Download a demo clip [here](https://github.com/kentnguyen/KNSemiModalViewControl
 * Trivial to implement as subclass
 
 ### TODO
-* iPad support
+* iPad support (?)
 * Landscape support
 
 ### Installation / How to use
