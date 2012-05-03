@@ -29,7 +29,7 @@ Download a demo clip [here](https://github.com/kentnguyen/KNSemiModalViewControl
 * Landscape support
 
 ### Installation / How to use
-* Import `UIViewController+KNSemiModal.h` in your ViewController
+* `#import "UIViewController+KNSemiModal.h"` in your ViewController
 * Call `[self presentSemiModalView:myView]`
 
 Read my [blog post](http://kentnguyen.com/ios/) for detailed usage.
