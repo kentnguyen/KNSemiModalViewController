@@ -29,7 +29,7 @@
   UIViewController * vc2 = [[KNSecondViewController alloc] initWithNibName:@"KNSecondViewController" bundle:nil];
 
   // Third tab
-  KNTableDemoController * vc3 = [[KNTableDemoController alloc] initWithStyle:UITableViewStylePlain];
+  KNTableDemoController * vc3 = [[KNTableDemoController alloc] initWithStyle:UITableViewStyleGrouped];
   
   // About tab
   KNAboutViewController * ab = [[KNAboutViewController alloc] initWithNibName:@"KNAboutViewController" bundle:nil];
