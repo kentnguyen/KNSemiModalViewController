@@ -26,6 +26,7 @@
 }
 
 -(CAAnimationGroup*)animationGroupForward:(BOOL)_forward {
+  // Create animation keys, forwards and backwards
   CATransform3D t1 = CATransform3DIdentity;
   t1.m34 = 1.0/-900;
   t1 = CATransform3DScale(t1, 0.95, 0.95, 1);
@@ -81,10 +82,6 @@
     UIView * overlay = [[UIView alloc] initWithFrame:target.bounds];
     overlay.backgroundColor = [UIColor blackColor];
     
-    // Add dismiss gesture
-    UITapGestureRecognizer * tg = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissSemiModalView)];
-    [overlay addGestureRecognizer:tg];
-
     // Take screenshot and scale
     UIGraphicsBeginImageContext(target.bounds.size);
     [target.layer renderInContext:UIGraphicsGetCurrentContext()];
@@ -93,11 +90,18 @@
     [overlay addSubview:ss];
     [target addSubview:overlay];
 
+    // Dismiss button
+    // Don't use UITapGestureRecognizer to avoid complex handling
+    UIButton * dismissButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [dismissButton addTarget:self action:@selector(dismissSemiModalView) forControlEvents:UIControlEventTouchUpInside];
+    dismissButton.backgroundColor = [UIColor clearColor];
+    dismissButton.frame = of;
+    [overlay addSubview:dismissButton];
+
     // Begin overlay animation
     [ss.layer addAnimation:[self animationGroupForward:YES] forKey:@"pushedBackAnimation"];
     [UIView animateWithDuration:kSemiModalAnimationDuration animations:^{
       ss.alpha = 0.5;
-      overlay.frame = of;
     }];
 
     // Present view animated
@@ -118,7 +122,6 @@
   UIView * modal = [target.subviews objectAtIndex:target.subviews.count-1];
   UIView * overlay = [target.subviews objectAtIndex:target.subviews.count-2];
   [UIView animateWithDuration:kSemiModalAnimationDuration animations:^{
-    overlay.frame = target.bounds;
     modal.frame = CGRectMake(0, target.frame.size.height, modal.frame.size.width, modal.frame.size.height);
   } completion:^(BOOL finished) {
     [overlay removeFromSuperview];
