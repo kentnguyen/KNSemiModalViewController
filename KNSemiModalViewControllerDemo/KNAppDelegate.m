@@ -11,6 +11,7 @@
 #import "KNFirstViewController.h"
 #import "KNSecondViewController.h"
 #import "KNAboutViewController.h"
+#import "KNTableDemoController.h"
 
 @implementation KNAppDelegate
 
@@ -28,10 +29,13 @@
   UIViewController * vc2 = [[KNSecondViewController alloc] initWithNibName:@"KNSecondViewController" bundle:nil];
 
   // Third tab
-  KNAboutViewController * vc3 = [[KNAboutViewController alloc] initWithNibName:@"KNAboutViewController" bundle:nil];
+  KNTableDemoController * vc3 = [[KNTableDemoController alloc] initWithStyle:UITableViewStylePlain];
+  
+  // About tab
+  KNAboutViewController * ab = [[KNAboutViewController alloc] initWithNibName:@"KNAboutViewController" bundle:nil];
   
   self.tabBarController = [[UITabBarController alloc] init];
-  self.tabBarController.viewControllers = [NSArray arrayWithObjects:uinav, vc2, vc3, nil];
+  self.tabBarController.viewControllers = [NSArray arrayWithObjects:uinav, vc2, vc3, ab, nil];
   self.window.rootViewController = self.tabBarController;
   [self.window makeKeyAndVisible];
   return YES;

@@ -37,7 +37,6 @@
   // You can present a simple UIImageView or any other UIView like this,
   // without needing to take care of dismiss action
   UIImageView * imagev = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"temp.jpg"]];
-  [imagev sizeToFit];
   [self presentSemiView:imagev];
 
 }

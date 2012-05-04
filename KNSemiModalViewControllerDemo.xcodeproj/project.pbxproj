@@ -25,6 +25,7 @@
 		8B41C9A81551566400413B5A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B41C9A71551566400413B5A /* QuartzCore.framework */; };
 		8B41C9AB1551575300413B5A /* temp.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8B41C9AA1551575300413B5A /* temp.jpg */; };
 		8B41C9B215515A2E00413B5A /* KNThirdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B41C9B115515A2E00413B5A /* KNThirdViewController.m */; };
+		8B6A4ADE15535E5600613D80 /* KNTableDemoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B6A4ADD15535E5600613D80 /* KNTableDemoController.m */; };
 		8B8767E81552155300BA2A8E /* KNAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B8767E61552155300BA2A8E /* KNAboutViewController.m */; };
 		8B8767E91552155300BA2A8E /* KNAboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B8767E71552155300BA2A8E /* KNAboutViewController.xib */; };
 		8BEE95661552D9130091CA92 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BEE95641552D9130091CA92 /* Icon.png */; };
@@ -58,6 +59,8 @@
 		8B41C9AA1551575300413B5A /* temp.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = temp.jpg; sourceTree = "<group>"; };
 		8B41C9B015515A2E00413B5A /* KNThirdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KNThirdViewController.h; sourceTree = "<group>"; };
 		8B41C9B115515A2E00413B5A /* KNThirdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNThirdViewController.m; sourceTree = "<group>"; };
+		8B6A4ADC15535E5600613D80 /* KNTableDemoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KNTableDemoController.h; sourceTree = "<group>"; };
+		8B6A4ADD15535E5600613D80 /* KNTableDemoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNTableDemoController.m; sourceTree = "<group>"; };
 		8B8767E51552155300BA2A8E /* KNAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KNAboutViewController.h; sourceTree = "<group>"; };
 		8B8767E61552155300BA2A8E /* KNAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNAboutViewController.m; sourceTree = "<group>"; };
 		8B8767E71552155300BA2A8E /* KNAboutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KNAboutViewController.xib; sourceTree = "<group>"; };
@@ -117,6 +120,7 @@
 				8B6A4ADB15535E0300613D80 /* About */,
 				8B6A4AD815535DF800613D80 /* Demo 1 */,
 				8B6A4ADA15535DFE00613D80 /* Demo 2 */,
+				8B6A4ADF15535E5A00613D80 /* Demo 3 */,
 				8B41C9791551561200413B5A /* Supporting Files */,
 			);
 			path = KNSemiModalViewControllerDemo;
@@ -187,6 +191,15 @@
 				8B8767E61552155300BA2A8E /* KNAboutViewController.m */,
 			);
 			name = About;
+			sourceTree = "<group>";
+		};
+		8B6A4ADF15535E5A00613D80 /* Demo 3 */ = {
+			isa = PBXGroup;
+			children = (
+				8B6A4ADC15535E5600613D80 /* KNTableDemoController.h */,
+				8B6A4ADD15535E5600613D80 /* KNTableDemoController.m */,
+			);
+			name = "Demo 3";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -268,6 +281,7 @@
 				8B41C9A61551564800413B5A /* UIViewController+KNSemiModal.m in Sources */,
 				8B41C9B215515A2E00413B5A /* KNThirdViewController.m in Sources */,
 				8B8767E81552155300BA2A8E /* KNAboutViewController.m in Sources */,
+				8B6A4ADE15535E5600613D80 /* KNTableDemoController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

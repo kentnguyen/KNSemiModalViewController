@@ -18,7 +18,7 @@
   self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
   if (self) {
     self.title = @"About";
-    self.tabBarItem.image = [UIImage imageNamed:@"first"];
+    self.tabBarItem.image = [UIImage imageNamed:@"second"];
   }
   return self;
 }
