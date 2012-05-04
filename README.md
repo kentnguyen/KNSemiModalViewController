@@ -6,7 +6,7 @@ This library (ARC) is designed as a Category to UIViewController so you don't ha
 
 *Original screenshot*
 
-<img src="https://github.com/kentnguyen/KNSemiModalViewController/blob/master/Docs/original.png?raw=true" />
+<img src="https://github.com/kentnguyen/KNSemiModalViewController/blob/master/Docs/original.png?raw=true" /> . <img src="https://github.com/kentnguyen/KNSemiModalViewController/blob/master/Docs/original2.png?raw=true" />
 
 *Replica (view demo video to see the beautiful animation)*
 
