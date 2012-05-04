@@ -114,17 +114,9 @@
 			children = (
 				8B41C9811551561200413B5A /* KNAppDelegate.h */,
 				8B41C9821551561200413B5A /* KNAppDelegate.m */,
-				8B41C9841551561200413B5A /* KNFirstViewController.h */,
-				8B41C9851551561200413B5A /* KNFirstViewController.m */,
-				8B41C98B1551561200413B5A /* KNSecondViewController.h */,
-				8B41C98C1551561200413B5A /* KNSecondViewController.m */,
-				8B41C9921551561200413B5A /* KNFirstViewController.xib */,
-				8B41C9981551561200413B5A /* KNSecondViewController.xib */,
-				8B41C9B015515A2E00413B5A /* KNThirdViewController.h */,
-				8B41C9B115515A2E00413B5A /* KNThirdViewController.m */,
-				8B8767E51552155300BA2A8E /* KNAboutViewController.h */,
-				8B8767E61552155300BA2A8E /* KNAboutViewController.m */,
-				8B8767E71552155300BA2A8E /* KNAboutViewController.xib */,
+				8B6A4ADB15535E0300613D80 /* About */,
+				8B6A4AD815535DF800613D80 /* Demo 1 */,
+				8B6A4ADA15535DFE00613D80 /* Demo 2 */,
 				8B41C9791551561200413B5A /* Supporting Files */,
 			);
 			path = KNSemiModalViewControllerDemo;
@@ -163,6 +155,38 @@
 				8B41C9891551561200413B5A /* first@2x.png */,
 			);
 			name = Images;
+			sourceTree = "<group>";
+		};
+		8B6A4AD815535DF800613D80 /* Demo 1 */ = {
+			isa = PBXGroup;
+			children = (
+				8B41C9841551561200413B5A /* KNFirstViewController.h */,
+				8B41C9851551561200413B5A /* KNFirstViewController.m */,
+				8B41C9921551561200413B5A /* KNFirstViewController.xib */,
+			);
+			name = "Demo 1";
+			sourceTree = "<group>";
+		};
+		8B6A4ADA15535DFE00613D80 /* Demo 2 */ = {
+			isa = PBXGroup;
+			children = (
+				8B41C98B1551561200413B5A /* KNSecondViewController.h */,
+				8B41C98C1551561200413B5A /* KNSecondViewController.m */,
+				8B41C9981551561200413B5A /* KNSecondViewController.xib */,
+				8B41C9B015515A2E00413B5A /* KNThirdViewController.h */,
+				8B41C9B115515A2E00413B5A /* KNThirdViewController.m */,
+			);
+			name = "Demo 2";
+			sourceTree = "<group>";
+		};
+		8B6A4ADB15535E0300613D80 /* About */ = {
+			isa = PBXGroup;
+			children = (
+				8B8767E71552155300BA2A8E /* KNAboutViewController.xib */,
+				8B8767E51552155300BA2A8E /* KNAboutViewController.h */,
+				8B8767E61552155300BA2A8E /* KNAboutViewController.m */,
+			);
+			name = About;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
