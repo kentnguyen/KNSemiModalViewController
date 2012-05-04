@@ -28,6 +28,7 @@
 		8B6A4ADE15535E5600613D80 /* KNTableDemoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B6A4ADD15535E5600613D80 /* KNTableDemoController.m */; };
 		8B8767E81552155300BA2A8E /* KNAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B8767E61552155300BA2A8E /* KNAboutViewController.m */; };
 		8B8767E91552155300BA2A8E /* KNAboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B8767E71552155300BA2A8E /* KNAboutViewController.xib */; };
+		8B9E0B541553664F00BE3A69 /* KNModalTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B9E0B531553664F00BE3A69 /* KNModalTableViewController.m */; };
 		8BEE95661552D9130091CA92 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BEE95641552D9130091CA92 /* Icon.png */; };
 		8BEE95671552D9130091CA92 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BEE95651552D9130091CA92 /* Icon@2x.png */; };
 /* End PBXBuildFile section */
@@ -64,6 +65,8 @@
 		8B8767E51552155300BA2A8E /* KNAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KNAboutViewController.h; sourceTree = "<group>"; };
 		8B8767E61552155300BA2A8E /* KNAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNAboutViewController.m; sourceTree = "<group>"; };
 		8B8767E71552155300BA2A8E /* KNAboutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KNAboutViewController.xib; sourceTree = "<group>"; };
+		8B9E0B521553664F00BE3A69 /* KNModalTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KNModalTableViewController.h; sourceTree = "<group>"; };
+		8B9E0B531553664F00BE3A69 /* KNModalTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNModalTableViewController.m; sourceTree = "<group>"; };
 		8BEE95641552D9130091CA92 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		8BEE95651552D9130091CA92 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -198,6 +201,8 @@
 			children = (
 				8B6A4ADC15535E5600613D80 /* KNTableDemoController.h */,
 				8B6A4ADD15535E5600613D80 /* KNTableDemoController.m */,
+				8B9E0B521553664F00BE3A69 /* KNModalTableViewController.h */,
+				8B9E0B531553664F00BE3A69 /* KNModalTableViewController.m */,
 			);
 			name = "Demo 3";
 			sourceTree = "<group>";
@@ -282,6 +287,7 @@
 				8B41C9B215515A2E00413B5A /* KNThirdViewController.m in Sources */,
 				8B8767E81552155300BA2A8E /* KNAboutViewController.m in Sources */,
 				8B6A4ADE15535E5600613D80 /* KNTableDemoController.m in Sources */,
+				8B9E0B541553664F00BE3A69 /* KNModalTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

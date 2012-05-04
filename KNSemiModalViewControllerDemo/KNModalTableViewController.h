@@ -1,5 +1,5 @@
 //
-//  KNTableDemoController.h
+//  KNModalTableViewController.h
 //  KNSemiModalViewControllerDemo
 //
 //  Created by Kent Nguyen on 4/5/12.
@@ -8,10 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@class KNModalTableViewController;
-
-@interface KNTableDemoController : UITableViewController {
-  KNModalTableViewController * modalVC;
-}
+@interface KNModalTableViewController : UITableViewController
 
 @end
