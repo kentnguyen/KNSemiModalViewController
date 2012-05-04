@@ -1,6 +1,6 @@
 ## UIViewController+KNSemiModal Category
 
-UIViewController+KNSemiModal is an effort to make a replica of **semi-modal view plus its stacked animation** found in the beautiful [Park Guides by National Geographic](http://itunes.apple.com/us/app/national-parks-by-national/id518426085?mt=8) app. You can see this original semi-modal view below.
+UIViewController+KNSemiModal is an effort to make a replica of **semi-modal view plus with pushed-back stacked animation** found in the beautiful [Park Guides by National Geographic](http://itunes.apple.com/us/app/national-parks-by-national/id518426085?mt=8) app. You can see this original semi-modal view below.
 
 This library (ARC) is designed as a Category to UIViewController so you don't have to subclass and you can simply drop in any project and it will just work!
 
@@ -20,7 +20,7 @@ Download a demo clip [here](https://github.com/kentnguyen/KNSemiModalViewControl
 * Works with bare UIViewController
 * Works with UIViewController contained inside UINavigationController
 * Works with UIViewController contained inside UINavigationController, contained inside UITabbarController
-* Auto handling of semi-modal frame size
+* Auto handling of modal frame size
 * Auto handling of touch area for dismissal
 
 * Easy to understand and very small code base, only 2 files
