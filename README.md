@@ -35,7 +35,7 @@ Download a demo clip [here](https://github.com/kentnguyen/KNSemiModalViewControl
 * `#import "UIViewController+KNSemiModal.h"` in your ViewController
 * Call `[self presentSemiModalView:myView]`
 
-Read my [blog post](http://kentnguyen.com/ios/) for detailed usage.
+Read my [blog post](http://bit.ly/IK7UVV) for detailed usage.
 
 ### License
 
