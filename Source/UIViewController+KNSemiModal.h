@@ -15,3 +15,10 @@
 -(void)dismissSemiModalView;
 
 @end
+
+// Convenient category method to find actual ViewController that contains a view
+
+@interface UIView (FindUIViewController)
+- (UIViewController *) containingViewController;
+- (id) traverseResponderChainForUIViewController;
+@end

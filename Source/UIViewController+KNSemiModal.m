@@ -137,3 +137,26 @@
 }
 
 @end
+
+#pragma mark - 
+
+// Convenient category method to find actual ViewController that contains a view
+// Adapted from: http://stackoverflow.com/questions/1340434/get-to-uiviewcontroller-from-uiview-on-iphone
+
+@implementation UIView (FindUIViewController)
+- (UIViewController *) containingViewController {
+  UIView * target = self.superview ? self.superview : self;
+  return (UIViewController *)[target traverseResponderChainForUIViewController];
+}
+
+- (id) traverseResponderChainForUIViewController {
+  id nextResponder = [self nextResponder];
+  if ([nextResponder isKindOfClass:[UIViewController class]]) {
+    return nextResponder;
+  } else if ([nextResponder isKindOfClass:[UIView class]]) {
+    return [nextResponder traverseResponderChainForUIViewController];
+  } else {
+    return nil;
+  }
+}
+@end
