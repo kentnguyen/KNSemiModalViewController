@@ -8,12 +8,7 @@
 
 #import "KNSecondViewController.h"
 #import "KNThirdViewController.h"
-
 #import "UIViewController+KNSemiModal.h"
-
-@interface KNSecondViewController ()
-
-@end
 
 @implementation KNSecondViewController
 
@@ -22,16 +17,18 @@
     if (self) {
       self.title = @"Second";
       self.tabBarItem.image = [UIImage imageNamed:@"second"];
+
+      // Take note that you need to take ownership of the ViewController that is being presented
+      semiVC = [[KNThirdViewController alloc] initWithNibName:@"KNThirdViewController" bundle:nil];
     }
     return self;
 }
 							
 - (IBAction)buttonDidTouch:(id)sender {
-  
+
   // You can also present a UIViewController with complex views in it
   // and optionally containing an explicit dismiss button for semi modal
-  KNThirdViewController * vc = [[KNThirdViewController alloc] init];
-  [self presentSemiViewController:vc];
+  [self presentSemiViewController:semiVC];
 
 }
 

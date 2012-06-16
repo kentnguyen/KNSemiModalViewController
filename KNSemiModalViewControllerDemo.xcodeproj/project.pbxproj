@@ -29,6 +29,7 @@
 		8B8767E81552155300BA2A8E /* KNAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B8767E61552155300BA2A8E /* KNAboutViewController.m */; };
 		8B8767E91552155300BA2A8E /* KNAboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B8767E71552155300BA2A8E /* KNAboutViewController.xib */; };
 		8B9E0B541553664F00BE3A69 /* KNModalTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B9E0B531553664F00BE3A69 /* KNModalTableViewController.m */; };
+		8BD1CEB1158C6C4F00F6956E /* KNThirdViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BD1CEB0158C6C4F00F6956E /* KNThirdViewController.xib */; };
 		8BEE95661552D9130091CA92 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BEE95641552D9130091CA92 /* Icon.png */; };
 		8BEE95671552D9130091CA92 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BEE95651552D9130091CA92 /* Icon@2x.png */; };
 /* End PBXBuildFile section */
@@ -67,6 +68,7 @@
 		8B8767E71552155300BA2A8E /* KNAboutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KNAboutViewController.xib; sourceTree = "<group>"; };
 		8B9E0B521553664F00BE3A69 /* KNModalTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KNModalTableViewController.h; sourceTree = "<group>"; };
 		8B9E0B531553664F00BE3A69 /* KNModalTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNModalTableViewController.m; sourceTree = "<group>"; };
+		8BD1CEB0158C6C4F00F6956E /* KNThirdViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KNThirdViewController.xib; sourceTree = "<group>"; };
 		8BEE95641552D9130091CA92 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		8BEE95651552D9130091CA92 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -182,6 +184,7 @@
 				8B41C9981551561200413B5A /* KNSecondViewController.xib */,
 				8B41C9B015515A2E00413B5A /* KNThirdViewController.h */,
 				8B41C9B115515A2E00413B5A /* KNThirdViewController.m */,
+				8BD1CEB0158C6C4F00F6956E /* KNThirdViewController.xib */,
 			);
 			name = "Demo 2";
 			sourceTree = "<group>";
@@ -269,6 +272,7 @@
 				8B8767E91552155300BA2A8E /* KNAboutViewController.xib in Resources */,
 				8BEE95661552D9130091CA92 /* Icon.png in Resources */,
 				8BEE95671552D9130091CA92 /* Icon@2x.png in Resources */,
+				8BD1CEB1158C6C4F00F6956E /* KNThirdViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

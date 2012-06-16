@@ -8,7 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface KNSecondViewController : UIViewController
+@class KNThirdViewController;
+
+@interface KNSecondViewController : UIViewController {
+  KNThirdViewController * semiVC;
+}
 - (IBAction)buttonDidTouch:(id)sender;
 
 @end
