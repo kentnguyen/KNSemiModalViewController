@@ -67,13 +67,13 @@
   [self presentSemiView:vc.view];
 }
 
--(void)presentSemiView:(UIView*)vc {
+-(void)presentSemiView:(UIView*)view {
   // Determine target
   UIView * target = [self parentTarget];
   
-  if (![target.subviews containsObject:vc]) {
+  if (![target.subviews containsObject:view]) {
     // Calulate all frames
-    CGRect sf = vc.frame;
+    CGRect sf = view.frame;
     CGRect vf = target.frame;
     CGRect f  = CGRectMake(0, vf.size.height-sf.size.height, vf.size.width, sf.size.height);
     CGRect of = CGRectMake(0, 0, vf.size.width, vf.size.height-sf.size.height);
@@ -105,14 +105,14 @@
     }];
 
     // Present view animated
-    vc.frame = CGRectMake(0, vf.size.height, vf.size.width, sf.size.height);
-    [target addSubview:vc];
-    vc.layer.shadowColor = [[UIColor blackColor] CGColor];
-    vc.layer.shadowOffset = CGSizeMake(0, -2);
-    vc.layer.shadowRadius = 5.0;
-    vc.layer.shadowOpacity = 0.8;
+    view.frame = CGRectMake(0, vf.size.height, vf.size.width, sf.size.height);
+    [target addSubview:view];
+    view.layer.shadowColor = [[UIColor blackColor] CGColor];
+    view.layer.shadowOffset = CGSizeMake(0, -2);
+    view.layer.shadowRadius = 5.0;
+    view.layer.shadowOpacity = 0.8;
     [UIView animateWithDuration:kSemiModalAnimationDuration animations:^{
-      vc.frame = f;
+      view.frame = f;
     }];
   }
 }
