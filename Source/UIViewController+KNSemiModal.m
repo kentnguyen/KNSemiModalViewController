@@ -83,7 +83,7 @@
     overlay.backgroundColor = [UIColor blackColor];
     
     // Take screenshot and scale
-    UIGraphicsBeginImageContext(target.bounds.size);
+    UIGraphicsBeginImageContextWithOptions(target.bounds.size, YES, [[UIScreen mainScreen] scale]);
     [target.layer renderInContext:UIGraphicsGetCurrentContext()];
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIImageView * ss = [[UIImageView alloc] initWithImage:image];
