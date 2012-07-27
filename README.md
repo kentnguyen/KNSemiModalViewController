@@ -35,6 +35,17 @@ Download a demo clip [here](https://github.com/kentnguyen/KNSemiModalViewControl
 * `#import "UIViewController+KNSemiModal.h"` in your ViewController
 * Call `[self presentSemiModalView:myView]`
 
+### Troubleshooting
+IMPORTANT: For 64-bit and iPhone OS applications, there is a linker bug that 
+prevents -ObjC from loading objects files from static libraries that contain 
+only categories and no classes. The workaround is to use the -all_load or 
+-force_load flags. -all_load forces the linker to load all object files from 
+every archive it sees, even those without Objective-C code. -force_load is 
+available in Xcode 3.2 and later. It allows finer grain control of archive 
+loading. Each -force_load option must be followed by a path to an archive, 
+and every object file in that archive will be loaded.
+http://stackoverflow.com/a/2906210/209828
+
 Read my [blog post](http://bit.ly/IK7UVV) for detailed usage.
 
 ### License
