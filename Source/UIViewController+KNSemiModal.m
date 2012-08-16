@@ -113,6 +113,9 @@
     view.layer.shadowOpacity = 0.8;
     view.layer.shouldRasterize = YES;
     view.layer.rasterizationScale = [[UIScreen mainScreen] scale];
+    UIBezierPath *path = [UIBezierPath bezierPathWithRect:view.bounds];
+    view.layer.shadowPath = path.CGPath;
+
     [UIView animateWithDuration:kSemiModalAnimationDuration animations:^{
       view.frame = f;
     }];
