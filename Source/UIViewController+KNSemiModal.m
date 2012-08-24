@@ -173,12 +173,18 @@
 
 - (id) traverseResponderChainForUIViewController {
   id nextResponder = [self nextResponder];
-  if ([nextResponder isKindOfClass:[UIViewController class]]) {
+  BOOL isViewController = [nextResponder isKindOfClass:[UIViewController class]];
+  BOOL isTabBarController = [nextResponder isKindOfClass:[UITabBarController class]];
+  if (isViewController && !isTabBarController) {
     return nextResponder;
+  } else if(isTabBarController){
+    UITabBarController *tabBarController = nextResponder;
+    return [tabBarController selectedViewController];
   } else if ([nextResponder isKindOfClass:[UIView class]]) {
     return [nextResponder traverseResponderChainForUIViewController];
   } else {
     return nil;
   }
 }
+
 @end
