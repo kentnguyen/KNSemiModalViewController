@@ -23,7 +23,6 @@ Download a demo clip [here](https://github.com/kentnguyen/KNSemiModalViewControl
 * Auto handling of modal frame size
 * Auto handling of touch area for dismissal
 * Resizable after presenting so that keyboard related interactions are possible
-
 * Easy to understand and very small code base, only 2 files
 * Trivial to implement as subclass
 * Only use basic CAAnimation, should work fine with SDK 4.x up.
