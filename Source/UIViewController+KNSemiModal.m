@@ -148,8 +148,13 @@
   mf.size.width = newSize.width;
   mf.size.height = newSize.height;
   mf.origin.y = target.frame.size.height - mf.size.height;
+  UIView * overlay = [target.subviews objectAtIndex:target.subviews.count-2];
+  UIButton * button = [[overlay subviews] objectAtIndex:1];
+  CGRect bf = button.frame;
+  bf.size.height = overlay.frame.size.height - newSize.height;
   [UIView animateWithDuration:kSemiModalAnimationDuration animations:^{
     modal.frame = mf;
+    button.frame = bf;
   }];
 }
 
