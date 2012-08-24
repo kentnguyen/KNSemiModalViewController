@@ -118,6 +118,11 @@
 
     [UIView animateWithDuration:kSemiModalAnimationDuration animations:^{
       view.frame = f;
+    } completion:^(BOOL finished) {
+      if(finished){
+        [[NSNotificationCenter defaultCenter] postNotificationName:kSemiModalDidShowNotification
+                                                            object:self];
+      }
     }];
   }
 }
@@ -138,6 +143,11 @@
   [ss.layer addAnimation:[self animationGroupForward:NO] forKey:@"bringForwardAnimation"];
   [UIView animateWithDuration:kSemiModalAnimationDuration animations:^{
     ss.alpha = 1;
+  } completion:^(BOOL finished) {
+    if(finished){
+      [[NSNotificationCenter defaultCenter] postNotificationName:kSemiModalDidHideNotification
+                                                          object:self];
+    }
   }];
 }
 
@@ -155,6 +165,11 @@
   [UIView animateWithDuration:kSemiModalAnimationDuration animations:^{
     modal.frame = mf;
     button.frame = bf;
+  } completion:^(BOOL finished) {
+    if(finished){
+      [[NSNotificationCenter defaultCenter] postNotificationName:kSemiModalWasResizedNotification
+                                                          object:self];
+    }
   }];
 }
 

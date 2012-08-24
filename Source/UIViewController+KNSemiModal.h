@@ -7,7 +7,9 @@
 //
 
 #define kSemiModalAnimationDuration   0.5
-
+#define kSemiModalDidShowNotification @"kSemiModalDidShowNotification"
+#define kSemiModalDidHideNotification @"kSemiModalDidHideNotification"
+#define kSemiModalWasResizedNotification @"kSemiModalWasResizedNotification"
 @interface UIViewController (KNSemiModal)
 
 -(void)presentSemiViewController:(UIViewController*)vc;
