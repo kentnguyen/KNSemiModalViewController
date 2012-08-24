@@ -22,6 +22,7 @@ Download a demo clip [here](https://github.com/kentnguyen/KNSemiModalViewControl
 * Works with UIViewController contained inside UINavigationController, contained inside UITabbarController
 * Auto handling of modal frame size
 * Auto handling of touch area for dismissal
+* Resizable after presenting so that keyboard related interactions are possible
 
 * Easy to understand and very small code base, only 2 files
 * Trivial to implement as subclass

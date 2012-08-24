@@ -141,6 +141,18 @@
   }];
 }
 
+- (void)resizeSemiView:(CGSize)newSize {
+  UIView * target = [self parentTarget];
+  UIView * modal = [target.subviews objectAtIndex:target.subviews.count-1];
+  CGRect mf = modal.frame;
+  mf.size.width = newSize.width;
+  mf.size.height = newSize.height;
+  mf.origin.y = target.frame.size.height - mf.size.height;
+  [UIView animateWithDuration:kSemiModalAnimationDuration animations:^{
+    modal.frame = mf;
+  }];
+}
+
 @end
 
 #pragma mark - 

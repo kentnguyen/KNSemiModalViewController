@@ -12,7 +12,9 @@
 
 @property (unsafe_unretained, nonatomic) IBOutlet UILabel *helpLabel;
 @property (unsafe_unretained, nonatomic) IBOutlet UIButton *dismissButton;
+@property (unsafe_unretained, nonatomic) IBOutlet UIButton *resizeButton;
 
 - (IBAction)dismissButtonDidTouch:(id)sender;
+- (IBAction)resizeSemiModalView:(id)sender;
 
 @end
