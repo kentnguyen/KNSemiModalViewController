@@ -13,6 +13,7 @@
 -(void)presentSemiViewController:(UIViewController*)vc;
 -(void)presentSemiView:(UIView*)vc;
 -(void)dismissSemiModalView;
+-(void)resizeSemiView:(CGSize)newSize;
 
 @end
 

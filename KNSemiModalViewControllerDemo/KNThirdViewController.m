@@ -17,17 +17,21 @@
 @implementation KNThirdViewController
 @synthesize helpLabel;
 @synthesize dismissButton;
+@synthesize resizeButton;
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-
+  
   dismissButton.layer.cornerRadius = 10.0f;
   dismissButton.layer.masksToBounds = YES;
+  resizeButton.layer.cornerRadius = 10.0f;
+  resizeButton.layer.masksToBounds = YES;
 }
 
 - (void)viewDidUnload {
   [self setHelpLabel:nil];
   [self setDismissButton:nil];
+  [self setResizeButton:nil];
   [super viewDidUnload];
 }
 
@@ -40,6 +44,13 @@
     [parent dismissSemiModalView];
   }
 
+}
+
+- (IBAction)resizeSemiModalView:(id)sender {
+  UIViewController * parent = [self.view containingViewController];
+  if ([parent respondsToSelector:@selector(resizeSemiView:)]) {
+    [parent resizeSemiView:CGSizeMake(320, arc4random() % 280 + 180)];
+  }
 }
 
 @end

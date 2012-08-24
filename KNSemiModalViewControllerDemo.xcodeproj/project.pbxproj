@@ -96,7 +96,9 @@
 				8B41C9711551561200413B5A /* Frameworks */,
 				8B41C96F1551561200413B5A /* Products */,
 			);
+			indentWidth = 2;
 			sourceTree = "<group>";
+			tabWidth = 2;
 		};
 		8B41C96F1551561200413B5A /* Products */ = {
 			isa = PBXGroup;
