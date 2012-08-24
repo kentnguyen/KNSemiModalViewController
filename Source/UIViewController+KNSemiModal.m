@@ -50,7 +50,7 @@
   animation2.duration = animation.duration;
   animation2.fillMode = kCAFillModeForwards;
   animation2.removedOnCompletion = NO;
-  [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
+  [animation2 setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
 
   CAAnimationGroup *group = [CAAnimationGroup animation];
   group.fillMode = kCAFillModeForwards;
@@ -118,6 +118,11 @@
 
     [UIView animateWithDuration:kSemiModalAnimationDuration animations:^{
       view.frame = f;
+    } completion:^(BOOL finished) {
+      if(finished){
+        [[NSNotificationCenter defaultCenter] postNotificationName:kSemiModalDidShowNotification
+                                                            object:self];
+      }
     }];
   }
 }
@@ -138,6 +143,11 @@
   [ss.layer addAnimation:[self animationGroupForward:NO] forKey:@"bringForwardAnimation"];
   [UIView animateWithDuration:kSemiModalAnimationDuration animations:^{
     ss.alpha = 1;
+  } completion:^(BOOL finished) {
+    if(finished){
+      [[NSNotificationCenter defaultCenter] postNotificationName:kSemiModalDidHideNotification
+                                                          object:self];
+    }
   }];
 }
 
@@ -155,6 +165,11 @@
   [UIView animateWithDuration:kSemiModalAnimationDuration animations:^{
     modal.frame = mf;
     button.frame = bf;
+  } completion:^(BOOL finished) {
+    if(finished){
+      [[NSNotificationCenter defaultCenter] postNotificationName:kSemiModalWasResizedNotification
+                                                          object:self];
+    }
   }];
 }
 
@@ -173,12 +188,18 @@
 
 - (id) traverseResponderChainForUIViewController {
   id nextResponder = [self nextResponder];
-  if ([nextResponder isKindOfClass:[UIViewController class]]) {
+  BOOL isViewController = [nextResponder isKindOfClass:[UIViewController class]];
+  BOOL isTabBarController = [nextResponder isKindOfClass:[UITabBarController class]];
+  if (isViewController && !isTabBarController) {
     return nextResponder;
+  } else if(isTabBarController){
+    UITabBarController *tabBarController = nextResponder;
+    return [tabBarController selectedViewController];
   } else if ([nextResponder isKindOfClass:[UIView class]]) {
     return [nextResponder traverseResponderChainForUIViewController];
   } else {
     return nil;
   }
 }
+
 @end

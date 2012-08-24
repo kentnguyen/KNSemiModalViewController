@@ -20,10 +20,19 @@
 
       // Take note that you need to take ownership of the ViewController that is being presented
       semiVC = [[KNThirdViewController alloc] initWithNibName:@"KNThirdViewController" bundle:nil];
+      
+      [[NSNotificationCenter defaultCenter] addObserver:self
+                                               selector:@selector(semiModalResized:)
+                                                   name:kSemiModalWasResizedNotification
+                                                 object:nil];
     }
     return self;
 }
-							
+- (void) semiModalResized:(NSNotification *) notification {
+  if(notification.object == self){
+    NSLog(@"The view controller presented was been resized");
+  }
+}
 - (IBAction)buttonDidTouch:(id)sender {
 
   // You can also present a UIViewController with complex views in it
@@ -31,5 +40,7 @@
   [self presentSemiViewController:semiVC];
 
 }
-
+-(void)dealloc {
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 @end
