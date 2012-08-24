@@ -50,7 +50,7 @@
   animation2.duration = animation.duration;
   animation2.fillMode = kCAFillModeForwards;
   animation2.removedOnCompletion = NO;
-  [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
+  [animation2 setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
 
   CAAnimationGroup *group = [CAAnimationGroup animation];
   group.fillMode = kCAFillModeForwards;
