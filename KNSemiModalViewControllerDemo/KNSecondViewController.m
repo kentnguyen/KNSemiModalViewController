@@ -20,7 +20,16 @@
 
       // Take note that you need to take ownership of the ViewController that is being presented
       semiVC = [[KNThirdViewController alloc] initWithNibName:@"KNThirdViewController" bundle:nil];
-      
+
+      // You can optionally listen to notifications
+      [[NSNotificationCenter defaultCenter] addObserver:self
+                                               selector:@selector(semiModalPresented:)
+                                                   name:kSemiModalDidShowNotification
+                                                 object:nil];
+      [[NSNotificationCenter defaultCenter] addObserver:self
+                                               selector:@selector(semiModalDismissed:)
+                                                   name:kSemiModalDidHideNotification
+                                                 object:nil];
       [[NSNotificationCenter defaultCenter] addObserver:self
                                                selector:@selector(semiModalResized:)
                                                    name:kSemiModalWasResizedNotification
@@ -28,11 +37,9 @@
     }
     return self;
 }
-- (void) semiModalResized:(NSNotification *) notification {
-  if(notification.object == self){
-    NSLog(@"The view controller presented was been resized");
-  }
-}
+
+#pragma mark - Demo
+
 - (IBAction)buttonDidTouch:(id)sender {
 
   // You can also present a UIViewController with complex views in it
@@ -40,6 +47,26 @@
   [self presentSemiViewController:semiVC];
 
 }
+
+#pragma mark - Optional notifications
+
+- (void) semiModalResized:(NSNotification *) notification {
+  if(notification.object == self){
+    NSLog(@"The view controller presented was been resized");
+  }
+}
+
+- (void)semiModalPresented:(NSNotification *) notification {
+  if (notification.object == self) {
+    NSLog(@"This view controller just shown a view with semi modal annimation");
+  }
+}
+- (void)semiModalDismissed:(NSNotification *) notification {
+  if (notification.object == self) {
+    NSLog(@"A view controller was dismissed with semi modal annimation");
+  }
+}
+
 -(void)dealloc {
   [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
