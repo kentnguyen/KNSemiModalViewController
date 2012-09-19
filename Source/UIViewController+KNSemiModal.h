@@ -12,6 +12,11 @@
 #define kSemiModalWasResizedNotification @"kSemiModalWasResizedNotification"
 @interface UIViewController (KNSemiModal)
 
+//  Used to set the opacity of the parent once the SemiModalView appears.
+//  Defaults to 0.5.
+-(CGFloat)parentViewPresentedOpacity;
+-(void)setParentViewPresentedOpacity:(CGFloat)opacity;
+
 -(void)presentSemiViewController:(UIViewController*)vc;
 -(void)presentSemiView:(UIView*)vc;
 -(void)dismissSemiModalView;

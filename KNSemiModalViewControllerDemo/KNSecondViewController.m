@@ -41,6 +41,10 @@
 #pragma mark - Demo
 
 - (IBAction)buttonDidTouch:(id)sender {
+  
+  // You can set the opacity of the background to whatever you like.
+  // Make sure you do this before you present the view controller.
+  self.parentViewPresentedOpacity = 0.1;
 
   // You can also present a UIViewController with complex views in it
   // and optionally containing an explicit dismiss button for semi modal
