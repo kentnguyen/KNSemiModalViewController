@@ -8,6 +8,10 @@
 
 #import "UIViewController+KNSemiModal.h"
 #import <QuartzCore/QuartzCore.h>
+#import <Foundation/Foundation.h>
+#import <objc/runtime.h>
+
+#define DEFAULT_PRESENTED_OPACITY 0.5
 
 @interface UIViewController (KNSemiModalInternal)
 -(UIView*)parentTarget;
@@ -62,6 +66,22 @@
 
 @implementation UIViewController (KNSemiModal)
 
+static char PARENT_VIEW_PRESENTED_OPACITY;
+
+-(CGFloat)parentViewPresentedOpacity {
+  NSNumber *_parentViewPresentedOpacity = objc_getAssociatedObject(self, &PARENT_VIEW_PRESENTED_OPACITY);
+  CGFloat result = DEFAULT_PRESENTED_OPACITY;
+  if (_parentViewPresentedOpacity != nil) {
+    result = [_parentViewPresentedOpacity floatValue];
+  }
+  return result;
+}
+
+-(void)setParentViewPresentedOpacity:(CGFloat)opacity {
+  NSNumber *_parentViewPresentedOpacity = [NSNumber numberWithFloat:opacity];
+  objc_setAssociatedObject(self, &PARENT_VIEW_PRESENTED_OPACITY, _parentViewPresentedOpacity, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
 -(void)presentSemiViewController:(UIViewController*)vc {
   [self presentSemiView:vc.view];
 }
@@ -100,7 +120,7 @@
     // Begin overlay animation
     [ss.layer addAnimation:[self animationGroupForward:YES] forKey:@"pushedBackAnimation"];
     [UIView animateWithDuration:kSemiModalAnimationDuration animations:^{
-      ss.alpha = 0.5;
+      ss.alpha = self.parentViewPresentedOpacity; //0.5;
     }];
 
     // Present view animated
