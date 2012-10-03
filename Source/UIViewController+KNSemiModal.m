@@ -9,6 +9,65 @@
 #import "UIViewController+KNSemiModal.h"
 #import <QuartzCore/QuartzCore.h>
 
+
+@interface KNSemiModalBackground : UIWindow {
+@private
+  UIWindow *_previousKeyWindow;
+}
+
++ (KNSemiModalBackground *) sharedBackground;
+
+- (void)hide;
+- (void)show;
+
+@end
+
+@implementation KNSemiModalBackground
+
++ (KNSemiModalBackground*)sharedBackground
+{
+  static dispatch_once_t onceToken;
+  static KNSemiModalBackground* __sharedBackground;
+  dispatch_once(&onceToken, ^{
+    __sharedBackground = [[[self class] alloc] init];
+  });
+  return __sharedBackground;
+}
+
+- (id)init
+{
+  self = [super initWithFrame:[[UIScreen mainScreen] bounds]];
+  if (self) {
+    self.windowLevel = UIWindowLevelStatusBar;
+    self.userInteractionEnabled = NO;
+    self.hidden = YES;
+    self.backgroundColor = [UIColor clearColor];
+  }
+  return self;
+}
+
+- (void) show
+{
+  _previousKeyWindow = [[UIApplication sharedApplication] keyWindow];
+  self.hidden = NO;
+  self.userInteractionEnabled = YES;
+  [self makeKeyWindow];
+}
+
+- (void) hide
+{
+  for (UIView* view in self.subviews) {
+    [view removeFromSuperview];
+  }
+  
+  self.hidden = YES;
+  self.userInteractionEnabled = NO;
+  [_previousKeyWindow makeKeyWindow];
+  _previousKeyWindow = nil;
+}
+
+@end
+
 @interface UIViewController (KNSemiModalInternal)
 -(UIView*)parentTarget;
 -(CAAnimationGroup*)animationGroupForward:(BOOL)_forward delegate:(id)delegate;
@@ -72,19 +131,20 @@
   UIView * target = [self parentTarget];
   
   if (![target.window.subviews containsObject:view]) {
+    KNSemiModalBackground *modalBackground = [KNSemiModalBackground sharedBackground];
+
     // Calulate all frames
     CGRect sf = view.frame;
-    CGRect vf = target.window.frame;
+    CGRect vf = modalBackground.frame;
     CGRect f  = CGRectMake(0, vf.size.height-sf.size.height, vf.size.width, sf.size.height);
     CGRect bf = CGRectMake(0, 0, vf.size.width, vf.size.height-sf.size.height);
     CGRect of = CGRectMake(0, 0, vf.size.width, vf.size.height);
     
     // Add semi overlay
-    UIView * overlay = [[UIView alloc] initWithFrame:of];
+    UIView *overlay = [[UIView alloc] initWithFrame:of];
     overlay.backgroundColor = [UIColor blackColor];
     overlay.alpha = 0.0f;
-    overlay.layer.transform = CATransform3DMakeTranslation(0, 0, 200.0f);
-    [target.window addSubview:overlay];
+    [modalBackground addSubview:overlay];
     
     // Dismiss button
     // Don't use UITapGestureRecognizer to avoid complex handling
@@ -92,24 +152,23 @@
     [dismissButton addTarget:self action:@selector(dismissSemiModalView) forControlEvents:UIControlEventTouchUpInside];
     dismissButton.backgroundColor = [UIColor clearColor];
     dismissButton.frame = bf;
-    [overlay addSubview:dismissButton];
+    [modalBackground addSubview:dismissButton];
     
     // Begin overlay animation
     target.layer.shouldRasterize = YES;
     target.layer.rasterizationScale = [UIScreen mainScreen].scale*0.8f;
     [target.layer addAnimation:[self animationGroupForward:YES delegate:nil] forKey:@"pushedBackAnimation"];
     [UIView animateWithDuration:kSemiModalAnimationDuration animations:^{
-      overlay.alpha = 0.5;
+      overlay.alpha = 0.5f;
     }];
     
     // Present view animated
-    view.frame = CGRectMake(0, vf.size.height, vf.size.width, sf.size.height);
-    [target.window addSubview:view];
+    view.frame = CGRectMake(0, vf.size.height, vf.size.width, vf.size.height);
+    [modalBackground addSubview:view];
     view.layer.shadowColor = [[UIColor blackColor] CGColor];
     view.layer.shadowOffset = CGSizeMake(0, -2);
     view.layer.shadowRadius = 5.0;
     view.layer.shadowOpacity = 0.8;
-    view.layer.transform = CATransform3DMakeTranslation(0, 0, 200.0f);
     view.layer.shouldRasterize = YES;
     view.layer.rasterizationScale = [[UIScreen mainScreen] scale];
     UIBezierPath *path = [UIBezierPath bezierPathWithRect:view.bounds];
@@ -124,19 +183,22 @@
                                                             object:self];
       }
     }];
+    
+    [modalBackground show];
   }
 }
 
 -(void)dismissSemiModalView {
   UIView * target = [self parentTarget];
-  UIView * modal = [target.window.subviews objectAtIndex:target.window.subviews.count-1];
-  UIView * overlay = [target.window.subviews objectAtIndex:target.window.subviews.count-2];
+  
+  KNSemiModalBackground *modalBackground = [KNSemiModalBackground sharedBackground];
+  UIView * modal = [modalBackground.subviews objectAtIndex:modalBackground.subviews.count-1];
+  UIView * overlay = [modalBackground.subviews objectAtIndex:modalBackground.subviews.count-3];
   [UIView animateWithDuration:kSemiModalAnimationDuration animations:^{
-    modal.frame = CGRectMake(0, target.window.frame.size.height, modal.frame.size.width, modal.frame.size.height);
+    modal.frame = CGRectMake(0, modalBackground.frame.size.height, modal.frame.size.width, modal.frame.size.height);
     overlay.alpha = 0.0f;
   } completion:^(BOOL finished) {
-    [overlay removeFromSuperview];
-    [modal removeFromSuperview];
+    [modalBackground hide];
     if(finished){
       [[NSNotificationCenter defaultCenter] postNotificationName:kSemiModalDidHideNotification
                                                           object:self];
@@ -149,7 +211,9 @@
 
 - (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag {
   if (flag) {
-    self.view.layer.shouldRasterize = NO;
+    UIView * target = [self parentTarget];
+    target.layer.rasterizationScale = [UIScreen mainScreen].scale;
+    target.layer.shouldRasterize = NO;
   }
 }
 
