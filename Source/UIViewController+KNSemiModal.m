@@ -11,7 +11,7 @@
 
 @interface UIViewController (KNSemiModalInternal)
 -(UIView*)parentTarget;
--(CAAnimationGroup*)animationGroupForward:(BOOL)_forward;
+-(CAAnimationGroup*)animationGroupForward:(BOOL)_forward delegate:(id)delegate;
 @end
 
 @implementation UIViewController (KNSemiModalInternal)
@@ -25,7 +25,7 @@
   return target.view;
 }
 
--(CAAnimationGroup*)animationGroupForward:(BOOL)_forward {
+-(CAAnimationGroup*)animationGroupForward:(BOOL)_forward delegate:(id)delegate {
   // Create animation keys, forwards and backwards
   CATransform3D t1 = CATransform3DIdentity;
   t1.m34 = 1.0/-900;
@@ -54,6 +54,7 @@
   CAAnimationGroup *group = [CAAnimationGroup animation];
   group.fillMode = kCAFillModeForwards;
   group.removedOnCompletion = NO;
+  group.delegate = delegate;
   [group setDuration:animation.duration*2];
   [group setAnimations:[NSArray arrayWithObjects:animation,animation2, nil]];
   return group;
@@ -70,54 +71,54 @@
   // Determine target
   UIView * target = [self parentTarget];
   
-  if (![target.subviews containsObject:view]) {
+  if (![target.window.subviews containsObject:view]) {
     // Calulate all frames
     CGRect sf = view.frame;
-    CGRect vf = target.frame;
+    CGRect vf = target.window.frame;
     CGRect f  = CGRectMake(0, vf.size.height-sf.size.height, vf.size.width, sf.size.height);
-    CGRect of = CGRectMake(0, 0, vf.size.width, vf.size.height-sf.size.height);
-
-    // Add semi overlay
-    UIView * overlay = [[UIView alloc] initWithFrame:target.bounds];
-    overlay.backgroundColor = [UIColor blackColor];
+    CGRect bf = CGRectMake(0, 0, vf.size.width, vf.size.height-sf.size.height);
+    CGRect of = CGRectMake(0, 0, vf.size.width, vf.size.height);
     
-    // Take screenshot and scale
-    UIGraphicsBeginImageContextWithOptions(target.bounds.size, YES, [[UIScreen mainScreen] scale]);
-    [target.layer renderInContext:UIGraphicsGetCurrentContext()];
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIImageView * ss = [[UIImageView alloc] initWithImage:image];
-    [overlay addSubview:ss];
-    [target addSubview:overlay];
-
+    // Add semi overlay
+    UIView * overlay = [[UIView alloc] initWithFrame:of];
+    overlay.backgroundColor = [UIColor blackColor];
+    overlay.alpha = 0.0f;
+    overlay.layer.transform = CATransform3DMakeTranslation(0, 0, 200.0f);
+    [target.window addSubview:overlay];
+    
     // Dismiss button
     // Don't use UITapGestureRecognizer to avoid complex handling
     UIButton * dismissButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [dismissButton addTarget:self action:@selector(dismissSemiModalView) forControlEvents:UIControlEventTouchUpInside];
     dismissButton.backgroundColor = [UIColor clearColor];
-    dismissButton.frame = of;
+    dismissButton.frame = bf;
     [overlay addSubview:dismissButton];
-
+    
     // Begin overlay animation
-    [ss.layer addAnimation:[self animationGroupForward:YES] forKey:@"pushedBackAnimation"];
+    target.layer.shouldRasterize = YES;
+    target.layer.rasterizationScale = [UIScreen mainScreen].scale*0.8f;
+    [target.layer addAnimation:[self animationGroupForward:YES delegate:nil] forKey:@"pushedBackAnimation"];
     [UIView animateWithDuration:kSemiModalAnimationDuration animations:^{
-      ss.alpha = 0.5;
+      overlay.alpha = 0.5;
     }];
-
+    
     // Present view animated
     view.frame = CGRectMake(0, vf.size.height, vf.size.width, sf.size.height);
-    [target addSubview:view];
+    [target.window addSubview:view];
     view.layer.shadowColor = [[UIColor blackColor] CGColor];
     view.layer.shadowOffset = CGSizeMake(0, -2);
     view.layer.shadowRadius = 5.0;
     view.layer.shadowOpacity = 0.8;
+    view.layer.transform = CATransform3DMakeTranslation(0, 0, 200.0f);
     view.layer.shouldRasterize = YES;
     view.layer.rasterizationScale = [[UIScreen mainScreen] scale];
     UIBezierPath *path = [UIBezierPath bezierPathWithRect:view.bounds];
     view.layer.shadowPath = path.CGPath;
-
+    
     [UIView animateWithDuration:kSemiModalAnimationDuration animations:^{
       view.frame = f;
     } completion:^(BOOL finished) {
+      view.layer.shouldRasterize = NO;
       if(finished){
         [[NSNotificationCenter defaultCenter] postNotificationName:kSemiModalDidShowNotification
                                                             object:self];
@@ -128,36 +129,38 @@
 
 -(void)dismissSemiModalView {
   UIView * target = [self parentTarget];
-  UIView * modal = [target.subviews objectAtIndex:target.subviews.count-1];
-  UIView * overlay = [target.subviews objectAtIndex:target.subviews.count-2];
+  UIView * modal = [target.window.subviews objectAtIndex:target.window.subviews.count-1];
+  UIView * overlay = [target.window.subviews objectAtIndex:target.window.subviews.count-2];
   [UIView animateWithDuration:kSemiModalAnimationDuration animations:^{
-    modal.frame = CGRectMake(0, target.frame.size.height, modal.frame.size.width, modal.frame.size.height);
+    modal.frame = CGRectMake(0, target.window.frame.size.height, modal.frame.size.width, modal.frame.size.height);
+    overlay.alpha = 0.0f;
   } completion:^(BOOL finished) {
     [overlay removeFromSuperview];
     [modal removeFromSuperview];
-  }];
-
-  // Begin overlay animation
-  UIImageView * ss = (UIImageView*)[overlay.subviews objectAtIndex:0];
-  [ss.layer addAnimation:[self animationGroupForward:NO] forKey:@"bringForwardAnimation"];
-  [UIView animateWithDuration:kSemiModalAnimationDuration animations:^{
-    ss.alpha = 1;
-  } completion:^(BOOL finished) {
     if(finished){
       [[NSNotificationCenter defaultCenter] postNotificationName:kSemiModalDidHideNotification
                                                           object:self];
     }
   }];
+  
+  // Begin overlay animation
+  [target.layer addAnimation:[self animationGroupForward:NO delegate:self] forKey:@"bringForwardAnimation"];
+}
+
+- (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag {
+  if (flag) {
+    self.view.layer.shouldRasterize = NO;
+  }
 }
 
 - (void)resizeSemiView:(CGSize)newSize {
   UIView * target = [self parentTarget];
-  UIView * modal = [target.subviews objectAtIndex:target.subviews.count-1];
+  UIView * modal = [target.window.subviews objectAtIndex:target.window.subviews.count-1];
   CGRect mf = modal.frame;
   mf.size.width = newSize.width;
   mf.size.height = newSize.height;
-  mf.origin.y = target.frame.size.height - mf.size.height;
-  UIView * overlay = [target.subviews objectAtIndex:target.subviews.count-2];
+  mf.origin.y = target.window.frame.size.height - mf.size.height;
+  UIView * overlay = [target.window.subviews objectAtIndex:target.window.subviews.count-2];
   UIButton * button = [[overlay subviews] objectAtIndex:1];
   CGRect bf = button.frame;
   bf.size.height = overlay.frame.size.height - newSize.height;
