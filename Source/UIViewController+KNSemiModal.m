@@ -14,6 +14,7 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 	.animationDuration = @"KNSemiModalOptionAnimationDuration",
 	.pushParentBack = @"KNSemiModalOptionPushParentBack",
 	.parentAlpha = @"KNSemiModalOptionParentAlpha",
+	.shadowOpacity = @"KNSemiModalOptionShadowOpacity",
 };
 
 #define kSemiModalTransitionOptions @"kn_semiModalTransitionOptions"
@@ -42,6 +43,7 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 		KNSemiModalOptionKeys.animationDuration : @(0.5),
 		KNSemiModalOptionKeys.parentAlpha : @(0.5),
 		KNSemiModalOptionKeys.pushParentBack : @(YES),
+		KNSemiModalOptionKeys.shadowOpacity : @(0.8),
 	};
 	objc_setAssociatedObject(self, kSemiModalTransitionDefaults, defaults, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
@@ -155,7 +157,7 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
     view.layer.shadowColor = [[UIColor blackColor] CGColor];
     view.layer.shadowOffset = CGSizeMake(0, -2);
     view.layer.shadowRadius = 5.0;
-    view.layer.shadowOpacity = 0.2;
+    view.layer.shadowOpacity = [[self kn_optionsOrDefaultForKey:KNSemiModalOptionKeys.shadowOpacity] floatValue];
     view.layer.shouldRasterize = YES;
     view.layer.rasterizationScale = [[UIScreen mainScreen] scale];
     UIBezierPath *path = [UIBezierPath bezierPathWithRect:view.bounds];
