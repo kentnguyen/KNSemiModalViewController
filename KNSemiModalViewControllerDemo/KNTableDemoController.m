@@ -48,7 +48,7 @@
   [tableView deselectRowAtIndexPath:indexPath animated:NO];
 
   // You have to retain the ownership of ViewController that you are presenting
-  [self presentSemiViewController:modalVC];
+  [self presentSemiViewController:modalVC withOptions:@{ KNSemiModalOptionKeys.pushParentBack : @(NO) }];
   
   // The following code won't work
 //  KNModalTableViewController * vc = [[KNModalTableViewController alloc] initWithStyle:UITableViewStylePlain];

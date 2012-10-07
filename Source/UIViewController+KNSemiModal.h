@@ -10,7 +10,15 @@
 #define kSemiModalDidShowNotification @"kSemiModalDidShowNotification"
 #define kSemiModalDidHideNotification @"kSemiModalDidHideNotification"
 #define kSemiModalWasResizedNotification @"kSemiModalWasResizedNotification"
+
+extern const struct KNSemiModalOptionKeys {
+	__unsafe_unretained NSString *pushParentBack;		 // boxed BOOL. default is YES.
+} KNSemiModalOptionKeys;
+
 @interface UIViewController (KNSemiModal)
+
+-(void)presentSemiViewController:(UIViewController*)vc withOptions:(NSDictionary*)options;
+-(void)presentSemiView:(UIView*)view withOptions:(NSDictionary*)options;
 
 -(void)presentSemiViewController:(UIViewController*)vc;
 -(void)presentSemiView:(UIView*)vc;

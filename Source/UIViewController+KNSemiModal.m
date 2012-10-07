@@ -8,6 +8,13 @@
 
 #import "UIViewController+KNSemiModal.h"
 #import <QuartzCore/QuartzCore.h>
+#import <objc/runtime.h>
+
+const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
+	.pushParentBack = @"KNSemiModalOptionPushParentBack",
+};
+
+#define kSemiModalTransitionOptions @"kn_semiModalTransitionOptions"
 
 @interface UIViewController (KNSemiModalInternal)
 -(UIView*)parentTarget;
@@ -63,10 +70,18 @@
 @implementation UIViewController (KNSemiModal)
 
 -(void)presentSemiViewController:(UIViewController*)vc {
-  [self presentSemiView:vc.view];
+	[self presentSemiViewController:vc withOptions:nil];
 }
 
 -(void)presentSemiView:(UIView*)view {
+	[self presentSemiView:view withOptions:nil];
+}
+
+-(void)presentSemiViewController:(UIViewController*)vc withOptions:(NSDictionary*)options {
+  [self presentSemiView:vc.view withOptions:options];
+}
+
+-(void)presentSemiView:(UIView*)view withOptions:(NSDictionary*)options {
   // Determine target
   UIView * target = [self parentTarget];
   
@@ -98,7 +113,9 @@
     [overlay addSubview:dismissButton];
 
     // Begin overlay animation
-    [ss.layer addAnimation:[self animationGroupForward:YES] forKey:@"pushedBackAnimation"];
+		if (options == nil || [[options objectForKey:KNSemiModalOptionKeys.pushParentBack] boolValue] == YES) {
+			[ss.layer addAnimation:[self animationGroupForward:YES] forKey:@"pushedBackAnimation"];
+		}
     [UIView animateWithDuration:kSemiModalAnimationDuration animations:^{
       ss.alpha = 0.5;
     }];
@@ -123,10 +140,15 @@
                                                             object:self];
       }
     }];
+		
+		// Remember transition options for symmetrical dismiss transition
+		objc_setAssociatedObject(self, kSemiModalTransitionOptions, options, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
   }
 }
 
 -(void)dismissSemiModalView {
+	NSDictionary *options = objc_getAssociatedObject(self, kSemiModalTransitionOptions);
+	
   UIView * target = [self parentTarget];
   UIView * modal = [target.subviews objectAtIndex:target.subviews.count-1];
   UIView * overlay = [target.subviews objectAtIndex:target.subviews.count-2];
@@ -139,7 +161,9 @@
 
   // Begin overlay animation
   UIImageView * ss = (UIImageView*)[overlay.subviews objectAtIndex:0];
-  [ss.layer addAnimation:[self animationGroupForward:NO] forKey:@"bringForwardAnimation"];
+	if (options == nil || [[options objectForKey:KNSemiModalOptionKeys.pushParentBack] boolValue] == YES) {
+		[ss.layer addAnimation:[self animationGroupForward:NO] forKey:@"bringForwardAnimation"];
+	}
   [UIView animateWithDuration:kSemiModalAnimationDuration animations:^{
     ss.alpha = 1;
   } completion:^(BOOL finished) {
