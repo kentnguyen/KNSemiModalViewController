@@ -1,3 +1,20 @@
+This fork lets code clients configure parameters through an `options` dictionary.
+
+Currently supports configuring the following:
+
+- animation duration
+- parent alpha
+- optional push-back
+- shadow opacity
+
+Easily extend this to anything you would want to make configurable. Feel free to submit pull requests.
+
+Twitter: [@yangmeyer](http://twitter.com/yangmeyer)  
+App.net: [@yangmeyer](https://alpha.app.net/yangmeyer)  
+[hello@yangmeyer.de](mailto:hello@yangmeyer.de)
+
+---------
+
 ## UIViewController+KNSemiModal Category
 
 UIViewController+KNSemiModal is an effort to make a replica of **semi-modal view with pushed-back stacked animation** found in the beautiful [Park Guides by National Geographic](http://itunes.apple.com/us/app/national-parks-by-national/id518426085?mt=8) app. You can see this original semi-modal view below.
