@@ -11,10 +11,12 @@
 #import <objc/runtime.h>
 
 const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
+	.animationDuration = @"KNSemiModalOptionAnimationDuration",
 	.pushParentBack = @"KNSemiModalOptionPushParentBack",
 };
 
 #define kSemiModalTransitionOptions @"kn_semiModalTransitionOptions"
+#define kSemiModalDefaultAnimationDuration 0.5
 
 @interface UIViewController (KNSemiModalInternal)
 -(UIView*)parentTarget;
@@ -32,6 +34,23 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
   return target.view;
 }
 
+#pragma mark Options accessors
+
+-(double)kn_optionsDurationOrDefault {
+	NSDictionary *options = objc_getAssociatedObject(self, kSemiModalTransitionOptions);
+	return [([options objectForKey:KNSemiModalOptionKeys.animationDuration]
+					 ?: @(kSemiModalDefaultAnimationDuration)) doubleValue];
+}
+
+-(BOOL)kn_optionsPushParentBackOrDefault {
+	NSDictionary *options = objc_getAssociatedObject(self, kSemiModalTransitionOptions);
+	if (options == nil || [options objectForKey:KNSemiModalOptionKeys.pushParentBack] == nil) {
+		return NO; // default - options dict or key not set
+	} else {
+		return [[options objectForKey:KNSemiModalOptionKeys.pushParentBack] boolValue];
+	}
+}
+
 -(CAAnimationGroup*)animationGroupForward:(BOOL)_forward {
   // Create animation keys, forwards and backwards
   CATransform3D t1 = CATransform3DIdentity;
@@ -46,7 +65,8 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 
   CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform"];
   animation.toValue = [NSValue valueWithCATransform3D:t1];
-  animation.duration = kSemiModalAnimationDuration/2;
+	CFTimeInterval duration = [self kn_optionsDurationOrDefault];
+  animation.duration = duration/2;
   animation.fillMode = kCAFillModeForwards;
   animation.removedOnCompletion = NO;
   [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
@@ -84,8 +104,11 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 -(void)presentSemiView:(UIView*)view withOptions:(NSDictionary*)options {
   // Determine target
   UIView * target = [self parentTarget];
-  
+	
   if (![target.subviews containsObject:view]) {
+		// Remember transition options for symmetrical dismiss transition
+		objc_setAssociatedObject(self, kSemiModalTransitionOptions, options, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+		
     // Calulate all frames
     CGRect sf = view.frame;
     CGRect vf = target.frame;
@@ -113,10 +136,11 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
     [overlay addSubview:dismissButton];
 
     // Begin overlay animation
-		if (options == nil || [[options objectForKey:KNSemiModalOptionKeys.pushParentBack] boolValue] == YES) {
+		if ([self kn_optionsPushParentBackOrDefault]) {
 			[ss.layer addAnimation:[self animationGroupForward:YES] forKey:@"pushedBackAnimation"];
 		}
-    [UIView animateWithDuration:kSemiModalAnimationDuration animations:^{
+		NSTimeInterval duration = [self kn_optionsDurationOrDefault];
+    [UIView animateWithDuration:duration animations:^{
       ss.alpha = 0.5;
     }];
 
@@ -132,7 +156,7 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
     UIBezierPath *path = [UIBezierPath bezierPathWithRect:view.bounds];
     view.layer.shadowPath = path.CGPath;
 
-    [UIView animateWithDuration:kSemiModalAnimationDuration animations:^{
+    [UIView animateWithDuration:duration animations:^{
       view.frame = f;
     } completion:^(BOOL finished) {
       if(finished){
@@ -140,19 +164,15 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
                                                             object:self];
       }
     }];
-		
-		// Remember transition options for symmetrical dismiss transition
-		objc_setAssociatedObject(self, kSemiModalTransitionOptions, options, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
   }
 }
 
 -(void)dismissSemiModalView {
-	NSDictionary *options = objc_getAssociatedObject(self, kSemiModalTransitionOptions);
-	
   UIView * target = [self parentTarget];
   UIView * modal = [target.subviews objectAtIndex:target.subviews.count-1];
   UIView * overlay = [target.subviews objectAtIndex:target.subviews.count-2];
-  [UIView animateWithDuration:kSemiModalAnimationDuration animations:^{
+	NSTimeInterval duration = [self kn_optionsDurationOrDefault];
+	[UIView animateWithDuration:duration animations:^{
     modal.frame = CGRectMake(0, target.frame.size.height, modal.frame.size.width, modal.frame.size.height);
   } completion:^(BOOL finished) {
     [overlay removeFromSuperview];
@@ -161,10 +181,10 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 
   // Begin overlay animation
   UIImageView * ss = (UIImageView*)[overlay.subviews objectAtIndex:0];
-	if (options == nil || [[options objectForKey:KNSemiModalOptionKeys.pushParentBack] boolValue] == YES) {
+	if ([self kn_optionsPushParentBackOrDefault]) {
 		[ss.layer addAnimation:[self animationGroupForward:NO] forKey:@"bringForwardAnimation"];
 	}
-  [UIView animateWithDuration:kSemiModalAnimationDuration animations:^{
+  [UIView animateWithDuration:duration animations:^{
     ss.alpha = 1;
   } completion:^(BOOL finished) {
     if(finished){
@@ -185,7 +205,7 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
   UIButton * button = [[overlay subviews] objectAtIndex:1];
   CGRect bf = button.frame;
   bf.size.height = overlay.frame.size.height - newSize.height;
-  [UIView animateWithDuration:kSemiModalAnimationDuration animations:^{
+	[UIView animateWithDuration:[self kn_optionsDurationOrDefault] animations:^{
     modal.frame = mf;
     button.frame = bf;
   } completion:^(BOOL finished) {

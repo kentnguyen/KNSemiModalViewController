@@ -6,12 +6,12 @@
 //  Copyright (c) 2012 Kent Nguyen. All rights reserved.
 //
 
-#define kSemiModalAnimationDuration   0.5
 #define kSemiModalDidShowNotification @"kSemiModalDidShowNotification"
 #define kSemiModalDidHideNotification @"kSemiModalDidHideNotification"
 #define kSemiModalWasResizedNotification @"kSemiModalWasResizedNotification"
 
 extern const struct KNSemiModalOptionKeys {
+	__unsafe_unretained NSString *animationDuration; // boxed double, in seconds. default is 0.5.
 	__unsafe_unretained NSString *pushParentBack;		 // boxed BOOL. default is YES.
 } KNSemiModalOptionKeys;
 

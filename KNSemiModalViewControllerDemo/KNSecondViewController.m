@@ -44,7 +44,10 @@
 
   // You can also present a UIViewController with complex views in it
   // and optionally containing an explicit dismiss button for semi modal
-  [self presentSemiViewController:semiVC withOptions:@{ KNSemiModalOptionKeys.pushParentBack : @(YES) }];
+  [self presentSemiViewController:semiVC withOptions:@{
+		 KNSemiModalOptionKeys.pushParentBack : @(YES),
+		 KNSemiModalOptionKeys.animationDuration : @(2.0)
+	 }];
 
 }
 
