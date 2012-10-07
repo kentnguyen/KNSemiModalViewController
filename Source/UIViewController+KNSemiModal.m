@@ -17,8 +17,7 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 };
 
 #define kSemiModalTransitionOptions @"kn_semiModalTransitionOptions"
-#define kSemiModalDefaultAnimationDuration 0.5
-#define kSemiModalDefaultOverlayAlpha 0.5
+#define kSemiModalTransitionDefaults @"kn_semiModalTransitionDefaults"
 
 @interface UIViewController (KNSemiModalInternal)
 -(UIView*)parentTarget;
@@ -36,28 +35,25 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
   return target.view;
 }
 
-#pragma mark Options accessors
+#pragma mark Options and defaults
 
--(double)kn_optionsDurationOrDefault {
-	NSDictionary *options = objc_getAssociatedObject(self, kSemiModalTransitionOptions);
-	return [([options objectForKey:KNSemiModalOptionKeys.animationDuration]
-					 ?: @(kSemiModalDefaultAnimationDuration)) doubleValue];
+-(void)kn_registerTransitionDefaults {
+	NSDictionary *defaults = @{
+		KNSemiModalOptionKeys.animationDuration : @(0.5),
+		KNSemiModalOptionKeys.parentAlpha : @(0.5),
+		KNSemiModalOptionKeys.pushParentBack : @(YES),
+	};
+	objc_setAssociatedObject(self, kSemiModalTransitionDefaults, defaults, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
--(BOOL)kn_optionsPushParentBackOrDefault {
+-(id)kn_optionsOrDefaultForKey:(NSString*)optionKey {
 	NSDictionary *options = objc_getAssociatedObject(self, kSemiModalTransitionOptions);
-	if (options == nil || [options objectForKey:KNSemiModalOptionKeys.pushParentBack] == nil) {
-		return NO; // default - options dict or key not set
-	} else {
-		return [[options objectForKey:KNSemiModalOptionKeys.pushParentBack] boolValue];
-	}
+	NSDictionary *defaults = objc_getAssociatedObject(self, kSemiModalTransitionDefaults);
+	NSAssert(defaults, @"Defaults must have been set when accessing options.");
+	return options[optionKey] ?: defaults[optionKey];
 }
 
--(CGFloat)kn_optionsParentAlphaOrDefault {
-	NSDictionary *options = objc_getAssociatedObject(self, kSemiModalTransitionOptions);
-	return [([options objectForKey:KNSemiModalOptionKeys.parentAlpha]
-					 ?: @(kSemiModalDefaultOverlayAlpha)) floatValue];
-}
+#pragma mark Push-back animation group
 
 -(CAAnimationGroup*)animationGroupForward:(BOOL)_forward {
   // Create animation keys, forwards and backwards
@@ -73,7 +69,7 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 
   CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform"];
   animation.toValue = [NSValue valueWithCATransform3D:t1];
-	CFTimeInterval duration = [self kn_optionsDurationOrDefault];
+	CFTimeInterval duration = [[self kn_optionsOrDefaultForKey:KNSemiModalOptionKeys.animationDuration] doubleValue];
   animation.duration = duration/2;
   animation.fillMode = kCAFillModeForwards;
   animation.removedOnCompletion = NO;
@@ -116,6 +112,7 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
   if (![target.subviews containsObject:view]) {
 		// Remember transition options for symmetrical dismiss transition
 		objc_setAssociatedObject(self, kSemiModalTransitionOptions, options, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+		[self kn_registerTransitionDefaults];
 		
     // Calulate all frames
     CGRect sf = view.frame;
@@ -144,12 +141,12 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
     [overlay addSubview:dismissButton];
 
     // Begin overlay animation
-		if ([self kn_optionsPushParentBackOrDefault]) {
+		if ([[self kn_optionsOrDefaultForKey:KNSemiModalOptionKeys.pushParentBack] boolValue]) {
 			[ss.layer addAnimation:[self animationGroupForward:YES] forKey:@"pushedBackAnimation"];
 		}
-		NSTimeInterval duration = [self kn_optionsDurationOrDefault];
+		NSTimeInterval duration = [[self kn_optionsOrDefaultForKey:KNSemiModalOptionKeys.animationDuration] doubleValue];
     [UIView animateWithDuration:duration animations:^{
-      ss.alpha = [self kn_optionsParentAlphaOrDefault];
+      ss.alpha = [[self kn_optionsOrDefaultForKey:KNSemiModalOptionKeys.parentAlpha] floatValue];
     }];
 
     // Present view animated
@@ -158,7 +155,7 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
     view.layer.shadowColor = [[UIColor blackColor] CGColor];
     view.layer.shadowOffset = CGSizeMake(0, -2);
     view.layer.shadowRadius = 5.0;
-    view.layer.shadowOpacity = 0.8;
+    view.layer.shadowOpacity = 0.2;
     view.layer.shouldRasterize = YES;
     view.layer.rasterizationScale = [[UIScreen mainScreen] scale];
     UIBezierPath *path = [UIBezierPath bezierPathWithRect:view.bounds];
@@ -179,7 +176,7 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
   UIView * target = [self parentTarget];
   UIView * modal = [target.subviews objectAtIndex:target.subviews.count-1];
   UIView * overlay = [target.subviews objectAtIndex:target.subviews.count-2];
-	NSTimeInterval duration = [self kn_optionsDurationOrDefault];
+	NSTimeInterval duration = [[self kn_optionsOrDefaultForKey:KNSemiModalOptionKeys.animationDuration] doubleValue];
 	[UIView animateWithDuration:duration animations:^{
     modal.frame = CGRectMake(0, target.frame.size.height, modal.frame.size.width, modal.frame.size.height);
   } completion:^(BOOL finished) {
@@ -189,7 +186,7 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 
   // Begin overlay animation
   UIImageView * ss = (UIImageView*)[overlay.subviews objectAtIndex:0];
-	if ([self kn_optionsPushParentBackOrDefault]) {
+	if ([[self kn_optionsOrDefaultForKey:KNSemiModalOptionKeys.pushParentBack] boolValue]) {
 		[ss.layer addAnimation:[self animationGroupForward:NO] forKey:@"bringForwardAnimation"];
 	}
   [UIView animateWithDuration:duration animations:^{
@@ -213,7 +210,8 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
   UIButton * button = [[overlay subviews] objectAtIndex:1];
   CGRect bf = button.frame;
   bf.size.height = overlay.frame.size.height - newSize.height;
-	[UIView animateWithDuration:[self kn_optionsDurationOrDefault] animations:^{
+	NSTimeInterval duration = [[self kn_optionsOrDefaultForKey:KNSemiModalOptionKeys.animationDuration] doubleValue];
+	[UIView animateWithDuration:duration animations:^{
     modal.frame = mf;
     button.frame = bf;
   } completion:^(BOOL finished) {
