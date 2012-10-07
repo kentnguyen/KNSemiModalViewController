@@ -13,6 +13,8 @@
 extern const struct KNSemiModalOptionKeys {
 	__unsafe_unretained NSString *animationDuration; // boxed double, in seconds. default is 0.5.
 	__unsafe_unretained NSString *pushParentBack;		 // boxed BOOL. default is YES.
+	__unsafe_unretained NSString *parentAlpha;       // boxed float. lower is darker. default is 0.5.
+
 } KNSemiModalOptionKeys;
 
 @interface UIViewController (KNSemiModal)

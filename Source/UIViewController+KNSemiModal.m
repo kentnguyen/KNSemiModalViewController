@@ -13,10 +13,12 @@
 const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 	.animationDuration = @"KNSemiModalOptionAnimationDuration",
 	.pushParentBack = @"KNSemiModalOptionPushParentBack",
+	.parentAlpha = @"KNSemiModalOptionParentAlpha",
 };
 
 #define kSemiModalTransitionOptions @"kn_semiModalTransitionOptions"
 #define kSemiModalDefaultAnimationDuration 0.5
+#define kSemiModalDefaultOverlayAlpha 0.5
 
 @interface UIViewController (KNSemiModalInternal)
 -(UIView*)parentTarget;
@@ -49,6 +51,12 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 	} else {
 		return [[options objectForKey:KNSemiModalOptionKeys.pushParentBack] boolValue];
 	}
+}
+
+-(CGFloat)kn_optionsParentAlphaOrDefault {
+	NSDictionary *options = objc_getAssociatedObject(self, kSemiModalTransitionOptions);
+	return [([options objectForKey:KNSemiModalOptionKeys.parentAlpha]
+					 ?: @(kSemiModalDefaultOverlayAlpha)) floatValue];
 }
 
 -(CAAnimationGroup*)animationGroupForward:(BOOL)_forward {
@@ -141,7 +149,7 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 		}
 		NSTimeInterval duration = [self kn_optionsDurationOrDefault];
     [UIView animateWithDuration:duration animations:^{
-      ss.alpha = 0.5;
+      ss.alpha = [self kn_optionsParentAlphaOrDefault];
     }];
 
     // Present view animated
