@@ -8,6 +8,17 @@
 
 #import "UIViewController+KNSemiModal.h"
 #import <QuartzCore/QuartzCore.h>
+#import <objc/runtime.h>
+
+const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
+	.animationDuration = @"KNSemiModalOptionAnimationDuration",
+	.pushParentBack = @"KNSemiModalOptionPushParentBack",
+	.parentAlpha = @"KNSemiModalOptionParentAlpha",
+	.shadowOpacity = @"KNSemiModalOptionShadowOpacity",
+};
+
+#define kSemiModalTransitionOptions @"kn_semiModalTransitionOptions"
+#define kSemiModalTransitionDefaults @"kn_semiModalTransitionDefaults"
 
 @interface UIViewController (KNSemiModalInternal)
 -(UIView*)parentTarget;
@@ -25,6 +36,27 @@
   return target.view;
 }
 
+#pragma mark Options and defaults
+
+-(void)kn_registerTransitionDefaults {
+	NSDictionary *defaults = @{
+		KNSemiModalOptionKeys.animationDuration : @(0.5),
+		KNSemiModalOptionKeys.parentAlpha : @(0.5),
+		KNSemiModalOptionKeys.pushParentBack : @(YES),
+		KNSemiModalOptionKeys.shadowOpacity : @(0.8),
+	};
+	objc_setAssociatedObject(self, kSemiModalTransitionDefaults, defaults, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+-(id)kn_optionsOrDefaultForKey:(NSString*)optionKey {
+	NSDictionary *options = objc_getAssociatedObject(self, kSemiModalTransitionOptions);
+	NSDictionary *defaults = objc_getAssociatedObject(self, kSemiModalTransitionDefaults);
+	NSAssert(defaults, @"Defaults must have been set when accessing options.");
+	return options[optionKey] ?: defaults[optionKey];
+}
+
+#pragma mark Push-back animation group
+
 -(CAAnimationGroup*)animationGroupForward:(BOOL)_forward {
   // Create animation keys, forwards and backwards
   CATransform3D t1 = CATransform3DIdentity;
@@ -39,7 +71,8 @@
 
   CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform"];
   animation.toValue = [NSValue valueWithCATransform3D:t1];
-  animation.duration = kSemiModalAnimationDuration/2;
+	CFTimeInterval duration = [[self kn_optionsOrDefaultForKey:KNSemiModalOptionKeys.animationDuration] doubleValue];
+  animation.duration = duration/2;
   animation.fillMode = kCAFillModeForwards;
   animation.removedOnCompletion = NO;
   [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
@@ -63,17 +96,29 @@
 @implementation UIViewController (KNSemiModal)
 
 -(void)presentSemiViewController:(UIViewController*)vc {
-  [self presentSemiView:vc.view];
+	[self presentSemiViewController:vc withOptions:nil];
 }
 
 -(void)presentSemiView:(UIView*)view {
+	[self presentSemiView:view withOptions:nil];
+}
+
+-(void)presentSemiViewController:(UIViewController*)vc withOptions:(NSDictionary*)options {
+  [self presentSemiView:vc.view withOptions:options];
+}
+
+-(void)presentSemiView:(UIView*)view withOptions:(NSDictionary*)options {
   // Determine target
   UIView * target = [self parentTarget];
-  
+	
   if (![target.subviews containsObject:view]) {
+		// Remember transition options for symmetrical dismiss transition
+		objc_setAssociatedObject(self, kSemiModalTransitionOptions, options, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+		[self kn_registerTransitionDefaults];
+		
     // Calulate all frames
     CGRect sf = view.frame;
-    CGRect vf = target.frame;
+    CGRect vf = target.bounds;
     CGRect f  = CGRectMake(0, vf.size.height-sf.size.height, vf.size.width, sf.size.height);
     CGRect of = CGRectMake(0, 0, vf.size.width, vf.size.height-sf.size.height);
 
@@ -98,9 +143,12 @@
     [overlay addSubview:dismissButton];
 
     // Begin overlay animation
-    [ss.layer addAnimation:[self animationGroupForward:YES] forKey:@"pushedBackAnimation"];
-    [UIView animateWithDuration:kSemiModalAnimationDuration animations:^{
-      ss.alpha = 0.5;
+		if ([[self kn_optionsOrDefaultForKey:KNSemiModalOptionKeys.pushParentBack] boolValue]) {
+			[ss.layer addAnimation:[self animationGroupForward:YES] forKey:@"pushedBackAnimation"];
+		}
+		NSTimeInterval duration = [[self kn_optionsOrDefaultForKey:KNSemiModalOptionKeys.animationDuration] doubleValue];
+    [UIView animateWithDuration:duration animations:^{
+      ss.alpha = [[self kn_optionsOrDefaultForKey:KNSemiModalOptionKeys.parentAlpha] floatValue];
     }];
 
     // Present view animated
@@ -109,13 +157,13 @@
     view.layer.shadowColor = [[UIColor blackColor] CGColor];
     view.layer.shadowOffset = CGSizeMake(0, -2);
     view.layer.shadowRadius = 5.0;
-    view.layer.shadowOpacity = 0.8;
+    view.layer.shadowOpacity = [[self kn_optionsOrDefaultForKey:KNSemiModalOptionKeys.shadowOpacity] floatValue];
     view.layer.shouldRasterize = YES;
     view.layer.rasterizationScale = [[UIScreen mainScreen] scale];
     UIBezierPath *path = [UIBezierPath bezierPathWithRect:view.bounds];
     view.layer.shadowPath = path.CGPath;
 
-    [UIView animateWithDuration:kSemiModalAnimationDuration animations:^{
+    [UIView animateWithDuration:duration animations:^{
       view.frame = f;
     } completion:^(BOOL finished) {
       if(finished){
@@ -127,10 +175,15 @@
 }
 
 -(void)dismissSemiModalView {
+	[self dismissSemiModalViewWithCompletion:nil];
+}
+
+-(void)dismissSemiModalViewWithCompletion:(void (^)(void))completion {
   UIView * target = [self parentTarget];
   UIView * modal = [target.subviews objectAtIndex:target.subviews.count-1];
   UIView * overlay = [target.subviews objectAtIndex:target.subviews.count-2];
-  [UIView animateWithDuration:kSemiModalAnimationDuration animations:^{
+	NSTimeInterval duration = [[self kn_optionsOrDefaultForKey:KNSemiModalOptionKeys.animationDuration] doubleValue];
+	[UIView animateWithDuration:duration animations:^{
     modal.frame = CGRectMake(0, target.frame.size.height, modal.frame.size.width, modal.frame.size.height);
   } completion:^(BOOL finished) {
     [overlay removeFromSuperview];
@@ -139,13 +192,18 @@
 
   // Begin overlay animation
   UIImageView * ss = (UIImageView*)[overlay.subviews objectAtIndex:0];
-  [ss.layer addAnimation:[self animationGroupForward:NO] forKey:@"bringForwardAnimation"];
-  [UIView animateWithDuration:kSemiModalAnimationDuration animations:^{
+	if ([[self kn_optionsOrDefaultForKey:KNSemiModalOptionKeys.pushParentBack] boolValue]) {
+		[ss.layer addAnimation:[self animationGroupForward:NO] forKey:@"bringForwardAnimation"];
+	}
+  [UIView animateWithDuration:duration animations:^{
     ss.alpha = 1;
   } completion:^(BOOL finished) {
     if(finished){
       [[NSNotificationCenter defaultCenter] postNotificationName:kSemiModalDidHideNotification
                                                           object:self];
+		if (completion) {
+			completion();
+		}
     }
   }];
 }
@@ -161,7 +219,8 @@
   UIButton * button = [[overlay subviews] objectAtIndex:1];
   CGRect bf = button.frame;
   bf.size.height = overlay.frame.size.height - newSize.height;
-  [UIView animateWithDuration:kSemiModalAnimationDuration animations:^{
+	NSTimeInterval duration = [[self kn_optionsOrDefaultForKey:KNSemiModalOptionKeys.animationDuration] doubleValue];
+	[UIView animateWithDuration:duration animations:^{
     modal.frame = mf;
     button.frame = bf;
   } completion:^(BOOL finished) {
