@@ -18,17 +18,19 @@ extern const struct KNSemiModalOptionKeys {
 
 } KNSemiModalOptionKeys;
 
+typedef void (^KNTransitionCompletionBlock)(void);
+
 @interface UIViewController (KNSemiModal)
 
--(void)presentSemiViewController:(UIViewController*)vc withOptions:(NSDictionary*)options;
--(void)presentSemiView:(UIView*)view withOptions:(NSDictionary*)options;
+-(void)presentSemiViewController:(UIViewController*)vc withOptions:(NSDictionary*)options completion:(void (^)(void))completion;
+-(void)presentSemiView:(UIView*)view withOptions:(NSDictionary*)options completion:(KNTransitionCompletionBlock)completion;
 
 -(void)presentSemiViewController:(UIViewController*)vc;
 -(void)presentSemiView:(UIView*)vc;
 -(void)dismissSemiModalView;
 -(void)resizeSemiView:(CGSize)newSize;
 
--(void)dismissSemiModalViewWithCompletion:(void (^)(void))completion;
+-(void)dismissSemiModalViewWithCompletion:(KNTransitionCompletionBlock)completion;
 
 @end
 

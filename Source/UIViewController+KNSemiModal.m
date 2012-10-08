@@ -19,6 +19,7 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 
 #define kSemiModalTransitionOptions @"kn_semiModalTransitionOptions"
 #define kSemiModalTransitionDefaults @"kn_semiModalTransitionDefaults"
+#define kSemiModalViewController @"kn_semiModalSemiModalViewController"
 
 @interface UIViewController (KNSemiModalInternal)
 -(UIView*)parentTarget;
@@ -27,13 +28,16 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 
 @implementation UIViewController (KNSemiModalInternal)
 
+-(UIViewController*)kn_parentTargetViewController {
+	// To make it work with UINav & UITabbar as well
+	UIViewController * target = self;
+	while (target.parentViewController != nil) {
+		target = target.parentViewController;
+	}
+	return target;
+}
 -(UIView*)parentTarget {
-  // To make it work with UINav & UITabbar as well
-  UIViewController * target = self;
-  while (target.parentViewController != nil) {
-    target = target.parentViewController;
-  }
-  return target.view;
+  return [self kn_parentTargetViewController].view;
 }
 
 #pragma mark Options and defaults
@@ -96,18 +100,37 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 @implementation UIViewController (KNSemiModal)
 
 -(void)presentSemiViewController:(UIViewController*)vc {
-	[self presentSemiViewController:vc withOptions:nil];
+	[self presentSemiViewController:vc withOptions:nil completion:nil];
 }
 
 -(void)presentSemiView:(UIView*)view {
-	[self presentSemiView:view withOptions:nil];
+	[self presentSemiView:view withOptions:nil completion:nil];
 }
 
--(void)presentSemiViewController:(UIViewController*)vc withOptions:(NSDictionary*)options {
-  [self presentSemiView:vc.view withOptions:options];
+-(void)presentSemiViewController:(UIViewController*)vc
+					 withOptions:(NSDictionary*)options
+					  completion:(KNTransitionCompletionBlock)completion {
+	UIViewController *targetParentVC = [self kn_parentTargetViewController];
+	// implement view controller containment for the semi-modal view controller
+	[targetParentVC addChildViewController:vc];
+	if ([vc respondsToSelector:@selector(beginAppearanceTransition:animated:)]) {
+		[vc beginAppearanceTransition:YES animated:YES]; // iOS 6
+	}
+	objc_setAssociatedObject(self, kSemiModalViewController, vc, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+	[self presentSemiView:vc.view withOptions:options completion:^{
+		[vc didMoveToParentViewController:targetParentVC];
+		if ([vc respondsToSelector:@selector(endAppearanceTransition)]) {
+			[vc endAppearanceTransition]; // iOS 6
+		}
+		if (completion) {
+			completion();
+		}
+	}];
 }
 
--(void)presentSemiView:(UIView*)view withOptions:(NSDictionary*)options {
+-(void)presentSemiView:(UIView*)view
+		   withOptions:(NSDictionary*)options
+			completion:(KNTransitionCompletionBlock)completion {
   // Determine target
   UIView * target = [self parentTarget];
 	
@@ -169,6 +192,9 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
       if(finished){
         [[NSNotificationCenter defaultCenter] postNotificationName:kSemiModalDidShowNotification
                                                             object:self];
+		  if (completion) {
+			  completion();
+		  }
       }
     }];
   }
@@ -183,11 +209,26 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
   UIView * modal = [target.subviews objectAtIndex:target.subviews.count-1];
   UIView * overlay = [target.subviews objectAtIndex:target.subviews.count-2];
 	NSTimeInterval duration = [[self kn_optionsOrDefaultForKey:KNSemiModalOptionKeys.animationDuration] doubleValue];
-	[UIView animateWithDuration:duration animations:^{
-    modal.frame = CGRectMake(0, target.frame.size.height, modal.frame.size.width, modal.frame.size.height);
+	UIViewController *vc = objc_getAssociatedObject(self, kSemiModalViewController);
+	
+	// child controller containment
+	[vc willMoveToParentViewController:nil];
+	if ([vc respondsToSelector:@selector(beginAppearanceTransition:animated:)]) {
+		[vc beginAppearanceTransition:NO animated:YES]; // iOS 6
+	}
+	
+  [UIView animateWithDuration:duration animations:^{
+	modal.frame = CGRectMake(0, target.frame.size.height, modal.frame.size.width, modal.frame.size.height);
   } completion:^(BOOL finished) {
-    [overlay removeFromSuperview];
-    [modal removeFromSuperview];
+	  [overlay removeFromSuperview];
+	  [modal removeFromSuperview];
+	  
+	  // child controller containment
+	  [vc removeFromParentViewController];
+	  if ([vc respondsToSelector:@selector(endAppearanceTransition)]) {
+		  [vc endAppearanceTransition];
+	  }
+	  objc_setAssociatedObject(self, kSemiModalViewController, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
   }];
 
   // Begin overlay animation
