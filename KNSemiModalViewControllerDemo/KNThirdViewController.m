@@ -22,10 +22,10 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   
-  dismissButton.layer.cornerRadius = 10.0f;
+  dismissButton.layer.cornerRadius  = 10.0f;
   dismissButton.layer.masksToBounds = YES;
-  resizeButton.layer.cornerRadius = 10.0f;
-  resizeButton.layer.masksToBounds = YES;
+  resizeButton.layer.cornerRadius   = 10.0f;
+  resizeButton.layer.masksToBounds  = YES;
 }
 
 - (void)viewDidUnload {
