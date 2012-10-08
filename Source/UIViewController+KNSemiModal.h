@@ -28,6 +28,8 @@ extern const struct KNSemiModalOptionKeys {
 -(void)dismissSemiModalView;
 -(void)resizeSemiView:(CGSize)newSize;
 
+-(void)dismissSemiModalViewWithCompletion:(void (^)(void))completion;
+
 @end
 
 // Convenient category method to find actual ViewController that contains a view

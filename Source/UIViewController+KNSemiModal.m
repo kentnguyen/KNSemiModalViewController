@@ -175,6 +175,10 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 }
 
 -(void)dismissSemiModalView {
+	[self dismissSemiModalViewWithCompletion:nil];
+}
+
+-(void)dismissSemiModalViewWithCompletion:(void (^)(void))completion {
   UIView * target = [self parentTarget];
   UIView * modal = [target.subviews objectAtIndex:target.subviews.count-1];
   UIView * overlay = [target.subviews objectAtIndex:target.subviews.count-2];
@@ -197,6 +201,9 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
     if(finished){
       [[NSNotificationCenter defaultCenter] postNotificationName:kSemiModalDidHideNotification
                                                           object:self];
+		if (completion) {
+			completion();
+		}
     }
   }];
 }
