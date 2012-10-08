@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8B1A183716225DE400EDF2B0 /* first.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B1A183016225DE400EDF2B0 /* first.png */; };
+		8B1A183816225DE400EDF2B0 /* first@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B1A183116225DE400EDF2B0 /* first@2x.png */; };
+		8B1A183916225DE400EDF2B0 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B1A183216225DE400EDF2B0 /* Icon.png */; };
+		8B1A183A16225DE400EDF2B0 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B1A183316225DE400EDF2B0 /* Icon@2x.png */; };
+		8B1A183B16225DE400EDF2B0 /* second.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B1A183416225DE400EDF2B0 /* second.png */; };
+		8B1A183C16225DE400EDF2B0 /* second@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B1A183516225DE400EDF2B0 /* second@2x.png */; };
+		8B1A183D16225DE400EDF2B0 /* temp.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8B1A183616225DE400EDF2B0 /* temp.jpg */; };
+		8B1A184116225E5700EDF2B0 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B1A183E16225E5700EDF2B0 /* Default-568h@2x.png */; };
+		8B1A184216225E5700EDF2B0 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B1A183F16225E5700EDF2B0 /* Default.png */; };
+		8B1A184316225E5700EDF2B0 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B1A184016225E5700EDF2B0 /* Default@2x.png */; };
 		8B41C9731551561200413B5A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B41C9721551561200413B5A /* UIKit.framework */; };
 		8B41C9751551561200413B5A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B41C9741551561200413B5A /* Foundation.framework */; };
 		8B41C9771551561200413B5A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B41C9761551561200413B5A /* CoreGraphics.framework */; };
@@ -14,27 +24,30 @@
 		8B41C97F1551561200413B5A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B41C97E1551561200413B5A /* main.m */; };
 		8B41C9831551561200413B5A /* KNAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B41C9821551561200413B5A /* KNAppDelegate.m */; };
 		8B41C9861551561200413B5A /* KNFirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B41C9851551561200413B5A /* KNFirstViewController.m */; };
-		8B41C9881551561200413B5A /* first.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B41C9871551561200413B5A /* first.png */; };
-		8B41C98A1551561200413B5A /* first@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B41C9891551561200413B5A /* first@2x.png */; };
 		8B41C98D1551561200413B5A /* KNSecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B41C98C1551561200413B5A /* KNSecondViewController.m */; };
-		8B41C98F1551561200413B5A /* second.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B41C98E1551561200413B5A /* second.png */; };
-		8B41C9911551561200413B5A /* second@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B41C9901551561200413B5A /* second@2x.png */; };
 		8B41C9941551561200413B5A /* KNFirstViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B41C9921551561200413B5A /* KNFirstViewController.xib */; };
 		8B41C99A1551561200413B5A /* KNSecondViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B41C9981551561200413B5A /* KNSecondViewController.xib */; };
 		8B41C9A61551564800413B5A /* UIViewController+KNSemiModal.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B41C9A51551564800413B5A /* UIViewController+KNSemiModal.m */; };
 		8B41C9A81551566400413B5A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B41C9A71551566400413B5A /* QuartzCore.framework */; };
-		8B41C9AB1551575300413B5A /* temp.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8B41C9AA1551575300413B5A /* temp.jpg */; };
 		8B41C9B215515A2E00413B5A /* KNThirdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B41C9B115515A2E00413B5A /* KNThirdViewController.m */; };
 		8B6A4ADE15535E5600613D80 /* KNTableDemoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B6A4ADD15535E5600613D80 /* KNTableDemoController.m */; };
 		8B8767E81552155300BA2A8E /* KNAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B8767E61552155300BA2A8E /* KNAboutViewController.m */; };
 		8B8767E91552155300BA2A8E /* KNAboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B8767E71552155300BA2A8E /* KNAboutViewController.xib */; };
 		8B9E0B541553664F00BE3A69 /* KNModalTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B9E0B531553664F00BE3A69 /* KNModalTableViewController.m */; };
 		8BD1CEB1158C6C4F00F6956E /* KNThirdViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BD1CEB0158C6C4F00F6956E /* KNThirdViewController.xib */; };
-		8BEE95661552D9130091CA92 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BEE95641552D9130091CA92 /* Icon.png */; };
-		8BEE95671552D9130091CA92 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BEE95651552D9130091CA92 /* Icon@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8B1A183016225DE400EDF2B0 /* first.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = first.png; sourceTree = "<group>"; };
+		8B1A183116225DE400EDF2B0 /* first@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "first@2x.png"; sourceTree = "<group>"; };
+		8B1A183216225DE400EDF2B0 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		8B1A183316225DE400EDF2B0 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		8B1A183416225DE400EDF2B0 /* second.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = second.png; sourceTree = "<group>"; };
+		8B1A183516225DE400EDF2B0 /* second@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "second@2x.png"; sourceTree = "<group>"; };
+		8B1A183616225DE400EDF2B0 /* temp.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = temp.jpg; sourceTree = "<group>"; };
+		8B1A183E16225E5700EDF2B0 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		8B1A183F16225E5700EDF2B0 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		8B1A184016225E5700EDF2B0 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		8B41C96E1551561200413B5A /* KNSemiModalViewControllerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KNSemiModalViewControllerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B41C9721551561200413B5A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		8B41C9741551561200413B5A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -47,18 +60,13 @@
 		8B41C9821551561200413B5A /* KNAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KNAppDelegate.m; sourceTree = "<group>"; };
 		8B41C9841551561200413B5A /* KNFirstViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KNFirstViewController.h; sourceTree = "<group>"; };
 		8B41C9851551561200413B5A /* KNFirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KNFirstViewController.m; sourceTree = "<group>"; };
-		8B41C9871551561200413B5A /* first.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = first.png; sourceTree = "<group>"; };
-		8B41C9891551561200413B5A /* first@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "first@2x.png"; sourceTree = "<group>"; };
 		8B41C98B1551561200413B5A /* KNSecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KNSecondViewController.h; sourceTree = "<group>"; };
 		8B41C98C1551561200413B5A /* KNSecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KNSecondViewController.m; sourceTree = "<group>"; };
-		8B41C98E1551561200413B5A /* second.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = second.png; sourceTree = "<group>"; };
-		8B41C9901551561200413B5A /* second@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "second@2x.png"; sourceTree = "<group>"; };
 		8B41C9931551561200413B5A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/KNFirstViewController.xib; sourceTree = "<group>"; };
 		8B41C9991551561200413B5A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/KNSecondViewController.xib; sourceTree = "<group>"; };
 		8B41C9A41551564800413B5A /* UIViewController+KNSemiModal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+KNSemiModal.h"; sourceTree = "<group>"; };
 		8B41C9A51551564800413B5A /* UIViewController+KNSemiModal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+KNSemiModal.m"; sourceTree = "<group>"; };
 		8B41C9A71551566400413B5A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		8B41C9AA1551575300413B5A /* temp.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = temp.jpg; sourceTree = "<group>"; };
 		8B41C9B015515A2E00413B5A /* KNThirdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KNThirdViewController.h; sourceTree = "<group>"; };
 		8B41C9B115515A2E00413B5A /* KNThirdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNThirdViewController.m; sourceTree = "<group>"; };
 		8B6A4ADC15535E5600613D80 /* KNTableDemoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KNTableDemoController.h; sourceTree = "<group>"; };
@@ -69,8 +77,6 @@
 		8B9E0B521553664F00BE3A69 /* KNModalTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KNModalTableViewController.h; sourceTree = "<group>"; };
 		8B9E0B531553664F00BE3A69 /* KNModalTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNModalTableViewController.m; sourceTree = "<group>"; };
 		8BD1CEB0158C6C4F00F6956E /* KNThirdViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KNThirdViewController.xib; sourceTree = "<group>"; };
-		8BEE95641552D9130091CA92 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
-		8BEE95651552D9130091CA92 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +94,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8B1A182F16225DE400EDF2B0 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				8B1A183016225DE400EDF2B0 /* first.png */,
+				8B1A183116225DE400EDF2B0 /* first@2x.png */,
+				8B1A183216225DE400EDF2B0 /* Icon.png */,
+				8B1A183316225DE400EDF2B0 /* Icon@2x.png */,
+				8B1A183416225DE400EDF2B0 /* second.png */,
+				8B1A183516225DE400EDF2B0 /* second@2x.png */,
+				8B1A183616225DE400EDF2B0 /* temp.jpg */,
+				8B1A183E16225E5700EDF2B0 /* Default-568h@2x.png */,
+				8B1A183F16225E5700EDF2B0 /* Default.png */,
+				8B1A184016225E5700EDF2B0 /* Default@2x.png */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
 		8B41C9631551561200413B5A = {
 			isa = PBXGroup;
 			children = (
@@ -136,7 +159,7 @@
 		8B41C9791551561200413B5A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				8B41C9A91551573F00413B5A /* Images */,
+				8B1A182F16225DE400EDF2B0 /* Images */,
 				8B41C97A1551561200413B5A /* KNSemiModalViewControllerDemo-Info.plist */,
 				8B41C97B1551561200413B5A /* InfoPlist.strings */,
 				8B41C97E1551561200413B5A /* main.m */,
@@ -152,20 +175,6 @@
 				8B41C9A51551564800413B5A /* UIViewController+KNSemiModal.m */,
 			);
 			path = Source;
-			sourceTree = "<group>";
-		};
-		8B41C9A91551573F00413B5A /* Images */ = {
-			isa = PBXGroup;
-			children = (
-				8BEE95641552D9130091CA92 /* Icon.png */,
-				8BEE95651552D9130091CA92 /* Icon@2x.png */,
-				8B41C9AA1551575300413B5A /* temp.jpg */,
-				8B41C98E1551561200413B5A /* second.png */,
-				8B41C9901551561200413B5A /* second@2x.png */,
-				8B41C9871551561200413B5A /* first.png */,
-				8B41C9891551561200413B5A /* first@2x.png */,
-			);
-			name = Images;
 			sourceTree = "<group>";
 		};
 		8B6A4AD815535DF800613D80 /* Demo 1 */ = {
@@ -264,17 +273,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				8B41C97D1551561200413B5A /* InfoPlist.strings in Resources */,
-				8B41C9881551561200413B5A /* first.png in Resources */,
-				8B41C98A1551561200413B5A /* first@2x.png in Resources */,
-				8B41C98F1551561200413B5A /* second.png in Resources */,
-				8B41C9911551561200413B5A /* second@2x.png in Resources */,
 				8B41C9941551561200413B5A /* KNFirstViewController.xib in Resources */,
 				8B41C99A1551561200413B5A /* KNSecondViewController.xib in Resources */,
-				8B41C9AB1551575300413B5A /* temp.jpg in Resources */,
 				8B8767E91552155300BA2A8E /* KNAboutViewController.xib in Resources */,
-				8BEE95661552D9130091CA92 /* Icon.png in Resources */,
-				8BEE95671552D9130091CA92 /* Icon@2x.png in Resources */,
 				8BD1CEB1158C6C4F00F6956E /* KNThirdViewController.xib in Resources */,
+				8B1A183716225DE400EDF2B0 /* first.png in Resources */,
+				8B1A183816225DE400EDF2B0 /* first@2x.png in Resources */,
+				8B1A183916225DE400EDF2B0 /* Icon.png in Resources */,
+				8B1A183A16225DE400EDF2B0 /* Icon@2x.png in Resources */,
+				8B1A183B16225DE400EDF2B0 /* second.png in Resources */,
+				8B1A183C16225DE400EDF2B0 /* second@2x.png in Resources */,
+				8B1A183D16225DE400EDF2B0 /* temp.jpg in Resources */,
+				8B1A184116225E5700EDF2B0 /* Default-568h@2x.png in Resources */,
+				8B1A184216225E5700EDF2B0 /* Default.png in Resources */,
+				8B1A184316225E5700EDF2B0 /* Default@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
