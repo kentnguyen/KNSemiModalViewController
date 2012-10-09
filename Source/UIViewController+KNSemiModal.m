@@ -17,6 +17,9 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 	.shadowOpacity = @"KNSemiModalOptionShadowOpacity",
 };
 
+static const uint kScreenshotTag = 10;
+static const uint kDismissButtonTag = 12;
+
 #define kSemiModalTransitionOptions @"kn_semiModalTransitionOptions"
 #define kSemiModalTransitionDefaults @"kn_semiModalTransitionDefaults"
 
@@ -131,6 +134,7 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
     [target.layer renderInContext:UIGraphicsGetCurrentContext()];
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIImageView * ss = [[UIImageView alloc] initWithImage:image];
+    ss.tag = kScreenshotTag;
     [overlay addSubview:ss];
     [target addSubview:overlay];
 
@@ -140,6 +144,7 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
     [dismissButton addTarget:self action:@selector(dismissSemiModalView) forControlEvents:UIControlEventTouchUpInside];
     dismissButton.backgroundColor = [UIColor clearColor];
     dismissButton.frame = of;
+    dismissButton.tag = kDismissButtonTag;
     [overlay addSubview:dismissButton];
 
     // Begin overlay animation
@@ -191,7 +196,7 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
   }];
 
   // Begin overlay animation
-  UIImageView * ss = (UIImageView*)[overlay.subviews objectAtIndex:0];
+  UIImageView * ss = (UIImageView*)[overlay viewWithTag:kScreenshotTag];
 	if ([[self kn_optionsOrDefaultForKey:KNSemiModalOptionKeys.pushParentBack] boolValue]) {
 		[ss.layer addAnimation:[self animationGroupForward:NO] forKey:@"bringForwardAnimation"];
 	}
@@ -216,7 +221,7 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
   mf.size.height = newSize.height;
   mf.origin.y = target.frame.size.height - mf.size.height;
   UIView * overlay = [target.subviews objectAtIndex:target.subviews.count-2];
-  UIButton * button = [[overlay subviews] objectAtIndex:1];
+  UIButton * button = (UIButton*)[overlay viewWithTag:kDismissButtonTag];
   CGRect bf = button.frame;
   bf.size.height = overlay.frame.size.height - newSize.height;
 	NSTimeInterval duration = [[self kn_optionsOrDefaultForKey:KNSemiModalOptionKeys.animationDuration] doubleValue];
