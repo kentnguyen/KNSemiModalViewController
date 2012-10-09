@@ -203,7 +203,7 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 	}
 	
   [UIView animateWithDuration:duration animations:^{
-	modal.frame = CGRectMake(0, target.frame.size.height, modal.frame.size.width, modal.frame.size.height);
+	modal.frame = CGRectMake(0, target.bounds.size.height, modal.frame.size.width, modal.frame.size.height);
   } completion:^(BOOL finished) {
 	  [overlay removeFromSuperview];
 	  [modal removeFromSuperview];
