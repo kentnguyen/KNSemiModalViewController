@@ -12,8 +12,9 @@
 #import "NSObject+YMOptionsAndDefaults.h"
 
 const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
-	.animationDuration = @"KNSemiModalOptionAnimationDuration",
+	.traverseParentHierarchy = @"KNSemiModalOptionTraverseParentHierarchy",
 	.pushParentBack = @"KNSemiModalOptionPushParentBack",
+	.animationDuration = @"KNSemiModalOptionAnimationDuration",
 	.parentAlpha = @"KNSemiModalOptionParentAlpha",
 	.shadowOpacity = @"KNSemiModalOptionShadowOpacity",
 };
@@ -28,15 +29,27 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 @implementation UIViewController (KNSemiModalInternal)
 
 -(UIViewController*)kn_parentTargetViewController {
-	// To make it work with UINav & UITabbar as well
 	UIViewController * target = self;
-	while (target.parentViewController != nil) {
-		target = target.parentViewController;
+	if ([[self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.traverseParentHierarchy] boolValue]) {
+		// cover UINav & UITabbar as well
+		while (target.parentViewController != nil) {
+			target = target.parentViewController;
+		}
 	}
 	return target;
 }
 -(UIView*)parentTarget {
   return [self kn_parentTargetViewController].view;
+}
+
+-(void)kn_registerDefaultsAndOptions:(NSDictionary*)options {
+	[self ym_registerOptions:options defaults:@{
+		 KNSemiModalOptionKeys.traverseParentHierarchy : @YES,
+		 KNSemiModalOptionKeys.pushParentBack : @YES,
+		 KNSemiModalOptionKeys.animationDuration : @0.5,
+		 KNSemiModalOptionKeys.parentAlpha : @0.5,
+		 KNSemiModalOptionKeys.shadowOpacity : @0.8,
+	 }];
 }
 
 #pragma mark Push-back animation group
@@ -75,6 +88,7 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
   [group setAnimations:[NSArray arrayWithObjects:animation,animation2, nil]];
   return group;
 }
+
 @end
 
 @implementation UIViewController (KNSemiModal)
@@ -90,6 +104,7 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 -(void)presentSemiViewController:(UIViewController*)vc
 					 withOptions:(NSDictionary*)options
 					  completion:(KNTransitionCompletionBlock)completion {
+    [self kn_registerDefaultsAndOptions:options];
 	UIViewController *targetParentVC = [self kn_parentTargetViewController];
 	// implement view controller containment for the semi-modal view controller
 	[targetParentVC addChildViewController:vc];
@@ -115,14 +130,8 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
   UIView * target = [self parentTarget];
 	
   if (![target.subviews containsObject:view]) {
-		// Remember transition options for symmetrical dismiss transition
-	  [self ym_registerOptions:options
-					  defaults:@{
-						   KNSemiModalOptionKeys.animationDuration : @(0.5),
-						   KNSemiModalOptionKeys.parentAlpha : @(0.5),
-						   KNSemiModalOptionKeys.pushParentBack : @(YES),
-						   KNSemiModalOptionKeys.shadowOpacity : @(0.8),
-						   }];
+    // Remember transition options for symmetrical dismiss transition
+    [self kn_registerDefaultsAndOptions:options]; // re-registering is OK
 		
     // Calulate all frames
     CGRect sf = view.frame;
