@@ -203,6 +203,7 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 
     // Present view animated
     view.frame = CGRectMake(0, vf.size.height, vf.size.width, sf.size.height);
+    view.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
     [target addSubview:view];
     view.layer.shadowColor = [[UIColor blackColor] CGColor];
     view.layer.shadowOffset = CGSizeMake(0, -2);
