@@ -20,6 +20,8 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 };
 
 #define kSemiModalViewController @"kn_semiModalSemiModalViewController"
+#define kSemiModalOverlayTag 10001
+#define kSemiModalScreenshotTag 10002
 
 @interface UIViewController (KNSemiModalInternal)
 -(UIView*)parentTarget;
@@ -89,6 +91,33 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
   return group;
 }
 
+-(void)kn_interfaceOrientationDidChange:(NSNotification*)notification {
+	UIView *overlay = [[self parentTarget] viewWithTag:kSemiModalOverlayTag];
+	[self kn_addOrUpdateParentScreenshotInView:overlay];
+}
+
+-(UIImageView*)kn_addOrUpdateParentScreenshotInView:(UIView*)screenshotContainer {
+	UIView * target = [self parentTarget];
+	
+	screenshotContainer.hidden = YES; // screenshot without the overlay!
+	UIGraphicsBeginImageContextWithOptions(target.bounds.size, YES, [[UIScreen mainScreen] scale]);
+    [target.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+	screenshotContainer.hidden = NO;
+	
+	UIImageView* screenshot = (id) [screenshotContainer viewWithTag:kSemiModalScreenshotTag];
+	if (screenshot) {
+		screenshot.image = image;
+	}
+	else {
+		screenshot = [[UIImageView alloc] initWithImage:image];
+		screenshot.tag = kSemiModalScreenshotTag;
+		screenshot.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+		[screenshotContainer addSubview:screenshot];
+	}
+	return screenshot;
+}
+
 @end
 
 @implementation UIViewController (KNSemiModal)
@@ -132,7 +161,13 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
   if (![target.subviews containsObject:view]) {
     // Remember transition options for symmetrical dismiss transition
     [self kn_registerDefaultsAndOptions:options]; // re-registering is OK
-		
+	
+	  // Register for orientation changes, so we can update the presenting controller screenshot
+	  [[NSNotificationCenter defaultCenter] addObserver:self
+											   selector:@selector(kn_interfaceOrientationDidChange:)
+												   name:UIDeviceOrientationDidChangeNotification
+												 object:nil];
+	
     // Calulate all frames
     CGRect sf = view.frame;
     CGRect vf = target.bounds;
@@ -142,13 +177,11 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
     // Add semi overlay
     UIView * overlay = [[UIView alloc] initWithFrame:target.bounds];
     overlay.backgroundColor = [UIColor blackColor];
-    
+	  overlay.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+	  overlay.tag = kSemiModalOverlayTag;
+	  
     // Take screenshot and scale
-    UIGraphicsBeginImageContextWithOptions(target.bounds.size, YES, [[UIScreen mainScreen] scale]);
-    [target.layer renderInContext:UIGraphicsGetCurrentContext()];
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIImageView * ss = [[UIImageView alloc] initWithImage:image];
-    [overlay addSubview:ss];
+	UIImageView *ss = [self kn_addOrUpdateParentScreenshotInView:overlay];
     [target addSubview:overlay];
 
     // Dismiss button
@@ -223,6 +256,8 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 		  [vc endAppearanceTransition];
 	  }
 	  objc_setAssociatedObject(self, kSemiModalViewController, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+	  
+	  [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
   }];
 
   // Begin overlay animation
