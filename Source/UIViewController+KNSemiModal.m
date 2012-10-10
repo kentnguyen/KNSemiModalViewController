@@ -169,16 +169,16 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 												 object:nil];
 	
     // Calulate all frames
-    CGRect sf = view.frame;
+    CGFloat semiViewHeight = view.frame.size.height;
     CGRect vf = target.bounds;
-    CGRect f  = CGRectMake(0, vf.size.height-sf.size.height, vf.size.width, sf.size.height);
-    CGRect of = CGRectMake(0, 0, vf.size.width, vf.size.height-sf.size.height);
+    CGRect semiViewFrame = CGRectMake(0, vf.size.height-semiViewHeight, vf.size.width, semiViewHeight);
+    CGRect overlayFrame = CGRectMake(0, 0, vf.size.width, vf.size.height-semiViewHeight);
 
     // Add semi overlay
     UIView * overlay = [[UIView alloc] initWithFrame:target.bounds];
     overlay.backgroundColor = [UIColor blackColor];
-	  overlay.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-	  overlay.tag = kSemiModalOverlayTag;
+    overlay.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    overlay.tag = kSemiModalOverlayTag;
 	  
     // Take screenshot and scale
 	UIImageView *ss = [self kn_addOrUpdateParentScreenshotInView:overlay];
@@ -189,7 +189,8 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
     UIButton * dismissButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [dismissButton addTarget:self action:@selector(dismissSemiModalView) forControlEvents:UIControlEventTouchUpInside];
     dismissButton.backgroundColor = [UIColor clearColor];
-    dismissButton.frame = of;
+    dismissButton.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    dismissButton.frame = overlayFrame;
     [overlay addSubview:dismissButton];
 
     // Begin overlay animation
@@ -202,7 +203,7 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
     }];
 
     // Present view animated
-    view.frame = CGRectMake(0, vf.size.height, vf.size.width, sf.size.height);
+    view.frame = CGRectOffset(semiViewFrame, 0, +semiViewHeight);
     view.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
     [target addSubview:view];
     view.layer.shadowColor = [[UIColor blackColor] CGColor];
@@ -215,7 +216,7 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
     view.layer.shadowPath = path.CGPath;
 
     [UIView animateWithDuration:duration animations:^{
-      view.frame = f;
+      view.frame = semiViewFrame;
     } completion:^(BOOL finished) {
       if(finished){
         [[NSNotificationCenter defaultCenter] postNotificationName:kSemiModalDidShowNotification
