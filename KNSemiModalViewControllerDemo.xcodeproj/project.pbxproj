@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2FC0D793162EBDD400387091 /* NSObject+YMOptionsAndDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FC0D792162EBDD400387091 /* NSObject+YMOptionsAndDefaults.m */; };
 		8B41C9731551561200413B5A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B41C9721551561200413B5A /* UIKit.framework */; };
 		8B41C9751551561200413B5A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B41C9741551561200413B5A /* Foundation.framework */; };
 		8B41C9771551561200413B5A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B41C9761551561200413B5A /* CoreGraphics.framework */; };
@@ -35,6 +36,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2FC0D791162EBDD400387091 /* NSObject+YMOptionsAndDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+YMOptionsAndDefaults.h"; sourceTree = "<group>"; };
+		2FC0D792162EBDD400387091 /* NSObject+YMOptionsAndDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+YMOptionsAndDefaults.m"; sourceTree = "<group>"; };
 		8B41C96E1551561200413B5A /* KNSemiModalViewControllerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KNSemiModalViewControllerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B41C9721551561200413B5A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		8B41C9741551561200413B5A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -150,6 +153,8 @@
 			children = (
 				8B41C9A41551564800413B5A /* UIViewController+KNSemiModal.h */,
 				8B41C9A51551564800413B5A /* UIViewController+KNSemiModal.m */,
+				2FC0D791162EBDD400387091 /* NSObject+YMOptionsAndDefaults.h */,
+				2FC0D792162EBDD400387091 /* NSObject+YMOptionsAndDefaults.m */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -294,6 +299,7 @@
 				8B8767E81552155300BA2A8E /* KNAboutViewController.m in Sources */,
 				8B6A4ADE15535E5600613D80 /* KNTableDemoController.m in Sources */,
 				8B9E0B541553664F00BE3A69 /* KNModalTableViewController.m in Sources */,
+				2FC0D793162EBDD400387091 /* NSObject+YMOptionsAndDefaults.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -175,12 +175,11 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 -(void)presentSemiView:(UIView*)view
 		   withOptions:(NSDictionary*)options
 			completion:(KNTransitionCompletionBlock)completion {
-  // Determine target
-  UIView * target = [self parentTarget];
+	[self kn_registerDefaultsAndOptions:options]; // re-registering is OK
+	UIView * target = [self parentTarget];
 	
   if (![target.subviews containsObject:view]) {
     // Remember transition options for symmetrical dismiss transition
-    [self kn_registerDefaultsAndOptions:options]; // re-registering is OK
 	
 	  // Register for orientation changes, so we can update the presenting controller screenshot
 	  [[NSNotificationCenter defaultCenter] addObserver:self

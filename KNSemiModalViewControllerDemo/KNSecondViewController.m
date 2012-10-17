@@ -48,7 +48,7 @@
 		 KNSemiModalOptionKeys.pushParentBack : @(YES),
 		 KNSemiModalOptionKeys.animationDuration : @(2.0),
 		 KNSemiModalOptionKeys.shadowOpacity : @(0.3),
-	 }];
+	 } completion:nil];
 
 }
 
