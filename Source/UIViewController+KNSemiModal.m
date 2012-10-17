@@ -22,6 +22,7 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 #define kSemiModalViewController @"kn_semiModalSemiModalViewController"
 #define kSemiModalOverlayTag 10001
 #define kSemiModalScreenshotTag 10002
+#define kSemiModalModalViewTag 10003
 
 @interface UIViewController (KNSemiModalInternal)
 -(UIView*)parentTarget;
@@ -91,19 +92,38 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
   return group;
 }
 
+-(void)kn_layoutSubviews {
+	UIView * target = [self parentTarget];
+	
+	UIView *semiModal = [target viewWithTag:kSemiModalModalViewTag];
+	UIView *overlay = [target viewWithTag:kSemiModalOverlayTag];
+	
+	CGFloat semiViewHeight = semiModal.frame.size.height;
+    CGRect vf = target.bounds;
+    CGRect semiViewFrame = CGRectMake(0, vf.size.height-semiViewHeight, vf.size.width, semiViewHeight);
+    CGRect overlayFrame = CGRectMake(0, 0, vf.size.width, vf.size.height-semiViewHeight);
+	
+	overlay.frame = overlayFrame;
+	semiModal.frame = semiViewFrame;
+}
+
 -(void)kn_interfaceOrientationDidChange:(NSNotification*)notification {
 	UIView *overlay = [[self parentTarget] viewWithTag:kSemiModalOverlayTag];
+//	[self kn_layoutSubviews];
 	[self kn_addOrUpdateParentScreenshotInView:overlay];
 }
 
 -(UIImageView*)kn_addOrUpdateParentScreenshotInView:(UIView*)screenshotContainer {
-	UIView * target = [self parentTarget];
+	UIView *target = [self parentTarget];
+	UIView *semiView = [target viewWithTag:kSemiModalModalViewTag];
 	
 	screenshotContainer.hidden = YES; // screenshot without the overlay!
+	semiView.hidden = YES;
 	UIGraphicsBeginImageContextWithOptions(target.bounds.size, YES, [[UIScreen mainScreen] scale]);
     [target.layer renderInContext:UIGraphicsGetCurrentContext()];
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
 	screenshotContainer.hidden = NO;
+	semiView.hidden = NO;
 	
 	UIImageView* screenshot = (id) [screenshotContainer viewWithTag:kSemiModalScreenshotTag];
 	if (screenshot) {
@@ -205,6 +225,7 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
     // Present view animated
     view.frame = CGRectOffset(semiViewFrame, 0, +semiViewHeight);
     view.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
+    view.tag = kSemiModalModalViewTag;
     [target addSubview:view];
     view.layer.shadowColor = [[UIColor blackColor] CGColor];
     view.layer.shadowOffset = CGSizeMake(0, -2);
