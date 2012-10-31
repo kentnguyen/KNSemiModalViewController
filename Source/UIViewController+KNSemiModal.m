@@ -17,6 +17,7 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 	.animationDuration = @"KNSemiModalOptionAnimationDuration",
 	.parentAlpha = @"KNSemiModalOptionParentAlpha",
 	.shadowOpacity = @"KNSemiModalOptionShadowOpacity",
+	.transitionStyle = @"KNSemiModalTransitionStyle",
 };
 
 #define kSemiModalViewController @"kn_semiModalSemiModalViewController"
@@ -52,6 +53,7 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 		 KNSemiModalOptionKeys.animationDuration : @0.5,
 		 KNSemiModalOptionKeys.parentAlpha : @0.5,
 		 KNSemiModalOptionKeys.shadowOpacity : @0.8,
+		 KNSemiModalOptionKeys.transitionStyle : @(KNSemiModalTransitionStyleSlideUp),
 	 }];
 }
 
@@ -186,7 +188,9 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 											   selector:@selector(kn_interfaceOrientationDidChange:)
 												   name:UIDeviceOrientationDidChangeNotification
 												 object:nil];
-	
+	  
+	  NSUInteger transitionStyle = [[self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.transitionStyle] unsignedIntegerValue];
+	  
     // Calulate all frames
     CGFloat semiViewHeight = view.frame.size.height;
     CGRect vf = target.bounds;
@@ -222,7 +226,13 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
     }];
 
     // Present view animated
-    view.frame = CGRectOffset(semiViewFrame, 0, +semiViewHeight);
+    view.frame = (transitionStyle == KNSemiModalTransitionStyleSlideUp
+				  ? CGRectOffset(semiViewFrame, 0, +semiViewHeight)
+				  : semiViewFrame);
+	  if (transitionStyle == KNSemiModalTransitionStyleFadeIn || transitionStyle == KNSemiModalTransitionStyleFadeInOut) {
+		view.alpha = 0.0;
+	  }
+
     view.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
     view.tag = kSemiModalModalViewTag;
     [target addSubview:view];
@@ -234,17 +244,20 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
     view.layer.rasterizationScale = [[UIScreen mainScreen] scale];
     UIBezierPath *path = [UIBezierPath bezierPathWithRect:view.bounds];
     view.layer.shadowPath = path.CGPath;
-
-    [UIView animateWithDuration:duration animations:^{
-      view.frame = semiViewFrame;
-    } completion:^(BOOL finished) {
-      if(finished){
-        [[NSNotificationCenter defaultCenter] postNotificationName:kSemiModalDidShowNotification
-                                                            object:self];
+	  
+	  [UIView animateWithDuration:duration animations:^{
+		  if (transitionStyle == KNSemiModalTransitionStyleSlideUp) {
+			  view.frame = semiViewFrame;
+		  } else if (transitionStyle == KNSemiModalTransitionStyleFadeIn || transitionStyle == KNSemiModalTransitionStyleFadeInOut) {
+			  view.alpha = 1.0;
+		  }
+	  } completion:^(BOOL finished) {
+		  if (!finished) return;
+		  [[NSNotificationCenter defaultCenter] postNotificationName:kSemiModalDidShowNotification
+															  object:self];
 		  if (completion) {
 			  completion();
 		  }
-      }
     }];
   }
 }
@@ -257,6 +270,7 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
   UIView * target = [self parentTarget];
   UIView * modal = [target.subviews objectAtIndex:target.subviews.count-1];
   UIView * overlay = [target.subviews objectAtIndex:target.subviews.count-2];
+	NSUInteger transitionStyle = [[self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.transitionStyle] unsignedIntegerValue];
 	NSTimeInterval duration = [[self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.animationDuration] doubleValue];
 	UIViewController *vc = objc_getAssociatedObject(self, kSemiModalViewController);
 	
@@ -267,7 +281,11 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 	}
 	
   [UIView animateWithDuration:duration animations:^{
-	modal.frame = CGRectMake(0, target.bounds.size.height, modal.frame.size.width, modal.frame.size.height);
+	  if (transitionStyle == KNSemiModalTransitionStyleSlideUp) {
+		modal.frame = CGRectMake(0, target.bounds.size.height, modal.frame.size.width, modal.frame.size.height);
+	  } else if (transitionStyle == KNSemiModalTransitionStyleFadeOut || transitionStyle == KNSemiModalTransitionStyleFadeInOut) {
+		  modal.alpha = 0.0;
+	  }
   } completion:^(BOOL finished) {
 	  [overlay removeFromSuperview];
 	  [modal removeFromSuperview];
