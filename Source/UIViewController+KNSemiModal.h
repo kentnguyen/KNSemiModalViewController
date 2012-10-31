@@ -31,8 +31,21 @@ typedef void (^KNTransitionCompletionBlock)(void);
 
 @interface UIViewController (KNSemiModal)
 
--(void)presentSemiViewController:(UIViewController*)vc withOptions:(NSDictionary*)options completion:(void (^)(void))completion;
--(void)presentSemiView:(UIView*)view withOptions:(NSDictionary*)options completion:(KNTransitionCompletionBlock)completion;
+/**
+ Displays a view controller over the receiver, which is "dimmed".
+ @param vc           The view controller to display semi-modally; its view's frame height is used.
+ @param options	     See KNSemiModalOptionKeys constants.
+ @param completion   Is called after `-[vc viewDidAppear:]`.
+ @param dismissBlock Is called when the user dismisses the semi-modal view by tapping the dimmed receiver view.
+ */
+-(void)presentSemiViewController:(UIViewController*)vc
+					 withOptions:(NSDictionary*)options
+					  completion:(KNTransitionCompletionBlock)completion
+					dismissBlock:(KNTransitionCompletionBlock)dismissBlock;
+
+-(void)presentSemiView:(UIView*)view
+		   withOptions:(NSDictionary*)options
+			completion:(KNTransitionCompletionBlock)completion;
 
 -(void)presentSemiViewController:(UIViewController*)vc;
 -(void)presentSemiView:(UIView*)vc;

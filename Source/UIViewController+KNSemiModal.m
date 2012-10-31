@@ -21,6 +21,7 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 };
 
 #define kSemiModalViewController @"kn_semiModalSemiModalViewController"
+#define kSemiModalDismissBlock @"kn_semiModalDismissBlock"
 #define kSemiModalOverlayTag 10001
 #define kSemiModalScreenshotTag 10002
 #define kSemiModalModalViewTag 10003
@@ -145,7 +146,7 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 @implementation UIViewController (KNSemiModal)
 
 -(void)presentSemiViewController:(UIViewController*)vc {
-	[self presentSemiViewController:vc withOptions:nil completion:nil];
+	[self presentSemiViewController:vc withOptions:nil completion:nil dismissBlock:nil];
 }
 
 -(void)presentSemiView:(UIView*)view {
@@ -154,7 +155,8 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 
 -(void)presentSemiViewController:(UIViewController*)vc
 					 withOptions:(NSDictionary*)options
-					  completion:(KNTransitionCompletionBlock)completion {
+					  completion:(KNTransitionCompletionBlock)completion
+					dismissBlock:(KNTransitionCompletionBlock)dismissBlock {
     [self kn_registerDefaultsAndOptions:options];
 	UIViewController *targetParentVC = [self kn_parentTargetViewController];
 	// implement view controller containment for the semi-modal view controller
@@ -163,6 +165,7 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 		[vc beginAppearanceTransition:YES animated:YES]; // iOS 6
 	}
 	objc_setAssociatedObject(self, kSemiModalViewController, vc, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+	objc_setAssociatedObject(self, kSemiModalDismissBlock, dismissBlock, OBJC_ASSOCIATION_COPY_NONATOMIC);
 	[self presentSemiView:vc.view withOptions:options completion:^{
 		[vc didMoveToParentViewController:targetParentVC];
 		if ([vc respondsToSelector:@selector(endAppearanceTransition)]) {
@@ -273,6 +276,7 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 	NSUInteger transitionStyle = [[self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.transitionStyle] unsignedIntegerValue];
 	NSTimeInterval duration = [[self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.animationDuration] doubleValue];
 	UIViewController *vc = objc_getAssociatedObject(self, kSemiModalViewController);
+	KNTransitionCompletionBlock dismissBlock = objc_getAssociatedObject(self, kSemiModalDismissBlock);
 	
 	// child controller containment
 	[vc willMoveToParentViewController:nil];
@@ -295,6 +299,12 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 	  if ([vc respondsToSelector:@selector(endAppearanceTransition)]) {
 		  [vc endAppearanceTransition];
 	  }
+	  
+	  if (dismissBlock) {
+		  dismissBlock();
+	  }
+	  
+	  objc_setAssociatedObject(self, kSemiModalDismissBlock, nil, OBJC_ASSOCIATION_COPY_NONATOMIC);
 	  objc_setAssociatedObject(self, kSemiModalViewController, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 	  
 	  [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
