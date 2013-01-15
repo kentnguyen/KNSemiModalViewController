@@ -107,7 +107,8 @@ static const uint kDismissButtonTag = 12;
 }
 
 -(void)presentSemiViewController:(UIViewController*)vc withOptions:(NSDictionary*)options {
-  [self presentSemiView:vc.view withOptions:options];
+    objc_setAssociatedObject(self, @"presentViewController", vc, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    [self presentSemiView:vc.view withOptions:options];
 }
 
 -(void)presentSemiView:(UIView*)view withOptions:(NSDictionary*)options {
@@ -206,6 +207,7 @@ static const uint kDismissButtonTag = 12;
     if(finished){
       [[NSNotificationCenter defaultCenter] postNotificationName:kSemiModalDidHideNotification
                                                           object:self];
+        objc_removeAssociatedObjects(self);
 		if (completion) {
 			completion();
 		}
