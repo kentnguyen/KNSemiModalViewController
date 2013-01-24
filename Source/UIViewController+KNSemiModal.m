@@ -15,6 +15,7 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 	.pushParentBack = @"KNSemiModalOptionPushParentBack",
 	.parentAlpha = @"KNSemiModalOptionParentAlpha",
 	.shadowOpacity = @"KNSemiModalOptionShadowOpacity",
+    .disableCancel = @"KNSemiModalOptionDisableCancel",
 };
 
 static const uint kScreenshotTag = 10;
@@ -47,6 +48,7 @@ static const uint kDismissButtonTag = 12;
 		KNSemiModalOptionKeys.parentAlpha : @(0.5),
 		KNSemiModalOptionKeys.pushParentBack : @(YES),
 		KNSemiModalOptionKeys.shadowOpacity : @(0.8),
+        KNSemiModalOptionKeys.disableCancel : @(NO),
 	};
 	objc_setAssociatedObject(self, kSemiModalTransitionDefaults, defaults, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
@@ -139,15 +141,19 @@ static const uint kDismissButtonTag = 12;
     [overlay addSubview:ss];
     [target addSubview:overlay];
 
-    // Dismiss button
-    // Don't use UITapGestureRecognizer to avoid complex handling
-    UIButton * dismissButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [dismissButton addTarget:self action:@selector(dismissSemiModalView) forControlEvents:UIControlEventTouchUpInside];
-    dismissButton.backgroundColor = [UIColor clearColor];
-    dismissButton.frame = of;
-    dismissButton.tag = kDismissButtonTag;
-    [overlay addSubview:dismissButton];
-
+    if(![[self kn_optionsOrDefaultForKey:KNSemiModalOptionKeys.disableCancel] boolValue])
+    {
+        // Dismiss button
+        // Don't use UITapGestureRecognizer to avoid complex handling
+        UIButton * dismissButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [dismissButton addTarget:self action:@selector(dismissSemiModalView) forControlEvents:UIControlEventTouchUpInside];
+        dismissButton.backgroundColor = [UIColor clearColor];
+        dismissButton.frame = of;
+        dismissButton.tag = kDismissButtonTag;
+        [overlay addSubview:dismissButton];
+    }
+        
+        
     // Begin overlay animation
 		if ([[self kn_optionsOrDefaultForKey:KNSemiModalOptionKeys.pushParentBack] boolValue]) {
 			[ss.layer addAnimation:[self animationGroupForward:YES] forKey:@"pushedBackAnimation"];
