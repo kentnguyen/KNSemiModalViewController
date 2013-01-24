@@ -15,6 +15,7 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 	.pushParentBack = @"KNSemiModalOptionPushParentBack",
 	.parentAlpha = @"KNSemiModalOptionParentAlpha",
 	.shadowOpacity = @"KNSemiModalOptionShadowOpacity",
+    .disableCancel = @"KNSemiModalOptionDisableCancel",
 };
 
 static const uint kScreenshotTag = 10;
@@ -47,6 +48,7 @@ static const uint kDismissButtonTag = 12;
 		KNSemiModalOptionKeys.parentAlpha : @(0.5),
 		KNSemiModalOptionKeys.pushParentBack : @(YES),
 		KNSemiModalOptionKeys.shadowOpacity : @(0.8),
+        KNSemiModalOptionKeys.disableCancel : @(NO),
 	};
 	objc_setAssociatedObject(self, kSemiModalTransitionDefaults, defaults, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
@@ -107,7 +109,8 @@ static const uint kDismissButtonTag = 12;
 }
 
 -(void)presentSemiViewController:(UIViewController*)vc withOptions:(NSDictionary*)options {
-  [self presentSemiView:vc.view withOptions:options];
+    objc_setAssociatedObject(self, @"presentViewController", vc, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    [self presentSemiView:vc.view withOptions:options];
 }
 
 -(void)presentSemiView:(UIView*)view withOptions:(NSDictionary*)options {
@@ -138,15 +141,19 @@ static const uint kDismissButtonTag = 12;
     [overlay addSubview:ss];
     [target addSubview:overlay];
 
-    // Dismiss button
-    // Don't use UITapGestureRecognizer to avoid complex handling
-    UIButton * dismissButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [dismissButton addTarget:self action:@selector(dismissSemiModalView) forControlEvents:UIControlEventTouchUpInside];
-    dismissButton.backgroundColor = [UIColor clearColor];
-    dismissButton.frame = of;
-    dismissButton.tag = kDismissButtonTag;
-    [overlay addSubview:dismissButton];
-
+    if(![[self kn_optionsOrDefaultForKey:KNSemiModalOptionKeys.disableCancel] boolValue])
+    {
+        // Dismiss button
+        // Don't use UITapGestureRecognizer to avoid complex handling
+        UIButton * dismissButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [dismissButton addTarget:self action:@selector(dismissSemiModalView) forControlEvents:UIControlEventTouchUpInside];
+        dismissButton.backgroundColor = [UIColor clearColor];
+        dismissButton.frame = of;
+        dismissButton.tag = kDismissButtonTag;
+        [overlay addSubview:dismissButton];
+    }
+        
+        
     // Begin overlay animation
 		if ([[self kn_optionsOrDefaultForKey:KNSemiModalOptionKeys.pushParentBack] boolValue]) {
 			[ss.layer addAnimation:[self animationGroupForward:YES] forKey:@"pushedBackAnimation"];
@@ -206,6 +213,7 @@ static const uint kDismissButtonTag = 12;
     if(finished){
       [[NSNotificationCenter defaultCenter] postNotificationName:kSemiModalDidHideNotification
                                                           object:self];
+        objc_removeAssociatedObjects(self);
 		if (completion) {
 			completion();
 		}
