@@ -18,6 +18,7 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 	.parentAlpha = @"KNSemiModalOptionParentAlpha",
 	.shadowOpacity = @"KNSemiModalOptionShadowOpacity",
 	.transitionStyle = @"KNSemiModalTransitionStyle",
+    .disableCancel = @"KNSemiModalOptionDisableCancel",
 };
 
 #define kSemiModalTransitionOptions @"kn_semiModalTransitionOptions"
@@ -48,6 +49,19 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 }
 -(UIView*)parentTarget {
   return [self kn_parentTargetViewController].view;
+}
+
+#pragma mark Options and defaults
+
+-(void)kn_registerTransitionDefaults {
+	NSDictionary *defaults = @{
+		KNSemiModalOptionKeys.animationDuration : @(0.5),
+		KNSemiModalOptionKeys.parentAlpha : @(0.5),
+		KNSemiModalOptionKeys.pushParentBack : @(YES),
+		KNSemiModalOptionKeys.shadowOpacity : @(0.8),
+        KNSemiModalOptionKeys.disableCancel : @(NO),
+	};
+	objc_setAssociatedObject(self, kSemiModalTransitionDefaults, defaults, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 -(void)kn_registerDefaultsAndOptions:(NSDictionary*)options {
@@ -213,14 +227,17 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
     UIImageView *ss = [self kn_addOrUpdateParentScreenshotInView:overlay];
     [target addSubview:overlay];
 
-    // Dismiss button
-    // Don't use UITapGestureRecognizer to avoid complex handling
-    UIButton * dismissButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [dismissButton addTarget:self action:@selector(dismissSemiModalView) forControlEvents:UIControlEventTouchUpInside];
-    dismissButton.backgroundColor = [UIColor clearColor];
-    dismissButton.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    dismissButton.frame = overlayFrame;
-    [overlay addSubview:dismissButton];
+    // Dismiss button (if allow)
+    if(![[self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.disableCancel] boolValue]) {
+        // Don't use UITapGestureRecognizer to avoid complex handling
+        UIButton * dismissButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [dismissButton addTarget:self action:@selector(dismissSemiModalView) forControlEvents:UIControlEventTouchUpInside];
+        dismissButton.backgroundColor = [UIColor clearColor];
+        dismissButton.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        dismissButton.frame = overlayFrame;
+        dismissButton.tag = kSemiModalDismissButtonTag;
+        [overlay addSubview:dismissButton];
+    }
 
     // Begin overlay animation
 		if ([[self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.pushParentBack] boolValue]) {
