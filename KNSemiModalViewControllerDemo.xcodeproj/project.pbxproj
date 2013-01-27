@@ -67,8 +67,8 @@
 		8B41C98C1551561200413B5A /* KNSecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KNSecondViewController.m; sourceTree = "<group>"; };
 		8B41C9931551561200413B5A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/KNFirstViewController.xib; sourceTree = "<group>"; };
 		8B41C9991551561200413B5A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/KNSecondViewController.xib; sourceTree = "<group>"; };
-		8B41C9A41551564800413B5A /* UIViewController+KNSemiModal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+KNSemiModal.h"; sourceTree = "<group>"; };
-		8B41C9A51551564800413B5A /* UIViewController+KNSemiModal.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+KNSemiModal.m"; sourceTree = "<group>"; tabWidth = 2; };
+		8B41C9A41551564800413B5A /* UIViewController+KNSemiModal.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+KNSemiModal.h"; sourceTree = "<group>"; tabWidth = 4; };
+		8B41C9A51551564800413B5A /* UIViewController+KNSemiModal.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+KNSemiModal.m"; sourceTree = "<group>"; tabWidth = 4; };
 		8B41C9A71551566400413B5A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		8B41C9B015515A2E00413B5A /* KNThirdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KNThirdViewController.h; sourceTree = "<group>"; };
 		8B41C9B115515A2E00413B5A /* KNThirdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNThirdViewController.m; sourceTree = "<group>"; };
