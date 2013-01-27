@@ -9,19 +9,25 @@
 #import "UIViewController+KNSemiModal.h"
 #import <QuartzCore/QuartzCore.h>
 #import <objc/runtime.h>
+#import "NSObject+YMOptionsAndDefaults.h"
 
 const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
-	.animationDuration = @"KNSemiModalOptionAnimationDuration",
+	.traverseParentHierarchy = @"KNSemiModalOptionTraverseParentHierarchy",
 	.pushParentBack = @"KNSemiModalOptionPushParentBack",
+	.animationDuration = @"KNSemiModalOptionAnimationDuration",
 	.parentAlpha = @"KNSemiModalOptionParentAlpha",
 	.shadowOpacity = @"KNSemiModalOptionShadowOpacity",
+	.transitionStyle = @"KNSemiModalTransitionStyle",
 };
-
-static const uint kScreenshotTag = 10;
-static const uint kDismissButtonTag = 12;
 
 #define kSemiModalTransitionOptions @"kn_semiModalTransitionOptions"
 #define kSemiModalTransitionDefaults @"kn_semiModalTransitionDefaults"
+#define kSemiModalViewController @"kn_semiModalSemiModalViewController"
+#define kSemiModalDismissBlock @"kn_semiModalDismissBlock"
+#define kSemiModalOverlayTag 10001
+#define kSemiModalScreenshotTag 10002
+#define kSemiModalModalViewTag 10003
+#define kSemiModalDismissButtonTag 10004
 
 @interface UIViewController (KNSemiModalInternal)
 -(UIView*)parentTarget;
@@ -30,32 +36,29 @@ static const uint kDismissButtonTag = 12;
 
 @implementation UIViewController (KNSemiModalInternal)
 
+-(UIViewController*)kn_parentTargetViewController {
+	UIViewController * target = self;
+	if ([[self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.traverseParentHierarchy] boolValue]) {
+		// cover UINav & UITabbar as well
+		while (target.parentViewController != nil) {
+			target = target.parentViewController;
+		}
+	}
+	return target;
+}
 -(UIView*)parentTarget {
-  // To make it work with UINav & UITabbar as well
-  UIViewController * target = self;
-  while (target.parentViewController != nil) {
-    target = target.parentViewController;
-  }
-  return target.view;
+  return [self kn_parentTargetViewController].view;
 }
 
-#pragma mark Options and defaults
-
--(void)kn_registerTransitionDefaults {
-	NSDictionary *defaults = @{
-		KNSemiModalOptionKeys.animationDuration : @(0.5),
-		KNSemiModalOptionKeys.parentAlpha : @(0.5),
-		KNSemiModalOptionKeys.pushParentBack : @(YES),
-		KNSemiModalOptionKeys.shadowOpacity : @(0.8),
-	};
-	objc_setAssociatedObject(self, kSemiModalTransitionDefaults, defaults, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
--(id)kn_optionsOrDefaultForKey:(NSString*)optionKey {
-	NSDictionary *options = objc_getAssociatedObject(self, kSemiModalTransitionOptions);
-	NSDictionary *defaults = objc_getAssociatedObject(self, kSemiModalTransitionDefaults);
-	NSAssert(defaults, @"Defaults must have been set when accessing options.");
-	return options[optionKey] ?: defaults[optionKey];
+-(void)kn_registerDefaultsAndOptions:(NSDictionary*)options {
+	[self ym_registerOptions:options defaults:@{
+		 KNSemiModalOptionKeys.traverseParentHierarchy : @YES,
+		 KNSemiModalOptionKeys.pushParentBack : @YES,
+		 KNSemiModalOptionKeys.animationDuration : @0.5,
+		 KNSemiModalOptionKeys.parentAlpha : @0.5,
+		 KNSemiModalOptionKeys.shadowOpacity : @0.8,
+		 KNSemiModalOptionKeys.transitionStyle : @(KNSemiModalTransitionStyleSlideUp),
+	 }];
 }
 
 #pragma mark Push-back animation group
@@ -74,7 +77,7 @@ static const uint kDismissButtonTag = 12;
 
   CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform"];
   animation.toValue = [NSValue valueWithCATransform3D:t1];
-	CFTimeInterval duration = [[self kn_optionsOrDefaultForKey:KNSemiModalOptionKeys.animationDuration] doubleValue];
+	CFTimeInterval duration = [[self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.animationDuration] doubleValue];
   animation.duration = duration/2;
   animation.fillMode = kCAFillModeForwards;
   animation.removedOnCompletion = NO;
@@ -94,48 +97,120 @@ static const uint kDismissButtonTag = 12;
   [group setAnimations:[NSArray arrayWithObjects:animation,animation2, nil]];
   return group;
 }
+
+-(void)kn_layoutSubviews {
+	UIView * target = [self parentTarget];
+	
+	UIView *semiModal = [target viewWithTag:kSemiModalModalViewTag];
+	UIView *overlay = [target viewWithTag:kSemiModalOverlayTag];
+	
+	CGFloat semiViewHeight = semiModal.frame.size.height;
+    CGRect vf = target.bounds;
+    CGRect semiViewFrame = CGRectMake(0, vf.size.height-semiViewHeight, vf.size.width, semiViewHeight);
+    CGRect overlayFrame = CGRectMake(0, 0, vf.size.width, vf.size.height-semiViewHeight);
+	
+	overlay.frame = overlayFrame;
+	semiModal.frame = semiViewFrame;
+}
+
+-(void)kn_interfaceOrientationDidChange:(NSNotification*)notification {
+	UIView *overlay = [[self parentTarget] viewWithTag:kSemiModalOverlayTag];
+//	[self kn_layoutSubviews];
+	[self kn_addOrUpdateParentScreenshotInView:overlay];
+}
+
+-(UIImageView*)kn_addOrUpdateParentScreenshotInView:(UIView*)screenshotContainer {
+	UIView *target = [self parentTarget];
+	UIView *semiView = [target viewWithTag:kSemiModalModalViewTag];
+	
+	screenshotContainer.hidden = YES; // screenshot without the overlay!
+	semiView.hidden = YES;
+	UIGraphicsBeginImageContextWithOptions(target.bounds.size, YES, [[UIScreen mainScreen] scale]);
+    [target.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+	screenshotContainer.hidden = NO;
+	semiView.hidden = NO;
+	
+	UIImageView* screenshot = (id) [screenshotContainer viewWithTag:kSemiModalScreenshotTag];
+	if (screenshot) {
+		screenshot.image = image;
+	}
+	else {
+		screenshot = [[UIImageView alloc] initWithImage:image];
+		screenshot.tag = kSemiModalScreenshotTag;
+		screenshot.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+		[screenshotContainer addSubview:screenshot];
+	}
+	return screenshot;
+}
+
 @end
 
 @implementation UIViewController (KNSemiModal)
 
 -(void)presentSemiViewController:(UIViewController*)vc {
-	[self presentSemiViewController:vc withOptions:nil];
+	[self presentSemiViewController:vc withOptions:nil completion:nil dismissBlock:nil];
 }
 
 -(void)presentSemiView:(UIView*)view {
-	[self presentSemiView:view withOptions:nil];
+	[self presentSemiView:view withOptions:nil completion:nil];
 }
 
--(void)presentSemiViewController:(UIViewController*)vc withOptions:(NSDictionary*)options {
-  [self presentSemiView:vc.view withOptions:options];
+-(void)presentSemiViewController:(UIViewController*)vc
+					 withOptions:(NSDictionary*)options
+					  completion:(KNTransitionCompletionBlock)completion
+					dismissBlock:(KNTransitionCompletionBlock)dismissBlock {
+    [self kn_registerDefaultsAndOptions:options];
+	UIViewController *targetParentVC = [self kn_parentTargetViewController];
+	// implement view controller containment for the semi-modal view controller
+	[targetParentVC addChildViewController:vc];
+	if ([vc respondsToSelector:@selector(beginAppearanceTransition:animated:)]) {
+		[vc beginAppearanceTransition:YES animated:YES]; // iOS 6
+	}
+	objc_setAssociatedObject(self, kSemiModalViewController, vc, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+	objc_setAssociatedObject(self, kSemiModalDismissBlock, dismissBlock, OBJC_ASSOCIATION_COPY_NONATOMIC);
+	[self presentSemiView:vc.view withOptions:options completion:^{
+		[vc didMoveToParentViewController:targetParentVC];
+		if ([vc respondsToSelector:@selector(endAppearanceTransition)]) {
+			[vc endAppearanceTransition]; // iOS 6
+		}
+		if (completion) {
+			completion();
+		}
+	}];
 }
 
--(void)presentSemiView:(UIView*)view withOptions:(NSDictionary*)options {
-  // Determine target
-  UIView * target = [self parentTarget];
+-(void)presentSemiView:(UIView*)view
+		   withOptions:(NSDictionary*)options
+			completion:(KNTransitionCompletionBlock)completion {
+	[self kn_registerDefaultsAndOptions:options]; // re-registering is OK
+	UIView * target = [self parentTarget];
 	
   if (![target.subviews containsObject:view]) {
-		// Remember transition options for symmetrical dismiss transition
-		objc_setAssociatedObject(self, kSemiModalTransitionOptions, options, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-		[self kn_registerTransitionDefaults];
-		
+    // Remember transition options for symmetrical dismiss transition
+	
+	  // Register for orientation changes, so we can update the presenting controller screenshot
+	  [[NSNotificationCenter defaultCenter] addObserver:self
+											   selector:@selector(kn_interfaceOrientationDidChange:)
+												   name:UIDeviceOrientationDidChangeNotification
+												 object:nil];
+	  
+	  NSUInteger transitionStyle = [[self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.transitionStyle] unsignedIntegerValue];
+	  
     // Calulate all frames
-    CGRect sf = view.frame;
+    CGFloat semiViewHeight = view.frame.size.height;
     CGRect vf = target.bounds;
-    CGRect f  = CGRectMake(0, vf.size.height-sf.size.height, vf.size.width, sf.size.height);
-    CGRect of = CGRectMake(0, 0, vf.size.width, vf.size.height-sf.size.height);
+    CGRect semiViewFrame = CGRectMake(0, vf.size.height-semiViewHeight, vf.size.width, semiViewHeight);
+    CGRect overlayFrame = CGRectMake(0, 0, vf.size.width, vf.size.height-semiViewHeight);
 
     // Add semi overlay
     UIView * overlay = [[UIView alloc] initWithFrame:target.bounds];
     overlay.backgroundColor = [UIColor blackColor];
-    
+    overlay.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    overlay.tag = kSemiModalOverlayTag;
+	  
     // Take screenshot and scale
-    UIGraphicsBeginImageContextWithOptions(target.bounds.size, YES, [[UIScreen mainScreen] scale]);
-    [target.layer renderInContext:UIGraphicsGetCurrentContext()];
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIImageView * ss = [[UIImageView alloc] initWithImage:image];
-    ss.tag = kScreenshotTag;
-    [overlay addSubview:ss];
+    UIImageView *ss = [self kn_addOrUpdateParentScreenshotInView:overlay];
     [target addSubview:overlay];
 
     // Dismiss button
@@ -143,38 +218,52 @@ static const uint kDismissButtonTag = 12;
     UIButton * dismissButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [dismissButton addTarget:self action:@selector(dismissSemiModalView) forControlEvents:UIControlEventTouchUpInside];
     dismissButton.backgroundColor = [UIColor clearColor];
-    dismissButton.frame = of;
-    dismissButton.tag = kDismissButtonTag;
+    dismissButton.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    dismissButton.frame = overlayFrame;
     [overlay addSubview:dismissButton];
 
     // Begin overlay animation
-		if ([[self kn_optionsOrDefaultForKey:KNSemiModalOptionKeys.pushParentBack] boolValue]) {
+		if ([[self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.pushParentBack] boolValue]) {
 			[ss.layer addAnimation:[self animationGroupForward:YES] forKey:@"pushedBackAnimation"];
 		}
-		NSTimeInterval duration = [[self kn_optionsOrDefaultForKey:KNSemiModalOptionKeys.animationDuration] doubleValue];
+		NSTimeInterval duration = [[self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.animationDuration] doubleValue];
     [UIView animateWithDuration:duration animations:^{
-      ss.alpha = [[self kn_optionsOrDefaultForKey:KNSemiModalOptionKeys.parentAlpha] floatValue];
+      ss.alpha = [[self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.parentAlpha] floatValue];
     }];
 
     // Present view animated
-    view.frame = CGRectMake(0, vf.size.height, vf.size.width, sf.size.height);
+    view.frame = (transitionStyle == KNSemiModalTransitionStyleSlideUp
+				  ? CGRectOffset(semiViewFrame, 0, +semiViewHeight)
+				  : semiViewFrame);
+	  if (transitionStyle == KNSemiModalTransitionStyleFadeIn || transitionStyle == KNSemiModalTransitionStyleFadeInOut) {
+		view.alpha = 0.0;
+	  }
+
+    view.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
+    view.tag = kSemiModalModalViewTag;
     [target addSubview:view];
     view.layer.shadowColor = [[UIColor blackColor] CGColor];
     view.layer.shadowOffset = CGSizeMake(0, -2);
     view.layer.shadowRadius = 5.0;
-    view.layer.shadowOpacity = [[self kn_optionsOrDefaultForKey:KNSemiModalOptionKeys.shadowOpacity] floatValue];
+    view.layer.shadowOpacity = [[self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.shadowOpacity] floatValue];
     view.layer.shouldRasterize = YES;
     view.layer.rasterizationScale = [[UIScreen mainScreen] scale];
     UIBezierPath *path = [UIBezierPath bezierPathWithRect:view.bounds];
     view.layer.shadowPath = path.CGPath;
-
-    [UIView animateWithDuration:duration animations:^{
-      view.frame = f;
-    } completion:^(BOOL finished) {
-      if(finished){
-        [[NSNotificationCenter defaultCenter] postNotificationName:kSemiModalDidShowNotification
-                                                            object:self];
-      }
+	  
+	  [UIView animateWithDuration:duration animations:^{
+		  if (transitionStyle == KNSemiModalTransitionStyleSlideUp) {
+			  view.frame = semiViewFrame;
+		  } else if (transitionStyle == KNSemiModalTransitionStyleFadeIn || transitionStyle == KNSemiModalTransitionStyleFadeInOut) {
+			  view.alpha = 1.0;
+		  }
+	  } completion:^(BOOL finished) {
+		  if (!finished) return;
+		  [[NSNotificationCenter defaultCenter] postNotificationName:kSemiModalDidShowNotification
+															  object:self];
+		  if (completion) {
+			  completion();
+		  }
     }];
   }
 }
@@ -187,17 +276,46 @@ static const uint kDismissButtonTag = 12;
   UIView * target = [self parentTarget];
   UIView * modal = [target.subviews objectAtIndex:target.subviews.count-1];
   UIView * overlay = [target.subviews objectAtIndex:target.subviews.count-2];
-	NSTimeInterval duration = [[self kn_optionsOrDefaultForKey:KNSemiModalOptionKeys.animationDuration] doubleValue];
-	[UIView animateWithDuration:duration animations:^{
-    modal.frame = CGRectMake(0, target.frame.size.height, modal.frame.size.width, modal.frame.size.height);
+	NSUInteger transitionStyle = [[self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.transitionStyle] unsignedIntegerValue];
+	NSTimeInterval duration = [[self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.animationDuration] doubleValue];
+	UIViewController *vc = objc_getAssociatedObject(self, kSemiModalViewController);
+	KNTransitionCompletionBlock dismissBlock = objc_getAssociatedObject(self, kSemiModalDismissBlock);
+	
+	// child controller containment
+	[vc willMoveToParentViewController:nil];
+	if ([vc respondsToSelector:@selector(beginAppearanceTransition:animated:)]) {
+		[vc beginAppearanceTransition:NO animated:YES]; // iOS 6
+	}
+	
+  [UIView animateWithDuration:duration animations:^{
+	  if (transitionStyle == KNSemiModalTransitionStyleSlideUp) {
+		modal.frame = CGRectMake(0, target.bounds.size.height, modal.frame.size.width, modal.frame.size.height);
+	  } else if (transitionStyle == KNSemiModalTransitionStyleFadeOut || transitionStyle == KNSemiModalTransitionStyleFadeInOut) {
+		  modal.alpha = 0.0;
+	  }
   } completion:^(BOOL finished) {
-    [overlay removeFromSuperview];
-    [modal removeFromSuperview];
+	  [overlay removeFromSuperview];
+	  [modal removeFromSuperview];
+	  
+	  // child controller containment
+	  [vc removeFromParentViewController];
+	  if ([vc respondsToSelector:@selector(endAppearanceTransition)]) {
+		  [vc endAppearanceTransition];
+	  }
+	  
+	  if (dismissBlock) {
+		  dismissBlock();
+	  }
+	  
+	  objc_setAssociatedObject(self, kSemiModalDismissBlock, nil, OBJC_ASSOCIATION_COPY_NONATOMIC);
+	  objc_setAssociatedObject(self, kSemiModalViewController, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+	  
+	  [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
   }];
 
   // Begin overlay animation
-  UIImageView * ss = (UIImageView*)[overlay viewWithTag:kScreenshotTag];
-	if ([[self kn_optionsOrDefaultForKey:KNSemiModalOptionKeys.pushParentBack] boolValue]) {
+  UIImageView * ss = (UIImageView*)[overlay.subviews objectAtIndex:0];
+	if ([[self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.pushParentBack] boolValue]) {
 		[ss.layer addAnimation:[self animationGroupForward:NO] forKey:@"bringForwardAnimation"];
 	}
   [UIView animateWithDuration:duration animations:^{
@@ -221,10 +339,10 @@ static const uint kDismissButtonTag = 12;
   mf.size.height = newSize.height;
   mf.origin.y = target.frame.size.height - mf.size.height;
   UIView * overlay = [target.subviews objectAtIndex:target.subviews.count-2];
-  UIButton * button = (UIButton*)[overlay viewWithTag:kDismissButtonTag];
+  UIButton * button = (UIButton*)[overlay viewWithTag:kSemiModalDismissButtonTag];
   CGRect bf = button.frame;
   bf.size.height = overlay.frame.size.height - newSize.height;
-	NSTimeInterval duration = [[self kn_optionsOrDefaultForKey:KNSemiModalOptionKeys.animationDuration] doubleValue];
+	NSTimeInterval duration = [[self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.animationDuration] doubleValue];
 	[UIView animateWithDuration:duration animations:^{
     modal.frame = mf;
     button.frame = bf;
