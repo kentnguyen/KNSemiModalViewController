@@ -26,11 +26,10 @@ Download a demo clip [here](https://github.com/kentnguyen/KNSemiModalViewControl
 * Easy to understand and very small code base, only 2 files
 * Trivial to implement as subclass
 * Landscape support (not during presentation)
-* Only use basic CAAnimation, should work fine with SDK 4.x up.
+* Only use basic CAAnimation
+* Minimum iOS 5.0 (if you need 4.x support, use older commits before Jan 2013)
 
 ### Optional parameters
-
-Currently supports configuring the following (by [@yangmeyer](http://twitter.com/yangmeyer)):
 
 - animation duration
 - parent alpha
@@ -44,6 +43,11 @@ Easily extend this to anything you would want to make configurable. Feel free to
 * Call `[self presentSemiModalView:myView]`
 
 Read my [blog post](http://bit.ly/IK7UVV) for detailed usage.
+
+### Major contributors
+
+- [@yangmeyer](http://twitter.com/yangmeyer)
+- [@dchohfi](https://github.com/dchohfi)
 
 ### License
 
