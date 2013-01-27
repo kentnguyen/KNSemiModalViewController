@@ -47,11 +47,15 @@ typedef void (^KNTransitionCompletionBlock)(void);
 		   withOptions:(NSDictionary*)options
 			completion:(KNTransitionCompletionBlock)completion;
 
+// Convenient overloading methods
 -(void)presentSemiViewController:(UIViewController*)vc;
+-(void)presentSemiViewController:(UIViewController*)vc withOptions:(NSDictionary*)options;
 -(void)presentSemiView:(UIView*)vc;
--(void)dismissSemiModalView;
--(void)resizeSemiView:(CGSize)newSize;
+-(void)presentSemiView:(UIView*)view withOptions:(NSDictionary*)options;
 
+// Dismiss & resize
+-(void)resizeSemiView:(CGSize)newSize;
+-(void)dismissSemiModalView;
 -(void)dismissSemiModalViewWithCompletion:(KNTransitionCompletionBlock)completion;
 
 @end

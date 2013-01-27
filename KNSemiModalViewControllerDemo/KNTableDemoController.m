@@ -51,7 +51,7 @@
   [self presentSemiViewController:modalVC withOptions:@{
 		 KNSemiModalOptionKeys.pushParentBack : @(NO),
 		 KNSemiModalOptionKeys.parentAlpha : @(0.8)
-	 } completion:nil dismissBlock:nil];
+	 }];
   
   // The following code won't work
 //  KNModalTableViewController * vc = [[KNModalTableViewController alloc] initWithStyle:UITableViewStylePlain];

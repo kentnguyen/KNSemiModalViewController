@@ -165,11 +165,10 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 -(void)presentSemiViewController:(UIViewController*)vc {
 	[self presentSemiViewController:vc withOptions:nil completion:nil dismissBlock:nil];
 }
-
--(void)presentSemiView:(UIView*)view {
-	[self presentSemiView:view withOptions:nil completion:nil];
+-(void)presentSemiViewController:(UIViewController*)vc
+					 withOptions:(NSDictionary*)options {
+    [self presentSemiViewController:vc withOptions:options completion:nil dismissBlock:nil];
 }
-
 -(void)presentSemiViewController:(UIViewController*)vc
 					 withOptions:(NSDictionary*)options
 					  completion:(KNTransitionCompletionBlock)completion
@@ -194,6 +193,12 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 	}];
 }
 
+-(void)presentSemiView:(UIView*)view {
+	[self presentSemiView:view withOptions:nil completion:nil];
+}
+-(void)presentSemiView:(UIView*)view withOptions:(NSDictionary*)options {
+	[self presentSemiView:view withOptions:options completion:nil];
+}
 -(void)presentSemiView:(UIView*)view
 		   withOptions:(NSDictionary*)options
 			completion:(KNTransitionCompletionBlock)completion {
