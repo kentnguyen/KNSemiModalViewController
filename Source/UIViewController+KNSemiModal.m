@@ -112,24 +112,8 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
     return group;
 }
 
--(void)kn_layoutSubviews {
-	UIView * target = [self parentTarget];
-	
-	UIView *semiModal = [target viewWithTag:kSemiModalModalViewTag];
-	UIView *overlay = [target viewWithTag:kSemiModalOverlayTag];
-	
-	CGFloat semiViewHeight = semiModal.frame.size.height;
-    CGRect vf = target.bounds;
-    CGRect semiViewFrame = CGRectMake(0, vf.size.height-semiViewHeight, vf.size.width, semiViewHeight);
-    CGRect overlayFrame = CGRectMake(0, 0, vf.size.width, vf.size.height-semiViewHeight);
-	
-	overlay.frame = overlayFrame;
-	semiModal.frame = semiViewFrame;
-}
-
 -(void)kn_interfaceOrientationDidChange:(NSNotification*)notification {
 	UIView *overlay = [[self parentTarget] viewWithTag:kSemiModalOverlayTag];
-    //	[self kn_layoutSubviews];
 	[self kn_addOrUpdateParentScreenshotInView:overlay];
 }
 
@@ -206,8 +190,6 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 	UIView * target = [self parentTarget];
 	
     if (![target.subviews containsObject:view]) {
-        // Remember transition options for symmetrical dismiss transition
-        
         // Register for orientation changes, so we can update the presenting controller screenshot
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(kn_interfaceOrientationDidChange:)
@@ -270,8 +252,6 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
         view.layer.shadowOpacity = [[self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.shadowOpacity] floatValue];
         view.layer.shouldRasterize = YES;
         view.layer.rasterizationScale = [[UIScreen mainScreen] scale];
-        UIBezierPath *path = [UIBezierPath bezierPathWithRect:view.bounds];
-        view.layer.shadowPath = path.CGPath;
         
         [UIView animateWithDuration:duration animations:^{
             if (transitionStyle == KNSemiModalTransitionStyleSlideUp) {

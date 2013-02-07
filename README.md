@@ -35,6 +35,7 @@ Download a demo clip [here](https://github.com/kentnguyen/KNSemiModalViewControl
 - parent alpha
 - optional push-back
 - shadow opacity
+- disabling the cancel action
 
 Easily extend this to anything you would want to make configurable. Feel free to submit pull requests.
 
@@ -43,6 +44,9 @@ Easily extend this to anything you would want to make configurable. Feel free to
 * Call `[self presentSemiModalView:myView]`
 
 Read my [blog post](http://bit.ly/IK7UVV) for detailed usage.
+
+### Known Issues
+- no iPad support, it will be quite different though.
 
 ### Major contributors
 
