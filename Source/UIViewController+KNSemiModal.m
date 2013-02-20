@@ -126,6 +126,7 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 	UIGraphicsBeginImageContextWithOptions(target.bounds.size, YES, [[UIScreen mainScreen] scale]);
     [target.layer renderInContext:UIGraphicsGetCurrentContext()];
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
 	screenshotContainer.hidden = NO;
 	semiView.hidden = NO;
 	
