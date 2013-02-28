@@ -40,6 +40,8 @@ Download a demo clip [here](https://github.com/kentnguyen/KNSemiModalViewControl
 Easily extend this to anything you would want to make configurable. Feel free to submit pull requests.
 
 ### Installation / How to use
+* Copy 4 files in `Source` folder to your project
+* Add `QuartzCore.framework` to your project
 * `#import "UIViewController+KNSemiModal.h"` in your ViewController
 * Call `[self presentSemiModalView:myView]`
 
