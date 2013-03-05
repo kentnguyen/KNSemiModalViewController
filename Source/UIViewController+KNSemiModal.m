@@ -53,17 +53,6 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 
 #pragma mark Options and defaults
 
--(void)kn_registerTransitionDefaults {
-	NSDictionary *defaults = @{
-    KNSemiModalOptionKeys.animationDuration : @(0.5),
-    KNSemiModalOptionKeys.parentAlpha : @(0.5),
-    KNSemiModalOptionKeys.pushParentBack : @(YES),
-    KNSemiModalOptionKeys.shadowOpacity : @(0.8),
-    KNSemiModalOptionKeys.disableCancel : @(NO),
-	};
-	objc_setAssociatedObject(self, kSemiModalTransitionDefaults, defaults, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
 -(void)kn_registerDefaultsAndOptions:(NSDictionary*)options {
 	[self ym_registerOptions:options defaults:@{
      KNSemiModalOptionKeys.traverseParentHierarchy : @YES,
