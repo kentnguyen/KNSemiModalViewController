@@ -13,22 +13,20 @@
 
 const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 	.traverseParentHierarchy = @"KNSemiModalOptionTraverseParentHierarchy",
-	.pushParentBack = @"KNSemiModalOptionPushParentBack",
-	.animationDuration = @"KNSemiModalOptionAnimationDuration",
-	.parentAlpha = @"KNSemiModalOptionParentAlpha",
-	.shadowOpacity = @"KNSemiModalOptionShadowOpacity",
-	.transitionStyle = @"KNSemiModalTransitionStyle",
-    .disableCancel = @"KNSemiModalOptionDisableCancel",
+	.pushParentBack          = @"KNSemiModalOptionPushParentBack",
+	.animationDuration       = @"KNSemiModalOptionAnimationDuration",
+	.parentAlpha             = @"KNSemiModalOptionParentAlpha",
+	.shadowOpacity           = @"KNSemiModalOptionShadowOpacity",
+	.transitionStyle         = @"KNSemiModalTransitionStyle",
+    .disableCancel           = @"KNSemiModalOptionDisableCancel",
 };
 
-#define kSemiModalTransitionOptions @"kn_semiModalTransitionOptions"
-#define kSemiModalTransitionDefaults @"kn_semiModalTransitionDefaults"
-#define kSemiModalViewController @"kn_semiModalSemiModalViewController"
-#define kSemiModalDismissBlock @"kn_semiModalDismissBlock"
-#define kSemiModalOverlayTag 10001
-#define kSemiModalScreenshotTag 10002
-#define kSemiModalModalViewTag 10003
-#define kSemiModalDismissButtonTag 10004
+#define kSemiModalViewController           @"PaPQC93kjgzUanz"
+#define kSemiModalDismissBlock             @"l27h7RU2dzVfPoQ"
+#define kSemiModalOverlayTag               10001
+#define kSemiModalScreenshotTag            10002
+#define kSemiModalModalViewTag             10003
+#define kSemiModalDismissButtonTag         10004
 
 @interface UIViewController (KNSemiModalInternal)
 -(UIView*)parentTarget;
@@ -55,12 +53,13 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 
 -(void)kn_registerDefaultsAndOptions:(NSDictionary*)options {
 	[self ym_registerOptions:options defaults:@{
-     KNSemiModalOptionKeys.traverseParentHierarchy : @YES,
-     KNSemiModalOptionKeys.pushParentBack : @YES,
-     KNSemiModalOptionKeys.animationDuration : @0.5,
-     KNSemiModalOptionKeys.parentAlpha : @0.5,
-     KNSemiModalOptionKeys.shadowOpacity : @0.8,
+     KNSemiModalOptionKeys.traverseParentHierarchy : @(YES),
+     KNSemiModalOptionKeys.pushParentBack : @(YES),
+     KNSemiModalOptionKeys.animationDuration : @(0.5),
+     KNSemiModalOptionKeys.parentAlpha : @(0.5),
+     KNSemiModalOptionKeys.shadowOpacity : @(0.8),
      KNSemiModalOptionKeys.transitionStyle : @(KNSemiModalTransitionStyleSlideUp),
+     KNSemiModalOptionKeys.disableCancel : @(NO),
 	 }];
 }
 
@@ -147,8 +146,9 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 					 withOptions:(NSDictionary*)options
 					  completion:(KNTransitionCompletionBlock)completion
 					dismissBlock:(KNTransitionCompletionBlock)dismissBlock {
-    [self kn_registerDefaultsAndOptions:options];
+    [self kn_registerDefaultsAndOptions:options]; // re-registering is OK
 	UIViewController *targetParentVC = [self kn_parentTargetViewController];
+
 	// implement view controller containment for the semi-modal view controller
 	[targetParentVC addChildViewController:vc];
 	if ([vc respondsToSelector:@selector(beginAppearanceTransition:animated:)]) {
@@ -185,7 +185,7 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
                                                  selector:@selector(kn_interfaceOrientationDidChange:)
                                                      name:UIDeviceOrientationDidChangeNotification
                                                    object:nil];
-        
+        // Get transition style
         NSUInteger transitionStyle = [[self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.transitionStyle] unsignedIntegerValue];
         
         // Calulate all frames
@@ -273,7 +273,7 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 	UIViewController *vc = objc_getAssociatedObject(self, kSemiModalViewController);
 	KNTransitionCompletionBlock dismissBlock = objc_getAssociatedObject(self, kSemiModalDismissBlock);
 	
-	// child controller containment
+	// Child controller containment
 	[vc willMoveToParentViewController:nil];
 	if ([vc respondsToSelector:@selector(beginAppearanceTransition:animated:)]) {
 		[vc beginAppearanceTransition:NO animated:YES]; // iOS 6
@@ -289,7 +289,7 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
         [overlay removeFromSuperview];
         [modal removeFromSuperview];
         
-        // child controller containment
+        // Child controller containment
         [vc removeFromParentViewController];
         if ([vc respondsToSelector:@selector(endAppearanceTransition)]) {
             [vc endAppearanceTransition];
