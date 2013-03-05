@@ -36,6 +36,7 @@ Download a demo clip [here](https://github.com/kentnguyen/KNSemiModalViewControl
 - optional push-back
 - shadow opacity
 - disabling the cancel action
+- transition style: slide up, fade
 
 Easily extend this to anything you would want to make configurable. Feel free to submit pull requests.
 
@@ -44,6 +45,7 @@ Easily extend this to anything you would want to make configurable. Feel free to
 * Add `QuartzCore.framework` to your project
 * `#import "UIViewController+KNSemiModal.h"` in your ViewController
 * Call `[self presentSemiModalView:myView]`
+* Call `[self dismissSemiModalView]` either from parent/presenting or child/presented controller
 
 Read my [blog post](http://bit.ly/IK7UVV) for detailed usage.
 
