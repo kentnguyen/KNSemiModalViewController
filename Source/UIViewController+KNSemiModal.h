@@ -59,10 +59,3 @@ typedef void (^KNTransitionCompletionBlock)(void);
 -(void)dismissSemiModalViewWithCompletion:(KNTransitionCompletionBlock)completion;
 
 @end
-
-// Convenient category method to find actual ViewController that contains a view
-
-@interface UIView (FindUIViewController)
-- (UIViewController *) containingViewController;
-- (id) traverseResponderChainForUIViewController;
-@end
