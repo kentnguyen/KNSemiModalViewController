@@ -23,6 +23,7 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 
 #define kSemiModalViewController           @"PaPQC93kjgzUanz"
 #define kSemiModalDismissBlock             @"l27h7RU2dzVfPoQ"
+#define kSemiModalPresentingViewController @"QKWuTQjUkWaO1Xr"
 #define kSemiModalOverlayTag               10001
 #define kSemiModalScreenshotTag            10002
 #define kSemiModalModalViewTag             10003
@@ -180,6 +181,9 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 	UIView * target = [self parentTarget];
 	
     if (![target.subviews containsObject:view]) {
+        // Set associative object
+        objc_setAssociatedObject(view, kSemiModalPresentingViewController, self, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+
         // Register for orientation changes, so we can update the presenting controller screenshot
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(kn_interfaceOrientationDidChange:)
@@ -265,6 +269,20 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 }
 
 -(void)dismissSemiModalViewWithCompletion:(void (^)(void))completion {
+    // Look for presenting controller if available
+    UIViewController * prstingTgt = self;
+    UIViewController * presentingController = objc_getAssociatedObject(prstingTgt.view, kSemiModalPresentingViewController);
+    while (presentingController == nil && prstingTgt.parentViewController != nil) {
+        prstingTgt = prstingTgt.parentViewController;
+        presentingController = objc_getAssociatedObject(prstingTgt.view, kSemiModalPresentingViewController);
+    }
+    if (presentingController) {
+        objc_setAssociatedObject(presentingController.view, kSemiModalPresentingViewController, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        [presentingController dismissSemiModalViewWithCompletion:completion];
+        return;
+    }
+
+    // Correct target for dismissal
     UIView * target = [self parentTarget];
     UIView * modal = [target.subviews objectAtIndex:target.subviews.count-1];
     UIView * overlay = [target.subviews objectAtIndex:target.subviews.count-2];
