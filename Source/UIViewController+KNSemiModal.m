@@ -9,7 +9,6 @@
 #import "UIViewController+KNSemiModal.h"
 #import <QuartzCore/QuartzCore.h>
 #import <objc/runtime.h>
-#import "NSObject+YMOptionsAndDefaults.h"
 
 const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 	.traverseParentHierarchy = @"KNSemiModalOptionTraverseParentHierarchy",
@@ -364,4 +363,64 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
     }];
 }
 
+@end
+
+
+
+#pragma mark - NSObject (YMOptionsAndDefaults)
+
+//  NSObject+YMOptionsAndDefaults
+//  Created by YangMeyer on 08.10.12.
+//  Copyright (c) 2012 Yang Meyer. All rights reserved.
+#import <objc/runtime.h>
+
+@implementation NSObject (YMOptionsAndDefaults)
+
+static char const * const kYMStandardOptionsTableName = "YMStandardOptionsTableName";
+static char const * const kYMStandardDefaultsTableName = "YMStandardDefaultsTableName";
+
+- (void)ym_registerOptions:(NSDictionary *)options
+				  defaults:(NSDictionary *)defaults
+{
+	objc_setAssociatedObject(self, kYMStandardOptionsTableName, options, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+	objc_setAssociatedObject(self, kYMStandardDefaultsTableName, defaults, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (id)ym_optionOrDefaultForKey:(NSString*)optionKey
+{
+	NSDictionary *options = objc_getAssociatedObject(self, kYMStandardOptionsTableName);
+	NSDictionary *defaults = objc_getAssociatedObject(self, kYMStandardDefaultsTableName);
+	NSAssert(defaults, @"Defaults must have been set when accessing options.");
+	return options[optionKey] ?: defaults[optionKey];
+}
+@end
+
+
+
+#pragma mark - UIView (FindUIViewController)
+
+// Convenient category method to find actual ViewController that contains a view
+// Adapted from: http://stackoverflow.com/questions/1340434/get-to-uiviewcontroller-from-uiview-on-iphone
+
+@implementation UIView (FindUIViewController)
+- (UIViewController *) containingViewController {
+    UIView * target = self.superview ? self.superview : self;
+    return (UIViewController *)[target traverseResponderChainForUIViewController];
+}
+
+- (id) traverseResponderChainForUIViewController {
+    id nextResponder = [self nextResponder];
+    BOOL isViewController = [nextResponder isKindOfClass:[UIViewController class]];
+    BOOL isTabBarController = [nextResponder isKindOfClass:[UITabBarController class]];
+    if (isViewController && !isTabBarController) {
+        return nextResponder;
+    } else if(isTabBarController){
+        UITabBarController *tabBarController = nextResponder;
+        return [tabBarController selectedViewController];
+    } else if ([nextResponder isKindOfClass:[UIView class]]) {
+        return [nextResponder traverseResponderChainForUIViewController];
+    } else {
+        return nil;
+    }
+}
 @end

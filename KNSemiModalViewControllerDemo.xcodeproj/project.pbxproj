@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2FC0D793162EBDD400387091 /* NSObject+YMOptionsAndDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FC0D792162EBDD400387091 /* NSObject+YMOptionsAndDefaults.m */; };
 		8B1A183716225DE400EDF2B0 /* first.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B1A183016225DE400EDF2B0 /* first.png */; };
 		8B1A183816225DE400EDF2B0 /* first@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B1A183116225DE400EDF2B0 /* first@2x.png */; };
 		8B1A183916225DE400EDF2B0 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B1A183216225DE400EDF2B0 /* Icon.png */; };
@@ -39,8 +38,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		2FC0D791162EBDD400387091 /* NSObject+YMOptionsAndDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+YMOptionsAndDefaults.h"; sourceTree = "<group>"; tabWidth = 4; };
-		2FC0D792162EBDD400387091 /* NSObject+YMOptionsAndDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+YMOptionsAndDefaults.m"; sourceTree = "<group>"; tabWidth = 4; };
 		8B1A183016225DE400EDF2B0 /* first.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = first.png; sourceTree = "<group>"; };
 		8B1A183116225DE400EDF2B0 /* first@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "first@2x.png"; sourceTree = "<group>"; };
 		8B1A183216225DE400EDF2B0 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
@@ -176,8 +173,6 @@
 			children = (
 				8B41C9A41551564800413B5A /* UIViewController+KNSemiModal.h */,
 				8B41C9A51551564800413B5A /* UIViewController+KNSemiModal.m */,
-				2FC0D791162EBDD400387091 /* NSObject+YMOptionsAndDefaults.h */,
-				2FC0D792162EBDD400387091 /* NSObject+YMOptionsAndDefaults.m */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -311,7 +306,6 @@
 				8B8767E81552155300BA2A8E /* KNAboutViewController.m in Sources */,
 				8B6A4ADE15535E5600613D80 /* KNTableDemoController.m in Sources */,
 				8B9E0B541553664F00BE3A69 /* KNModalTableViewController.m in Sources */,
-				2FC0D793162EBDD400387091 /* NSObject+YMOptionsAndDefaults.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

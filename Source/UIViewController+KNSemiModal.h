@@ -1,4 +1,27 @@
 //
+//  NSObject+YMOptionsAndDefaults
+//  Created by YangMeyer on 08.10.12.
+//  Copyright (c) 2012 Yang Meyer. All rights reserved.
+//
+@interface NSObject (YMOptionsAndDefaults)
+- (void)ym_registerOptions:(NSDictionary *)options
+				  defaults:(NSDictionary *)defaults;
+- (id)ym_optionOrDefaultForKey:(NSString*)optionKey;
+@end
+//==================================================================================================
+
+
+//
+// Convenient category method to find actual ViewController that contains a view
+//
+@interface UIView (FindUIViewController)
+- (UIViewController *) containingViewController;
+- (id) traverseResponderChainForUIViewController;
+@end
+//==================================================================================================
+
+
+//
 //  KNSemiModalViewController.h
 //  KNSemiModalViewController
 //
