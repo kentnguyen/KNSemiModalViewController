@@ -32,6 +32,8 @@
 #define kSemiModalDidShowNotification @"kSemiModalDidShowNotification"
 #define kSemiModalDidHideNotification @"kSemiModalDidHideNotification"
 #define kSemiModalWasResizedNotification @"kSemiModalWasResizedNotification"
+#define kSemiModalWasMovedNotification @"kSemiModalWasMovedNotification"
+
 
 extern const struct KNSemiModalOptionKeys {
 	__unsafe_unretained NSString *traverseParentHierarchy; // boxed BOOL. default is YES.
@@ -78,6 +80,7 @@ typedef void (^KNTransitionCompletionBlock)(void);
 
 // Dismiss & resize
 -(void)resizeSemiView:(CGSize)newSize;
+-(void)moveSemiViewToTopWithMargin:(CGFloat)topMargin;
 -(void)dismissSemiModalView;
 -(void)dismissSemiModalViewWithCompletion:(KNTransitionCompletionBlock)completion;
 
