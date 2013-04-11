@@ -70,12 +70,23 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
     CATransform3D t1 = CATransform3DIdentity;
     t1.m34 = 1.0/-900;
     t1 = CATransform3DScale(t1, 0.95, 0.95, 1);
-    t1 = CATransform3DRotate(t1, 15.0f*M_PI/180.0f, 1, 0, 0);
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+        // The rotation angle is minor as the view is nearer
+        t1 = CATransform3DRotate(t1, 7.5f*M_PI/180.0f, 1, 0, 0);
+    } else {
+        t1 = CATransform3DRotate(t1, 15.0f*M_PI/180.0f, 1, 0, 0);
+    }
     
     CATransform3D t2 = CATransform3DIdentity;
     t2.m34 = t1.m34;
-    t2 = CATransform3DTranslate(t2, 0, [self parentTarget].frame.size.height*-0.08, 0);
-    t2 = CATransform3DScale(t2, 0.8, 0.8, 1);
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+        // Minor shift to mantai perspective
+        t2 = CATransform3DTranslate(t2, 0, [self parentTarget].frame.size.height*-0.04, 0);
+        t2 = CATransform3DScale(t2, 0.88, 0.88, 1);
+    } else {
+        t2 = CATransform3DTranslate(t2, 0, [self parentTarget].frame.size.height*-0.08, 0);
+        t2 = CATransform3DScale(t2, 0.8, 0.8, 1);
+    }
     
     CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform"];
     animation.toValue = [NSValue valueWithCATransform3D:t1];
@@ -194,7 +205,14 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
         // Calulate all frames
         CGFloat semiViewHeight = view.frame.size.height;
         CGRect vf = target.bounds;
-        CGRect semiViewFrame = CGRectMake(0, vf.size.height-semiViewHeight, vf.size.width, semiViewHeight);
+        CGRect semiViewFrame;
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+            // We center the view and mantain aspect ration
+            semiViewFrame = CGRectMake((vf.size.width - view.frame.size.width) / 2.0, vf.size.height-semiViewHeight, view.frame.size.width, semiViewHeight);
+        } else {
+            semiViewFrame = CGRectMake(0, vf.size.height-semiViewHeight, vf.size.width, semiViewHeight);
+        }
+        
         CGRect overlayFrame = CGRectMake(0, 0, vf.size.width, vf.size.height-semiViewHeight);
         
         // Add semi overlay
@@ -236,7 +254,13 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
             view.alpha = 0.0;
         }
         
-        view.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+            // Don't resize the view width on rotating
+            view.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+        } else {
+            view.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
+        }
+        
         view.tag = kSemiModalModalViewTag;
         [target addSubview:view];
         view.layer.shadowColor = [[UIColor blackColor] CGColor];
@@ -298,7 +322,12 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 	
     [UIView animateWithDuration:duration animations:^{
         if (transitionStyle == KNSemiModalTransitionStyleSlideUp) {
-            modal.frame = CGRectMake(0, target.bounds.size.height, modal.frame.size.width, modal.frame.size.height);
+            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+                // As the view is centered, we perform a vertical translation
+                modal.frame = CGRectMake((target.bounds.size.width - modal.frame.size.width) / 2.0, target.bounds.size.height, modal.frame.size.width, modal.frame.size.height);
+            } else {
+                modal.frame = CGRectMake(0, target.bounds.size.height, modal.frame.size.width, modal.frame.size.height);
+            }
         } else if (transitionStyle == KNSemiModalTransitionStyleFadeOut || transitionStyle == KNSemiModalTransitionStyleFadeInOut) {
             modal.alpha = 0.0;
         }
