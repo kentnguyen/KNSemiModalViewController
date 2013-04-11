@@ -254,7 +254,13 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
             view.alpha = 0.0;
         }
         
-        view.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+            // Don't resize the view width on rotating
+            view.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+        } else {
+            view.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
+        }
+        
         view.tag = kSemiModalModalViewTag;
         [target addSubview:view];
         view.layer.shadowColor = [[UIColor blackColor] CGColor];
