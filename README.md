@@ -27,6 +27,7 @@ Download a demo clip [here](https://github.com/kentnguyen/KNSemiModalViewControl
 * Trivial to implement as subclass
 * Landscape support (not during presentation)
 * Only use basic CAAnimation
+* iPad support (experimental)
 * Minimum iOS 5.0 (if you need 4.x support, use older commits before Jan 2013)
 
 ### Optional parameters
@@ -46,11 +47,6 @@ Easily extend this to anything you would want to make configurable. Feel free to
 * `#import "UIViewController+KNSemiModal.h"` in your ViewController
 * Call `[self presentSemiModalView:myView]`
 * Call `[self dismissSemiModalView]` either from parent/presenting or child/presented controller
-
-Read my [blog post](http://bit.ly/IK7UVV) for detailed usage.
-
-### Known Issues
-- no iPad support, it will be quite different though.
 
 ### Major contributors
 
