@@ -55,6 +55,8 @@ Easily extend this to anything you would want to make configurable. Feel free to
 
 ### License
 
+In short: MIT aka Buy me coffee license [![](http://kentnguyen.com/KNCoffeeButton.png)](http://bit.ly/10KC2wr)
+
 UIViewController+KNSemiModal is licensed under MIT License
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
