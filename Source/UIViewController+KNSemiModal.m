@@ -82,7 +82,6 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
     CATransform3D t2 = CATransform3DIdentity;
     t2.m34 = t1.m34;
     double scale = [[self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.parentScale] doubleValue];
-    t2 = CATransform3DScale(t2, scale, scale, 1);
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
         // Minor shift to mantai perspective
         t2 = CATransform3DTranslate(t2, 0, [self parentTarget].frame.size.height*-0.04, 0);
