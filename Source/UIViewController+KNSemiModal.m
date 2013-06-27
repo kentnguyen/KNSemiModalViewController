@@ -15,6 +15,7 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 	.pushParentBack          = @"KNSemiModalOptionPushParentBack",
 	.animationDuration       = @"KNSemiModalOptionAnimationDuration",
 	.parentAlpha             = @"KNSemiModalOptionParentAlpha",
+    .parentScale              = @"KNSemiModalOptionParentScale",
 	.shadowOpacity           = @"KNSemiModalOptionShadowOpacity",
 	.transitionStyle         = @"KNSemiModalTransitionStyle",
     .disableCancel           = @"KNSemiModalOptionDisableCancel",
@@ -57,6 +58,7 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
      KNSemiModalOptionKeys.pushParentBack : @(YES),
      KNSemiModalOptionKeys.animationDuration : @(0.5),
      KNSemiModalOptionKeys.parentAlpha : @(0.5),
+     KNSemiModalOptionKeys.parentScale : @(0.8),     
      KNSemiModalOptionKeys.shadowOpacity : @(0.8),
      KNSemiModalOptionKeys.transitionStyle : @(KNSemiModalTransitionStyleSlideUp),
      KNSemiModalOptionKeys.disableCancel : @(NO),
@@ -79,13 +81,15 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
     
     CATransform3D t2 = CATransform3DIdentity;
     t2.m34 = t1.m34;
+    double scale = [[self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.parentScale] doubleValue];
+    t2 = CATransform3DScale(t2, scale, scale, 1);
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
         // Minor shift to mantai perspective
         t2 = CATransform3DTranslate(t2, 0, [self parentTarget].frame.size.height*-0.04, 0);
-        t2 = CATransform3DScale(t2, 0.88, 0.88, 1);
+        t2 = CATransform3DScale(t2, scale, scale, 1);
     } else {
         t2 = CATransform3DTranslate(t2, 0, [self parentTarget].frame.size.height*-0.08, 0);
-        t2 = CATransform3DScale(t2, 0.8, 0.8, 1);
+        t2 = CATransform3DScale(t2, scale, scale, 1);
     }
     
     CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform"];
