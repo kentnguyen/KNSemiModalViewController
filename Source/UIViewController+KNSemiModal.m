@@ -307,8 +307,8 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 
     // Correct target for dismissal
     UIView * target = [self parentTarget];
-    UIView * modal = [target.subviews objectAtIndex:target.subviews.count-1];
-    UIView * overlay = [target.subviews objectAtIndex:target.subviews.count-2];
+    UIView * modal = [target viewWithTag:kSemiModalModalViewTag];
+    UIView * overlay = [target viewWithTag:kSemiModalOverlayTag];
 	NSUInteger transitionStyle = [[self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.transitionStyle] unsignedIntegerValue];
 	NSTimeInterval duration = [[self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.animationDuration] doubleValue];
 	UIViewController *vc = objc_getAssociatedObject(self, kSemiModalViewController);
@@ -371,12 +371,12 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 
 - (void)resizeSemiView:(CGSize)newSize {
     UIView * target = [self parentTarget];
-    UIView * modal = [target.subviews objectAtIndex:target.subviews.count-1];
+    UIView * modal = [target viewWithTag:kSemiModalModalViewTag];
     CGRect mf = modal.frame;
     mf.size.width = newSize.width;
     mf.size.height = newSize.height;
     mf.origin.y = target.frame.size.height - mf.size.height;
-    UIView * overlay = [target.subviews objectAtIndex:target.subviews.count-2];
+    UIView * overlay = [target viewWithTag:kSemiModalOverlayTag];
     UIButton * button = (UIButton*)[overlay viewWithTag:kSemiModalDismissButtonTag];
     CGRect bf = button.frame;
     bf.size.height = overlay.frame.size.height - newSize.height;
