@@ -18,6 +18,7 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 	.shadowOpacity           = @"KNSemiModalOptionShadowOpacity",
 	.transitionStyle         = @"KNSemiModalTransitionStyle",
     .disableCancel           = @"KNSemiModalOptionDisableCancel",
+    .backgroundView          = @"KNSemiModelOptionBackgroundView",
 };
 
 #define kSemiModalViewController           @"PaPQC93kjgzUanz"
@@ -216,8 +217,17 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
         CGRect overlayFrame = CGRectMake(0, 0, vf.size.width, vf.size.height-semiViewHeight);
         
         // Add semi overlay
-        UIView * overlay = [[UIView alloc] initWithFrame:target.bounds];
+        UIView *overlay;
+        UIView *backgroundView = [self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.backgroundView];
+        if (backgroundView) {
+            overlay = backgroundView;
+        } else {
+            overlay = [[UIView alloc] init];
+        }
+        
+        overlay.frame = target.bounds;
         overlay.backgroundColor = [UIColor blackColor];
+        overlay.userInteractionEnabled = YES;
         overlay.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         overlay.tag = kSemiModalOverlayTag;
         
