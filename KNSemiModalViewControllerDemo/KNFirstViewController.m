@@ -33,12 +33,11 @@
 }
 
 - (IBAction)buttonDidTouch:(id)sender {
-
   // You can present a simple UIImageView or any other UIView like this,
   // without needing to take care of dismiss action
   UIImageView * imagev = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"temp.jpg"]];
-  [self presentSemiView:imagev];
-
+  UIImageView * bckv = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background_01"]];
+  [self presentSemiView:imagev withOptions:@{ KNSemiModalOptionKeys.backgroundView: bckv }];
 }
 
 @end
