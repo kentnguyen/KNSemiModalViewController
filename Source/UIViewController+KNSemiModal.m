@@ -301,7 +301,7 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 }
 -(void)updateBackground{
     UIView * target = [self parentTarget];
-    UIView * overlay = [target.subviews objectAtIndex:target.subviews.count-2];
+    UIView * overlay = [target viewWithTag:kSemiModalOverlayTag];
     [self kn_addOrUpdateParentScreenshotInView:overlay];
 }
 -(void)dismissSemiModalView {

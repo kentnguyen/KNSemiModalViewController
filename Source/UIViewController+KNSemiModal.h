@@ -78,7 +78,7 @@ typedef void (^KNTransitionCompletionBlock)(void);
 -(void)presentSemiView:(UIView*)vc;
 -(void)presentSemiView:(UIView*)view withOptions:(NSDictionary*)options;
 
-// Update backgroundView
+// Update (refresh) backgroundView
 -(void)updateBackground;
 // Dismiss & resize
 -(void)resizeSemiView:(CGSize)newSize;
