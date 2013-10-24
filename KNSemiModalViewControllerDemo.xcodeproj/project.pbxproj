@@ -166,9 +166,9 @@
 			isa = PBXGroup;
 			children = (
 				8B1A182F16225DE400EDF2B0 /* Images */,
-				8B41C97A1551561200413B5A /* KNSemiModalViewControllerDemo-Info.plist */,
-				8B41C97B1551561200413B5A /* InfoPlist.strings */,
 				8B41C97E1551561200413B5A /* main.m */,
+				8B41C97B1551561200413B5A /* InfoPlist.strings */,
+				8B41C97A1551561200413B5A /* KNSemiModalViewControllerDemo-Info.plist */,
 				8B41C9801551561200413B5A /* KNSemiModalViewControllerDemo-Prefix.pch */,
 			);
 			name = "Supporting Files";

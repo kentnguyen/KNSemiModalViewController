@@ -12,6 +12,10 @@ This library (ARC) is designed as a Category to UIViewController so you don't ha
 
 <img src="https://github.com/kentnguyen/KNSemiModalViewController/blob/master/Docs/ss1.png?raw=true" /> . <img src="https://github.com/kentnguyen/KNSemiModalViewController/blob/master/Docs/ss2.png?raw=true" />
 
+*On iPad
+
+<img src="https://github.com/kentnguyen/KNSemiModalViewController/blob/master/Docs/ss3.png?raw=true" /> 
+
 ### Demo
 
 Download a demo clip [here](https://github.com/kentnguyen/KNSemiModalViewController/blob/master/Docs/KNSemiModalDemo.mov?raw=true) (1.3MB, .mov)
