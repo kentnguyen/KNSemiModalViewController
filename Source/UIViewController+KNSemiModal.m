@@ -305,6 +305,8 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
     [self kn_addOrUpdateParentScreenshotInView:overlay];
 }
 -(void)dismissSemiModalView {
+    if ([self respondsToSelector:@selector(willDismissSemiModalView)])
+        [self performSelectorOnMainThread:@selector(willDismissSemiModalView) withObject:nil waitUntilDone:YES];
 	[self dismissSemiModalViewWithCompletion:nil];
 }
 
