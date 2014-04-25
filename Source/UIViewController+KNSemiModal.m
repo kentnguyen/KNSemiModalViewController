@@ -127,7 +127,11 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 	screenshotContainer.hidden = YES; // screenshot without the overlay!
 	semiView.hidden = YES;
 	UIGraphicsBeginImageContextWithOptions(target.bounds.size, YES, [[UIScreen mainScreen] scale]);
-    [target.layer renderInContext:UIGraphicsGetCurrentContext()];
+    if ([target respondsToSelector:@selector(drawViewHierarchyInRect:afterScreenUpdates:)]) {
+        [target drawViewHierarchyInRect:target.bounds afterScreenUpdates:YES];
+    } else {
+        [target.layer renderInContext:UIGraphicsGetCurrentContext()];
+    }
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
 	screenshotContainer.hidden = NO;
