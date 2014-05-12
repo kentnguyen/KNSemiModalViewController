@@ -413,6 +413,24 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
     }];
 }
 
+-(void)moveSemiViewToTopWithMargin:(CGFloat)topMargin {
+    UIView * target = [self parentTarget];
+    UIView * modal = [target.subviews objectAtIndex:target.subviews.count-1];
+    CGRect newFrame = modal.frame;
+    newFrame.origin.y = topMargin;
+	NSTimeInterval duration = [[self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.animationDuration] doubleValue];
+	[UIView animateWithDuration:duration animations:^{
+        modal.frame = newFrame;
+    } completion:^(BOOL finished) {
+        if(finished){
+            [[NSNotificationCenter defaultCenter] postNotificationName:kSemiModalWasMovedNotification
+                                                                object:self];
+        }
+    }];
+    
+}
+
+
 @end
 
 
