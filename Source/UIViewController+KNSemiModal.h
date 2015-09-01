@@ -33,7 +33,7 @@
 #define kSemiModalDidHideNotification @"kSemiModalDidHideNotification"
 #define kSemiModalWasResizedNotification @"kSemiModalWasResizedNotification"
 
-extern const struct KNSemiModalOptionKeys {
+extern const struct KNSemiModalOption {
 	__unsafe_unretained NSString *traverseParentHierarchy; // boxed BOOL. default is YES.
 	__unsafe_unretained NSString *pushParentBack;		   // boxed BOOL. default is YES.
 	__unsafe_unretained NSString *animationDuration; // boxed double, in seconds. default is 0.5.
