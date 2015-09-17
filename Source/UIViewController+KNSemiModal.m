@@ -10,7 +10,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import <objc/runtime.h>
 
-const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
+const struct KNSemiModalOption KNSemiModalOptionKeys = {
 	.traverseParentHierarchy = @"KNSemiModalOptionTraverseParentHierarchy",
 	.pushParentBack          = @"KNSemiModalOptionPushParentBack",
 	.animationDuration       = @"KNSemiModalOptionAnimationDuration",
