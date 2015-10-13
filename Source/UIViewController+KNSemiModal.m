@@ -1,3 +1,4 @@
+
 //
 //  KNSemiModalViewController.m
 //  KNSemiModalViewController
@@ -11,13 +12,13 @@
 #import <objc/runtime.h>
 
 const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
-	.traverseParentHierarchy = @"KNSemiModalOptionTraverseParentHierarchy",
-	.pushParentBack          = @"KNSemiModalOptionPushParentBack",
-	.animationDuration       = @"KNSemiModalOptionAnimationDuration",
-	.parentAlpha             = @"KNSemiModalOptionParentAlpha",
+    .traverseParentHierarchy = @"KNSemiModalOptionTraverseParentHierarchy",
+    .pushParentBack          = @"KNSemiModalOptionPushParentBack",
+    .animationDuration       = @"KNSemiModalOptionAnimationDuration",
+    .parentAlpha             = @"KNSemiModalOptionParentAlpha",
     .parentScale              = @"KNSemiModalOptionParentScale",
-	.shadowOpacity           = @"KNSemiModalOptionShadowOpacity",
-	.transitionStyle         = @"KNSemiModalTransitionStyle",
+    .shadowOpacity           = @"KNSemiModalOptionShadowOpacity",
+    .transitionStyle         = @"KNSemiModalTransitionStyle",
     .disableCancel           = @"KNSemiModalOptionDisableCancel",
     .backgroundView          = @"KNSemiModelOptionBackgroundView",
 };
@@ -37,16 +38,19 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 
 @implementation UIViewController (KNSemiModalInternal)
 
+UIDeviceOrientation currentOrientation;         //set in -presentSemiView
+
 -(UIViewController*)kn_parentTargetViewController {
-	UIViewController * target = self;
-	if ([[self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.traverseParentHierarchy] boolValue]) {
-		// cover UINav & UITabbar as well
-		while (target.parentViewController != nil) {
-			target = target.parentViewController;
-		}
-	}
-	return target;
+    UIViewController * target = self;
+    if ([[self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.traverseParentHierarchy] boolValue]) {
+        // cover UINav & UITabbar as well
+        while (target.parentViewController != nil) {
+            target = target.parentViewController;
+        }
+    }
+    return target;
 }
+
 -(UIView*)parentTarget {
     return [self kn_parentTargetViewController].view;
 }
@@ -54,16 +58,16 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 #pragma mark Options and defaults
 
 -(void)kn_registerDefaultsAndOptions:(NSDictionary*)options {
-	[self ym_registerOptions:options defaults:@{
-     KNSemiModalOptionKeys.traverseParentHierarchy : @(YES),
-     KNSemiModalOptionKeys.pushParentBack : @(YES),
-     KNSemiModalOptionKeys.animationDuration : @(0.5),
-     KNSemiModalOptionKeys.parentAlpha : @(0.5),
-     KNSemiModalOptionKeys.parentScale : @(0.8),     
-     KNSemiModalOptionKeys.shadowOpacity : @(0.8),
-     KNSemiModalOptionKeys.transitionStyle : @(KNSemiModalTransitionStyleSlideUp),
-     KNSemiModalOptionKeys.disableCancel : @(NO),
-	 }];
+    [self ym_registerOptions:options defaults:@{
+                                                KNSemiModalOptionKeys.traverseParentHierarchy : @(YES),
+                                                KNSemiModalOptionKeys.pushParentBack : @(YES),
+                                                KNSemiModalOptionKeys.animationDuration : @(0.5),
+                                                KNSemiModalOptionKeys.parentAlpha : @(0.5),
+                                                KNSemiModalOptionKeys.parentScale : @(0.8),
+                                                KNSemiModalOptionKeys.shadowOpacity : @(0.8),
+                                                KNSemiModalOptionKeys.transitionStyle : @(KNSemiModalTransitionStyleSlideUp),
+                                                KNSemiModalOptionKeys.disableCancel : @(NO),
+                                                }];
 }
 
 #pragma mark Push-back animation group
@@ -94,7 +98,7 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
     
     CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform"];
     animation.toValue = [NSValue valueWithCATransform3D:t1];
-	CFTimeInterval duration = [[self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.animationDuration] doubleValue];
+    CFTimeInterval duration = [[self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.animationDuration] doubleValue];
     animation.duration = duration/2;
     animation.fillMode = kCAFillModeForwards;
     animation.removedOnCompletion = NO;
@@ -116,17 +120,22 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 }
 
 -(void)kn_interfaceOrientationDidChange:(NSNotification*)notification {
-	UIView *overlay = [[self parentTarget] viewWithTag:kSemiModalOverlayTag];
-	[self kn_addOrUpdateParentScreenshotInView:overlay];
+    // if orientation really changed update screen shoot.
+    // UIDeviceOrientationDidChangeNotification send when display control center or notification panel
+    if (currentOrientation != [[UIDevice currentDevice] orientation]) {
+        UIView *overlay = [[self parentTarget] viewWithTag:kSemiModalOverlayTag];
+        [self kn_addOrUpdateParentScreenshotInView:overlay];
+        currentOrientation = [[UIDevice currentDevice] orientation];
+    }
 }
 
 -(UIImageView*)kn_addOrUpdateParentScreenshotInView:(UIView*)screenshotContainer {
-	UIView *target = [self parentTarget];
-	UIView *semiView = [target viewWithTag:kSemiModalModalViewTag];
-	
-	screenshotContainer.hidden = YES; // screenshot without the overlay!
-	semiView.hidden = YES;
-	UIGraphicsBeginImageContextWithOptions(target.bounds.size, YES, [[UIScreen mainScreen] scale]);
+    UIView *target = [self parentTarget];
+    UIView *semiView = [target viewWithTag:kSemiModalModalViewTag];
+    
+    screenshotContainer.hidden = YES; // screenshot without the overlay!
+    semiView.hidden = YES;
+    UIGraphicsBeginImageContextWithOptions(target.bounds.size, YES, [[UIScreen mainScreen] scale]);
     if ([target respondsToSelector:@selector(drawViewHierarchyInRect:afterScreenUpdates:)]) {
         [target drawViewHierarchyInRect:target.bounds afterScreenUpdates:YES];
     } else {
@@ -134,20 +143,20 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
     }
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-	screenshotContainer.hidden = NO;
-	semiView.hidden = NO;
-	
-	UIImageView* screenshot = (id) [screenshotContainer viewWithTag:kSemiModalScreenshotTag];
-	if (screenshot) {
-		screenshot.image = image;
-	}
-	else {
-		screenshot = [[UIImageView alloc] initWithImage:image];
-		screenshot.tag = kSemiModalScreenshotTag;
-		screenshot.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-		[screenshotContainer addSubview:screenshot];
-	}
-	return screenshot;
+    screenshotContainer.hidden = NO;
+    semiView.hidden = NO;
+    
+    UIImageView* screenshot = (id) [screenshotContainer viewWithTag:kSemiModalScreenshotTag];
+    if (screenshot) {
+        screenshot.image = image;
+    }
+    else {
+        screenshot = [[UIImageView alloc] initWithImage:image];
+        screenshot.tag = kSemiModalScreenshotTag;
+        screenshot.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        [screenshotContainer addSubview:screenshot];
+    }
+    return screenshot;
 }
 
 @end
@@ -155,58 +164,61 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 @implementation UIViewController (KNSemiModal)
 
 -(void)presentSemiViewController:(UIViewController*)vc {
-	[self presentSemiViewController:vc withOptions:nil completion:nil dismissBlock:nil];
+    [self presentSemiViewController:vc withOptions:nil completion:nil dismissBlock:nil];
 }
 -(void)presentSemiViewController:(UIViewController*)vc
-					 withOptions:(NSDictionary*)options {
+                     withOptions:(NSDictionary*)options {
     [self presentSemiViewController:vc withOptions:options completion:nil dismissBlock:nil];
 }
 -(void)presentSemiViewController:(UIViewController*)vc
-					 withOptions:(NSDictionary*)options
-					  completion:(KNTransitionCompletionBlock)completion
-					dismissBlock:(KNTransitionCompletionBlock)dismissBlock {
+                     withOptions:(NSDictionary*)options
+                      completion:(KNTransitionCompletionBlock)completion
+                    dismissBlock:(KNTransitionCompletionBlock)dismissBlock {
     [self kn_registerDefaultsAndOptions:options]; // re-registering is OK
-	UIViewController *targetParentVC = [self kn_parentTargetViewController];
-
-	// implement view controller containment for the semi-modal view controller
-	[targetParentVC addChildViewController:vc];
-	if ([vc respondsToSelector:@selector(beginAppearanceTransition:animated:)]) {
-		[vc beginAppearanceTransition:YES animated:YES]; // iOS 6
-	}
-	objc_setAssociatedObject(self, kSemiModalViewController, vc, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-	objc_setAssociatedObject(self, kSemiModalDismissBlock, dismissBlock, OBJC_ASSOCIATION_COPY_NONATOMIC);
-	[self presentSemiView:vc.view withOptions:options completion:^{
-		[vc didMoveToParentViewController:targetParentVC];
-		if ([vc respondsToSelector:@selector(endAppearanceTransition)]) {
-			[vc endAppearanceTransition]; // iOS 6
-		}
-		if (completion) {
-			completion();
-		}
-	}];
+    UIViewController *targetParentVC = [self kn_parentTargetViewController];
+    
+    // implement view controller containment for the semi-modal view controller
+    [targetParentVC addChildViewController:vc];
+    if ([vc respondsToSelector:@selector(beginAppearanceTransition:animated:)]) {
+        [vc beginAppearanceTransition:YES animated:YES]; // iOS 6
+    }
+    objc_setAssociatedObject(self, kSemiModalViewController, vc, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(self, kSemiModalDismissBlock, dismissBlock, OBJC_ASSOCIATION_COPY_NONATOMIC);
+    [self presentSemiView:vc.view withOptions:options completion:^{
+        [vc didMoveToParentViewController:targetParentVC];
+        if ([vc respondsToSelector:@selector(endAppearanceTransition)]) {
+            [vc endAppearanceTransition]; // iOS 6
+        }
+        if (completion) {
+            completion();
+        }
+    }];
 }
 
 -(void)presentSemiView:(UIView*)view {
-	[self presentSemiView:view withOptions:nil completion:nil];
+    [self presentSemiView:view withOptions:nil completion:nil];
 }
 -(void)presentSemiView:(UIView*)view withOptions:(NSDictionary*)options {
-	[self presentSemiView:view withOptions:options completion:nil];
+    [self presentSemiView:view withOptions:options completion:nil];
 }
 -(void)presentSemiView:(UIView*)view
-		   withOptions:(NSDictionary*)options
-			completion:(KNTransitionCompletionBlock)completion {
-	[self kn_registerDefaultsAndOptions:options]; // re-registering is OK
-	UIView * target = [self parentTarget];
-	
+           withOptions:(NSDictionary*)options
+            completion:(KNTransitionCompletionBlock)completion {
+    [self kn_registerDefaultsAndOptions:options]; // re-registering is OK
+    UIView * target = [self parentTarget];
+    
     if (![target.subviews containsObject:view]) {
         // Set associative object
         objc_setAssociatedObject(view, kSemiModalPresentingViewController, self, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-
+        
         // Register for orientation changes, so we can update the presenting controller screenshot
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(kn_interfaceOrientationDidChange:)
                                                      name:UIDeviceOrientationDidChangeNotification
                                                    object:nil];
+        
+        currentOrientation = [[UIDevice currentDevice] orientation];
+        
         // Get transition style
         NSUInteger transitionStyle = [[self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.transitionStyle] unsignedIntegerValue];
         
@@ -255,10 +267,10 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
         }
         
         // Begin overlay animation
-		if ([[self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.pushParentBack] boolValue]) {
-			[ss.layer addAnimation:[self animationGroupForward:YES] forKey:@"pushedBackAnimation"];
-		}
-		NSTimeInterval duration = [[self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.animationDuration] doubleValue];
+        if ([[self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.pushParentBack] boolValue]) {
+            [ss.layer addAnimation:[self animationGroupForward:YES] forKey:@"pushedBackAnimation"];
+        }
+        NSTimeInterval duration = [[self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.animationDuration] doubleValue];
         [UIView animateWithDuration:duration animations:^{
             ss.alpha = [[self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.parentAlpha] floatValue];
         }];
@@ -309,7 +321,7 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
     [self kn_addOrUpdateParentScreenshotInView:overlay];
 }
 -(void)dismissSemiModalView {
-	[self dismissSemiModalViewWithCompletion:nil];
+    [self dismissSemiModalViewWithCompletion:nil];
 }
 
 -(void)dismissSemiModalViewWithCompletion:(void (^)(void))completion {
@@ -325,22 +337,22 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
         [presentingController dismissSemiModalViewWithCompletion:completion];
         return;
     }
-
+    
     // Correct target for dismissal
     UIView * target = [self parentTarget];
     UIView * modal = [target viewWithTag:kSemiModalModalViewTag];
     UIView * overlay = [target viewWithTag:kSemiModalOverlayTag];
-	NSUInteger transitionStyle = [[self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.transitionStyle] unsignedIntegerValue];
-	NSTimeInterval duration = [[self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.animationDuration] doubleValue];
-	UIViewController *vc = objc_getAssociatedObject(self, kSemiModalViewController);
-	KNTransitionCompletionBlock dismissBlock = objc_getAssociatedObject(self, kSemiModalDismissBlock);
-	
-	// Child controller containment
-	[vc willMoveToParentViewController:nil];
-	if ([vc respondsToSelector:@selector(beginAppearanceTransition:animated:)]) {
-		[vc beginAppearanceTransition:NO animated:YES]; // iOS 6
-	}
-	
+    NSUInteger transitionStyle = [[self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.transitionStyle] unsignedIntegerValue];
+    NSTimeInterval duration = [[self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.animationDuration] doubleValue];
+    UIViewController *vc = objc_getAssociatedObject(self, kSemiModalViewController);
+    KNTransitionCompletionBlock dismissBlock = objc_getAssociatedObject(self, kSemiModalDismissBlock);
+    
+    // Child controller containment
+    [vc willMoveToParentViewController:nil];
+    if ([vc respondsToSelector:@selector(beginAppearanceTransition:animated:)]) {
+        [vc beginAppearanceTransition:NO animated:YES]; // iOS 6
+    }
+    
     [UIView animateWithDuration:duration animations:^{
         if (transitionStyle == KNSemiModalTransitionStyleSlideUp) {
             if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
@@ -374,9 +386,9 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
     
     // Begin overlay animation
     UIImageView * ss = (UIImageView*)[overlay.subviews objectAtIndex:0];
-	if ([[self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.pushParentBack] boolValue]) {
-		[ss.layer addAnimation:[self animationGroupForward:NO] forKey:@"bringForwardAnimation"];
-	}
+    if ([[self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.pushParentBack] boolValue]) {
+        [ss.layer addAnimation:[self animationGroupForward:NO] forKey:@"bringForwardAnimation"];
+    }
     [UIView animateWithDuration:duration animations:^{
         ss.alpha = 1;
     } completion:^(BOOL finished) {
@@ -401,8 +413,8 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
     UIButton * button = (UIButton*)[overlay viewWithTag:kSemiModalDismissButtonTag];
     CGRect bf = button.frame;
     bf.size.height = overlay.frame.size.height - newSize.height;
-	NSTimeInterval duration = [[self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.animationDuration] doubleValue];
-	[UIView animateWithDuration:duration animations:^{
+    NSTimeInterval duration = [[self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.animationDuration] doubleValue];
+    [UIView animateWithDuration:duration animations:^{
         modal.frame = mf;
         button.frame = bf;
     } completion:^(BOOL finished) {
@@ -430,18 +442,18 @@ static char const * const kYMStandardOptionsTableName = "YMStandardOptionsTableN
 static char const * const kYMStandardDefaultsTableName = "YMStandardDefaultsTableName";
 
 - (void)ym_registerOptions:(NSDictionary *)options
-				  defaults:(NSDictionary *)defaults
+                  defaults:(NSDictionary *)defaults
 {
-	objc_setAssociatedObject(self, kYMStandardOptionsTableName, options, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-	objc_setAssociatedObject(self, kYMStandardDefaultsTableName, defaults, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(self, kYMStandardOptionsTableName, options, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(self, kYMStandardDefaultsTableName, defaults, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (id)ym_optionOrDefaultForKey:(NSString*)optionKey
 {
-	NSDictionary *options = objc_getAssociatedObject(self, kYMStandardOptionsTableName);
-	NSDictionary *defaults = objc_getAssociatedObject(self, kYMStandardDefaultsTableName);
-	NSAssert(defaults, @"Defaults must have been set when accessing options.");
-	return options[optionKey] ?: defaults[optionKey];
+    NSDictionary *options = objc_getAssociatedObject(self, kYMStandardOptionsTableName);
+    NSDictionary *defaults = objc_getAssociatedObject(self, kYMStandardDefaultsTableName);
+    NSAssert(defaults, @"Defaults must have been set when accessing options.");
+    return options[optionKey] ?: defaults[optionKey];
 }
 @end
 
