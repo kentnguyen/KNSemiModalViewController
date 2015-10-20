@@ -38,7 +38,7 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 
 @implementation UIViewController (KNSemiModalInternal)
 
-UIDeviceOrientation currentOrientation;         //set in -presentSemiView
+UIDeviceOrientation orientationState;         //set in -presentSemiView
 
 -(UIViewController*)kn_parentTargetViewController {
     UIViewController * target = self;
@@ -122,10 +122,11 @@ UIDeviceOrientation currentOrientation;         //set in -presentSemiView
 -(void)kn_interfaceOrientationDidChange:(NSNotification*)notification {
     // if orientation really changed update screen shoot.
     // UIDeviceOrientationDidChangeNotification send when display control center or notification panel
-    if (currentOrientation != [[UIDevice currentDevice] orientation]) {
+    UIDeviceOrientation currentOrientationState = [[UIDevice currentDevice] orientation];
+    if ((orientationState != currentOrientationState) && (currentOrientationState != UIDeviceOrientationUnknown)) {
         UIView *overlay = [[self parentTarget] viewWithTag:kSemiModalOverlayTag];
         [self kn_addOrUpdateParentScreenshotInView:overlay];
-        currentOrientation = [[UIDevice currentDevice] orientation];
+        orientationState = currentOrientationState;
     }
 }
 
@@ -208,6 +209,7 @@ UIDeviceOrientation currentOrientation;         //set in -presentSemiView
     UIView * target = [self parentTarget];
     
     if (![target.subviews containsObject:view]) {
+        orientationState = [[UIDevice currentDevice] orientation];
         // Set associative object
         objc_setAssociatedObject(view, kSemiModalPresentingViewController, self, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
         
@@ -216,8 +218,6 @@ UIDeviceOrientation currentOrientation;         //set in -presentSemiView
                                                  selector:@selector(kn_interfaceOrientationDidChange:)
                                                      name:UIDeviceOrientationDidChangeNotification
                                                    object:nil];
-        
-        currentOrientation = [[UIDevice currentDevice] orientation];
         
         // Get transition style
         NSUInteger transitionStyle = [[self ym_optionOrDefaultForKey:KNSemiModalOptionKeys.transitionStyle] unsignedIntegerValue];
