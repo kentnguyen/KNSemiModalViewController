@@ -123,7 +123,8 @@ UIDeviceOrientation orientationState;         //set in -presentSemiView
     // if orientation really changed update screen shoot.
     // UIDeviceOrientationDidChangeNotification send when display control center or notification panel
     UIDeviceOrientation currentOrientationState = [[UIDevice currentDevice] orientation];
-    if ((orientationState != currentOrientationState) && (currentOrientationState != UIDeviceOrientationUnknown)) {
+    if ((orientationState != currentOrientationState) && (currentOrientationState != UIDeviceOrientationUnknown)
+        && (currentOrientationState != UIDeviceOrientationFaceUp) && (currentOrientationState != UIDeviceOrientationFaceDown)) {
         UIView *overlay = [[self parentTarget] viewWithTag:kSemiModalOverlayTag];
         [self kn_addOrUpdateParentScreenshotInView:overlay];
         orientationState = currentOrientationState;
