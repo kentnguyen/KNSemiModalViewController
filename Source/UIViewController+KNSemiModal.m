@@ -128,7 +128,7 @@ const struct KNSemiModalOptionKeys KNSemiModalOptionKeys = {
 	semiView.hidden = YES;
 	UIGraphicsBeginImageContextWithOptions(target.bounds.size, YES, [[UIScreen mainScreen] scale]);
     if ([target respondsToSelector:@selector(drawViewHierarchyInRect:afterScreenUpdates:)]) {
-        [target drawViewHierarchyInRect:target.bounds afterScreenUpdates:YES];
+        [target drawViewHierarchyInRect:target.bounds afterScreenUpdates:NO];
     } else {
         [target.layer renderInContext:UIGraphicsGetCurrentContext()];
     }
