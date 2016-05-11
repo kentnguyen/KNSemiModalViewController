@@ -5,7 +5,7 @@
 //
 @interface NSObject (YMOptionsAndDefaults)
 - (void)ym_registerOptions:(NSDictionary *)options
-				  defaults:(NSDictionary *)defaults;
+                  defaults:(NSDictionary *)defaults;
 - (id)ym_optionOrDefaultForKey:(NSString*)optionKey;
 @end
 //==================================================================================================
@@ -34,22 +34,23 @@
 #define kSemiModalWasResizedNotification @"kSemiModalWasResizedNotification"
 
 extern const struct KNSemiModalOptionKeys {
-	__unsafe_unretained NSString *traverseParentHierarchy; // boxed BOOL. default is YES.
-	__unsafe_unretained NSString *pushParentBack;		   // boxed BOOL. default is YES.
-	__unsafe_unretained NSString *animationDuration; // boxed double, in seconds. default is 0.5.
-	__unsafe_unretained NSString *parentAlpha;       // boxed float. lower is darker. default is 0.5.
+    __unsafe_unretained NSString *traverseParentHierarchy; // boxed BOOL. default is YES.
+    __unsafe_unretained NSString *pushParentBack;		   // boxed BOOL. default is YES.
+    __unsafe_unretained NSString *animationDuration; // boxed double, in seconds. default is 0.5.
+    __unsafe_unretained NSString *parentAlpha;       // boxed float. lower is darker. default is 0.5.
     __unsafe_unretained NSString *parentScale;       // boxed double default is 0.8
-	__unsafe_unretained NSString *shadowOpacity;     // default is 0.8
-	__unsafe_unretained NSString *transitionStyle;	 // boxed NSNumber - one of the KNSemiModalTransitionStyle values.
+    __unsafe_unretained NSString *shadowOpacity;     // default is 0.8
+    __unsafe_unretained NSString *transitionStyle;	 // boxed NSNumber - one of the KNSemiModalTransitionStyle values.
     __unsafe_unretained NSString *disableCancel;     // boxed BOOL. default is NO.
     __unsafe_unretained NSString *backgroundView;     // UIView, custom background.
 } KNSemiModalOptionKeys;
 
 NS_ENUM(NSUInteger, KNSemiModalTransitionStyle) {
-	KNSemiModalTransitionStyleSlideUp,
-	KNSemiModalTransitionStyleFadeInOut,
-	KNSemiModalTransitionStyleFadeIn,
-	KNSemiModalTransitionStyleFadeOut,
+    KNSemiModalTransitionStyleSlideUp,
+    KNSemiModalTransitionStyleSlideDown,
+    KNSemiModalTransitionStyleFadeInOut,
+    KNSemiModalTransitionStyleFadeIn,
+    KNSemiModalTransitionStyleFadeOut,
 };
 
 typedef void (^KNTransitionCompletionBlock)(void);
@@ -64,13 +65,13 @@ typedef void (^KNTransitionCompletionBlock)(void);
  @param dismissBlock Is called when the user dismisses the semi-modal view by tapping the dimmed receiver view.
  */
 -(void)presentSemiViewController:(UIViewController*)vc
-					 withOptions:(NSDictionary*)options
-					  completion:(KNTransitionCompletionBlock)completion
-					dismissBlock:(KNTransitionCompletionBlock)dismissBlock;
+                     withOptions:(NSDictionary*)options
+                      completion:(KNTransitionCompletionBlock)completion
+                    dismissBlock:(KNTransitionCompletionBlock)dismissBlock;
 
 -(void)presentSemiView:(UIView*)view
-		   withOptions:(NSDictionary*)options
-			completion:(KNTransitionCompletionBlock)completion;
+           withOptions:(NSDictionary*)options
+            completion:(KNTransitionCompletionBlock)completion;
 
 // Convenient overloading methods
 -(void)presentSemiViewController:(UIViewController*)vc;
